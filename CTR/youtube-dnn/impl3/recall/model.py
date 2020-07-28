@@ -50,6 +50,8 @@ class RecallModel:
         search_embedding = tf.get_variable(name='search_embedding', shape=[self.search_total_num], dtype=tf.float32,
                                            initializer=tf.variance_scaling_initializer())
         search_vec = tf.nn.embedding_lookup(search_embedding, self.search_id_ph)
+
+        # 将各个向量拼接起来，正式图中展示的那样
         input = tf.concat([tf.reshape(tf.reduce_mean(video_vecs, axis=1), shape=[-1, 1]),
                            tf.reshape(search_vec, shape=[-1, 1]), tf.reshape(self.age_ph, shape=[-1, 1]),
                            tf.reshape(self.gender_ph, shape=[-1, 1])], axis=1)
@@ -61,7 +63,7 @@ class RecallModel:
                                     name='fc{}'.format(i), trainable=self.is_training)
             input = tf.layers.batch_normalization(input, training=self.is_training, name='fc{}_bn'.format(i))
         output = input
-        # 初始化类别（就是每个视频的标签，对应论文中的百万级）的embedding对应的：weights和bias
+            # 初始化类别（就是每个视频的标签，对应论文中的百万级）的embedding对应的：weights和bias,每个具体的视频视为一个类别，i即为一个类别
         weights = tf.get_variable('soft_weight', shape=[self.class_distinct, 128],
                                   initializer=tf.variance_scaling_initializer())
         biases = tf.get_variable('soft_bias', shape=[self.class_distinct],

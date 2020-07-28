@@ -9,4 +9,4 @@
 #               皇图霸业谈笑中，                 #
 #               不胜人生一场醉。                 #
 #-----------------------------------------------
-#https://github.com/ogerhsou/Youtube-Recommendation-Tensorflow/blob/master/youtube_recommendation.py
+# YouTube-dnn的实现中，impl3是最思路清新的代码。基本上是按照论文的思路来实现recall和rank的。

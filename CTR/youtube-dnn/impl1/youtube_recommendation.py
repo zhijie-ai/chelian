@@ -35,6 +35,8 @@ display_step = 1
 n_hidden_1 = 128 # 1st layer number of features
 # n_hidden_2 = 256 # 2nd layer number of features
 
+
+# 初始化label_dict和sku_dict以及num
 def init_data(read_file):
     #0 is used for padding embedding
     label_cnt = 0

@@ -50,8 +50,8 @@ def main():
     labels = ()
 
     #training
-    rev_embed_size = config.embedding_size #TODO:GET EMDEDDINGSIZES FOR CAT & BUSINESS
-    cat_embed_size = config.embedding_size
+    rev_embed_size = config.embedding_size #TODO:GET EMDEDDINGSIZES FOR CAT & BUSINESS ,256
+    cat_embed_size = config.embedding_size #,256
 
     model = DNNmodel(rev_embed_size, cat_embed_size, business_size)
     model.train(inputs, labels)

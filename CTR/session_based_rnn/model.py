@@ -142,7 +142,7 @@ class GRU4Rec:
 
             cell = rnn_cell.GRUCell(self.rnn_size,activation=self.hidden_act)
             drop_cell = rnn_cell.DropoutWrapper(cell,output_keep_prob=self.dropout_p_hidden)
-            stacked_cell = rnn_cell.MultiRNNCell([drop_cell] * self.layers)
+            stacked_cell = rnn_cell.MultiRNNCell([drop_cell] * self.layers)# 官方推荐的是列表生成式的方式调用，https://blog.csdn.net/weixin_43323092/article/details/82918316
 
             inputs = tf.nn.embedding_lookup(embedding,self.X)
             print('inputs',inputs)
