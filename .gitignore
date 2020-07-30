@@ -1,1 +1,3 @@
 .idea
+GAN/gan-qp/128/models/
+GAN/gan-qp/128/gan_qp_l2_load.py
