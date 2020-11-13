@@ -201,7 +201,8 @@ class GRU4Rec:
         data = pd.merge(data, pd.DataFrame({self.item_key: itemids, 'ItemIdx': self.itemidmap[itemids].values}),
                         on=self.item_key, how='inner')#SessionId  ItemId  Timestamps  ItemIdx
         offset_sessions = self.init(data)
-        print(data.head(50))
+        print(data.head(25))
+
 
         print('fitting model...')
 
@@ -213,12 +214,15 @@ class GRU4Rec:
             iters = np.arange(self.batch_size)
 
             maxiter = iters.max()
-            start = offset_sessions[session_idx_arr[iters]]# 共batch_size个session，每个session在data中的数据条数
+            start = offset_sessions[session_idx_arr[iters]]# 共batch_size个session，每个session在data中的数据条数,记录的使用的开始到结束的index
             end = offset_sessions[session_idx_arr[iters] + 1]
-            print('start',start)#[  0  46  91 142 179 222 262 315 374 433]
-            print('data.ItemIdx.values[start]',data.ItemIdx.values[start])#[146 131  89  36  55  35 139 130  32  60]
-            print('AAAAAAA',data.iloc[46])#第一个sessid有46条数据 131
-            print('BAAAAAA',data.iloc[91])# 第二个有91-46条数据 89
+            # print('CCCCCC',offset_sessions)# 长度为用户数+1，
+            print('start',start)#[  0  50  99 152 203 258 315 363 409 460]，每个用户的开始index。
+            print('end',end)#[ 50  99 152 203 258 315 363 409 460 514]
+            print('data.ItemIdx.values[start]',data.ItemIdx.values[start])#[ 21  52 185 196 199 160 100 176  20 154]
+            print('data.ItemIdx.values[start+1]',data.ItemIdx.values[start+1])#
+            # print('AAAAAAA',data.iloc[46])#第一个sessid有46条数据 131
+            # print('BAAAAAA',data.iloc[91])# 第二个有91-46条数据 89
 
             finished = False
             while not finished:
@@ -227,6 +231,7 @@ class GRU4Rec:
                 for i in range(minlen-1):
                     in_idx = out_idx
                     out_idx = data.ItemIdx.values[start+i+1]
+                    print('GGGGGG',in_idx,out_idx)
 
                     fetches = [self.cost,self.final_state,self.global_step,self.lr,self.train_op]
                     feed_dict = {self.X:in_idx,self.Y:out_idx}
@@ -247,7 +252,7 @@ class GRU4Rec:
                         print('Epoch {}\tStep {}\tlr: {:.6f}\tloss: {:.6f}'.format(epoch, step, lr, avgc))
 
                 start = start + minlen - 1
-                mask = np.arange(len(iters))[(end-start) <= 1] # 哪些是已经结束的
+                mask = np.arange(len(iters))[(end-start) <= 1] # 哪些是已经结束的,当前batch里已经结束的用户
 
                 for idx in mask:
                     maxiter += 1
