@@ -15,6 +15,8 @@ from tensorflow.python.ops import rnn_cell
 import pandas as pd
 import numpy as np
 
+# tf.contrib.rnn.MultiRNNCell　　新版
+# tf.nn.rnn_cell.MultiRNNCell
 class GRU4Rec:
 
     def __init__(self,sess,args):
@@ -85,7 +87,8 @@ class GRU4Rec:
         self.predict_state = [np.zeros([self.batch_size, self.rnn_size], dtype=np.float32) for _ in range(self.layers)]
         ckpt = tf.train.get_checkpoint_state(self.checkpoint_dir)
         if ckpt and ckpt.model_checkpoint_path:
-            self.saver.restore(sess, '{}/gru-model-{}'.format(self.checkpoint_dir, args.test_model))
+            # self.saver.restore(sess, '{}/gru-model-{}'.format(self.checkpoint_dir, args.test_model))
+            self.saver.restore(sess, ckpt.model_checkpoint_path)
 
 
     ########################ACTIVATION FUNCTIONS#########################
@@ -145,8 +148,8 @@ class GRU4Rec:
             stacked_cell = rnn_cell.MultiRNNCell([drop_cell] * self.layers)# 官方推荐的是列表生成式的方式调用，https://blog.csdn.net/weixin_43323092/article/details/82918316
 
             inputs = tf.nn.embedding_lookup(embedding,self.X)
-            print('inputs',inputs)
-            output,state = stacked_cell(inputs,tuple(self.state))
+            print('inputs',inputs)#shape=(10, 100)
+            output,state = stacked_cell(inputs,tuple(self.state))# stacked_cell.__call__(inputs, h0)
             print('output',output)
             self.final_state = state
 
@@ -295,8 +298,8 @@ class GRU4Rec:
             Prediction scores for selected items for every event of the batch.
             Columns: events of the batch; rows: items. Rows are indexed by the item IDs.
         '''
-        if batch != self.batch_size:
-            raise Exception('Predict batch size({}) must match train batch size({})'.format(batch, self.batch_size))
+        # if batch != self.batch_size:
+        #     raise Exception('Predict batch size({}) must match train batch size({})'.format(batch, self.batch_size))
         if not self.predict:
             self.current_session = np.ones(batch) * -1
             self.predict = True

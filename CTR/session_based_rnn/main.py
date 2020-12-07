@@ -28,7 +28,7 @@ class Args():
     layers = 1
     rnn_size = 100
     n_epochs = 3
-    batch_size = 10
+    batch_size = 2
     dropout_p_hidden = 1
     learning_rate = 0.001
     decay = 0.96
@@ -54,7 +54,7 @@ def parseArgs():
     parser.add_argument('--size', default=100, type=int)
     parser.add_argument('--epoch', default=300, type=int)
     parser.add_argument('--lr', default=0.001, type=float)
-    parser.add_argument('--train', default=1, type=int)
+    parser.add_argument('--train', default=0, type=int)
     parser.add_argument('--test', default=2, type=int)
     parser.add_argument('--hidden_act', default='tanh', type=str)
     parser.add_argument('--final_act', default='softmax', type=str)
@@ -91,5 +91,5 @@ if __name__ == '__main__':
         if args.is_training:
             gru.fit(train_data)
         else:
-            res = evaluation.evaluate_sessions_batch(gru, train_data, test_data)
+            res = evaluation.evaluate_sessions_batch(gru, train_data, test_data,batch_size = args.batch_size)
             print('Recall@20: {}\tMRR@20: {}'.format(res[0], res[1]))

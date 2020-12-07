@@ -17,7 +17,7 @@ import random
 
 train_data = np.zeros([3,10000],dtype=np.int32)
 
-test_data = np.zeros([3,100],dtype=np.int32)
+test_data = np.zeros([3,200],dtype=np.int32)
 random.seed(1)
 
 for i in range(10000):
@@ -25,14 +25,14 @@ for i in range(10000):
     train_data[1,i] = random.randint(0,2000)
     train_data[2,i] = random.randint(0,20000)
 
-for i in range(100):
-    test_data[0,i] = random.randint(0, 2000)
-    test_data[1,i] = random.randint(0, 2000)
-    test_data[2,i] = random.randint(0, 20000)
+for i in range(200):
+    test_data[0,i] = random.randint(0, 40)
+    test_data[1,i] = random.randint(0, 20)
+    test_data[2,i] = random.randint(0, 2000)
 
 train_data = np.transpose(train_data)
 test_data = np.transpose(test_data)
 
 
 # train_df = pd.DataFrame(train_data,columns=['SessionId','ItemId','Timestamps']).to_csv('data/train.csv')
-# test_df = pd.DataFrame(test_data,columns=['SessionId','ItemId','Timestamps']).to_csv('data/test.csv')
+test_df = pd.DataFrame(test_data,columns=['SessionId','ItemId','Timestamps']).to_csv('data/test.csv')

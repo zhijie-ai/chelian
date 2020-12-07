@@ -19,7 +19,7 @@ import pandas as pd
 
 
 def evaluate_sessions_batch(model, train_data, test_data, cut_off=20, batch_size=50, session_key='SessionId',
-                            item_key='ItemId', time_key='Time'):
+                            item_key='ItemId', time_key='Timestamps'):
     '''
     Evaluates the GRU4Rec network wrt. recommendation accuracy measured by recall@N and MRR@N.
     Parameters
@@ -47,7 +47,7 @@ def evaluate_sessions_batch(model, train_data, test_data, cut_off=20, batch_size
     itemids = train_data[item_key].unique()
     itemidmap = pd.Series(data=np.arange(len(itemids)), index=itemids)
 
-    test_data.sort([session_key, time_key], inplace=True)
+    test_data.sort_values([session_key, time_key], inplace=True)
     offset_sessions = np.zeros(test_data[session_key].nunique() + 1, dtype=np.int32)
     offset_sessions[1:] = test_data.groupby(session_key).size().cumsum()
     evalutation_point_count = 0
@@ -72,7 +72,7 @@ def evaluate_sessions_batch(model, train_data, test_data, cut_off=20, batch_size
             preds = model.predict_next_batch(iters, in_idx, itemidmap, batch_size)
             preds.fillna(0, inplace=True)
             in_idx[valid_mask] = out_idx
-            ranks = (preds.values.T[valid_mask].T > np.diag(preds.ix[in_idx].values)[valid_mask]).sum(axis=0) + 1
+            ranks = (preds.values.T[valid_mask].T > np.diag(preds.iloc[in_idx].values)[valid_mask]).sum(axis=0) + 1
             rank_ok = ranks < cut_off
             recall += rank_ok.sum()
             mrr += (1.0 / ranks[rank_ok]).sum()
