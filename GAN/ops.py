@@ -14,6 +14,7 @@ Most codes from https://github.com/carpedm20/DCGAN-tensorflow
 """
 
 import math
+import tensorflow as tf
 
 if "concat_v2" in dir(tf):
     def concat(tensors, axis, *args, **kwargs):

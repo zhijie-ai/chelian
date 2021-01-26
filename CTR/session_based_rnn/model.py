@@ -30,6 +30,7 @@ class GRU4Rec:
         self.batch_size = args.batch_size
         self.dropout_p_hidden = args.dropout_p_hidden
         self.learning_rate = args.learning_rate
+
         self.decay = args.decay
         self.decay_steps = args.decay_steps
         self.sigma = args.sigma
@@ -234,7 +235,6 @@ class GRU4Rec:
                 for i in range(minlen-1):
                     in_idx = out_idx
                     out_idx = data.ItemIdx.values[start+i+1]
-                    print('GGGGGG',in_idx,out_idx)
 
                     fetches = [self.cost,self.final_state,self.global_step,self.lr,self.train_op]
                     feed_dict = {self.X:in_idx,self.Y:out_idx}
@@ -252,7 +252,7 @@ class GRU4Rec:
                         return
                     if step == 1 or step % self.decay_steps == 0:
                         avgc = np.mean(epoch_cost)
-                        print('Epoch {}\tStep {}\tlr: {:.6f}\tloss: {:.6f}'.format(epoch, step, lr, avgc))
+                        print('Epoch {}\tStep {}\tlr: {:.6f}\tloss: {:.6f}\tfinished num of user:{}/{}'.format(epoch, step, lr, avgc,maxiter+1,len(offset_sessions)-1))
 
                 start = start + minlen - 1
                 mask = np.arange(len(iters))[(end-start) <= 1] # 哪些是已经结束的,当前batch里已经结束的用户

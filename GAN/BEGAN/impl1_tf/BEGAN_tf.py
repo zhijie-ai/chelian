@@ -11,7 +11,16 @@
 #----------------------------------------------
 # https://github.com/Y1ran/GAN-Network-Library-Tensorflow/blob/master/BEGAN.py
 
+
 import os
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+import sys
+sys.path.insert(0,'/data2/project/ml_dl')
+import json
+print(json.dumps(sys.path,indent=4))
+
 import time
 import tensorflow as tf
 import numpy as np
@@ -282,7 +291,10 @@ class BEGAN():
             return False, 0
 
 if __name__ == '__main__':
-    sess = tf.InteractiveSession()
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True # TensorFlow按需分配显存
+    config.gpu_options.per_process_gpu_memory_fraction = 0.5 # 指定显存分配比例
+    sess = tf.InteractiveSession(config=config)
     info = BEGAN(sess, 50, 32, 100, 'mnist', 'checkpoint', 'results', 'logs')
     info.build_model()
     info.train()

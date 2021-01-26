@@ -64,6 +64,8 @@ class Model():
         n = self.num_class
 
         # build loss and accuracy
+        # d_real 和d_real_logits shape一样，只是前者送入到了sigmoid函数中
+        # label:就是真实标签[bs,num_class)的onehot矩阵
         def build_loss(d_real,d_real_logits,d_fake,d_fake_logits,label,real_image,fake_image):
             alpha =0.9
             real_label = tf.concat([label,tf.zeros([self.batch_size,1])],axis=1)#监督学习
