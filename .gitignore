@@ -12,3 +12,10 @@ GAN/gan-qp/128/gan_qp_l2_load.py
 /textClassifier/transformer/impl/corpora/
 /textClassifier/transformer/impl/preprocessed/
 /textClassifier/transformer/impl/corpora/
+/textClassifier/transformer/impl/corpora/
+/textClassifier/transformer/impl/logdir/
+/textClassifier/transformer/impl/logdir/events.out.tfevents.1566469751.XIAOJIE-PC
+/textClassifier/transformer/impl/logdir/graph.pbtxt
+/textClassifier/transformer/impl/preprocessed/
+/textClassifier/transformer/impl/preprocessed/de.vocab.tsv
+/textClassifier/transformer/impl/preprocessed/en.vocab.tsv
