@@ -1,3 +1,14 @@
 .idea
 GAN/gan-qp/128/models/
 GAN/gan-qp/128/gan_qp_l2_load.py
+/textClassifier/Bi-LSTM/summarys/
+/textClassifier/charCNN/summarys/
+/textClassifier/data/
+/textClassifier/elmo/modelParams/
+/textClassifier/model/
+/textClassifier/TextCNN/summarys/
+/textClassifier/transformer/summarys/
+/textClassifier/transformer/impl/logdir/
+/textClassifier/transformer/impl/corpora/
+/textClassifier/transformer/impl/preprocessed/
+/textClassifier/transformer/impl/corpora/
