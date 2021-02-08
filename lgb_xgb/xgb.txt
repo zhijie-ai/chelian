@@ -119,3 +119,12 @@ cv_results = xgb.cv(params, dtrain, num_boost_round=5, nfold=3, seed=0 ,
                 maximize=False, early_stopping_rounds=2)
 #cv_results.keys()#Index(['test-rmse-mean', 'test-rmse-std', 'train-rmse-mean', 'train-rmse-std'], dtype='object')
 xgb_model = xgb.train(params,dtrain,num_boost_round=50,evals=watchlist)
+
+xgb_model.save_model('...')
+xgb_model.dump_model('...')
+#数据集保存
+dtest.save_binary('...')
+
+xgb.Booster(model_file='')
+
+使用pickle保存

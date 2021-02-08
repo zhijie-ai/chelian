@@ -228,3 +228,11 @@ gbm = lgb.train(params,lgb_eval,valid_sets=[lgb_eval],num_boost_round=1958,
 GridSearchCV：verbose：日志冗长度，int：冗长度，0：不输出训练过程，1：偶尔输出，>1：对每个子模型都输出。
     设置为1，会输出Parallel的信息
 lgb.cv 的verbose:1#<0,显示致命的，=0 :显示错误的(警告),>0 显示信息
+
+gbm.save_model('...')
+gbm = lgb.Booster(model_file='')
+
+lgb:在定义param是，度量参数用的metric，如果用lgb.cv来跑，则度量参数是metrics=['','']
+如果用lgb.train的话，想用early_stopping_rounds功能，则只能自定义feval来进行。其实不需要，
+    使用train的early_stopping_rounds功能报错的原因是因为param为{},如果不为空也不报错
+如果使用lgb.LGBMClassifier的fit来训练模型，则只需配置eval_metric,eval_set,early_stopping_rounds

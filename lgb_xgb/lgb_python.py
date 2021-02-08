@@ -22,6 +22,7 @@ np.random.seed(10)
 # X为样本特征，y为样本类别输出， 共10000个样本，每个样本20个特征，输出有2个类别，没有冗余特征，每个类别一个簇
 X, y = make_classification(n_samples=10000, n_features=20, n_redundant=0,
                              n_clusters_per_class=1, n_classes=2, flip_y=0.1)
+print(type(X))
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 

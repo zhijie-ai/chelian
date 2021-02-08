@@ -107,14 +107,16 @@ def Attention(Q, K, V, nb_head, size_per_head, Q_len=None, V_len=None):
     A = tf.transpose(A, [0, 3, 2, 1])
     print('A.shape', A.shape)#(128,50, 50, 8)
     A = Mask(A, V_len, mode='add')
-    print('A.shape', A.shape)
+    print('A.shape', A.shape)#(128, 50, 50, 8)
     A = tf.transpose(A, [0, 3, 2, 1])
-    print('A.shape', A.shape)
+    print('A.shape', A.shape)#(128, 8, 50, 50)
     A = tf.nn.softmax(A)
-    print('A.shape', A.shape)
+    print('A.shape', A.shape)#(128, 8, 50, 50)
     #输出并mask
     O = tf.matmul(A, V)
+    print('O.shape',O.shape)#(128, 8, 50, 128)
     O = tf.transpose(O, [0, 2, 1, 3])
+    print('O.shape',O.shape)#(128, 50, 8, 128)
     O = tf.reshape(O, (-1, tf.shape(O)[1], nb_head * size_per_head))
     O = Mask(O, Q_len, 'mul')
     return O
@@ -132,7 +134,7 @@ if __name__ == '__main__':
     K = tf.convert_to_tensor(K,dtype=tf.float32)
     V = tf.convert_to_tensor(V,dtype=tf.float32)
     print(Q)
-    # O = Attention(Q,K,V,8,128)
+    O = Attention(Q,K,V,8,128)
 
     enc = Position_Embedding(Q,512)
     print(enc.shape)

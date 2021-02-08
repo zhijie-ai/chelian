@@ -43,7 +43,7 @@ ctr = CtrLogisticRegression()
 
 # 1.进行行为日志数据读取
 ctr.spark.sql('use profile')
-news_article_basic = ctr.spark.sql('select user_id,article_id,clicked')
+news_article_basic = ctr.spark.sql('select user_id,article_id,clicked from  user_article_basic')
 news_article_basic.show()
 # +-------------------+-------------------+-------+
 # |            user_id|         article_id|clicked|

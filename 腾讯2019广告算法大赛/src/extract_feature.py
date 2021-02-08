@@ -27,6 +27,7 @@ import time
 np.random.seed(2019)
 random.seed(2019)
 
+#w2v(log, 'uid', 'good_id', flag, 64)
 def w2v(log,pivot,f,flag,L):
     # word2vec算法
     # log为曝光日志，以pivot为主键，f为embedding的对象，flag为dev或者test，L是embedding的维度
@@ -38,8 +39,8 @@ def w2v(log,pivot,f,flag,L):
     day = 0
     log = log.sort_values(by='request_day')
     log['day'] = log['request_day']
-    for item in log[['day', pivot, f]].values:
-        if day != item[0]:
+    for item in log[['day', pivot, f]].values:#'uid', 'good_id'
+        if day != item[0]:#新的一天的数据
             for key in dic:
                 sentence.append(dic[key])
             dic = {}
@@ -304,6 +305,7 @@ def crowd_direction(train_df,test_df):
     gc.collect()
 
 
+# pivot:aid,f:bid
 def history(train_df, test_df, log, pivot, f):
     # 以pivot为主键，统计最近一次f的值
     print("history", pivot, f)
@@ -398,7 +400,7 @@ def get_agg_features(train_df,test_df,f1,f2,agg,log=None):
         group=group.apply(lambda x:np.var(list(Counter(list(x[f2])).values())))
         tmp = pd.DataFrame(group.reset_index())
     else:
-        raise Exception("agg error")
+        raise "agg error"
     if log is None:
         tmp.columns = f1+['_'.join(f1)+"_"+f2+"_"+agg]
         print('_'.join(f1)+"_"+f2+"_"+agg)

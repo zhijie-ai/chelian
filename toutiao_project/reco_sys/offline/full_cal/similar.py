@@ -169,6 +169,9 @@ def save_habase(partition):
         table = conn.table('article_similar')
         for row in partition:
             if row.datasetA.article_id ==row.datasetB.article_id:
+
+
+
                 pass
             else:
                 table.put(str(row.datasetA.article_id).encode(),{
