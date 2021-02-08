@@ -1,0 +1,105 @@
+1. 通过CountVectorizer fit之后得到cv_model,从该模型中取出vocabulary
+2 用cv_model.transform()得到cv_result，再传入IDF得到IDFModel
+3 keywords_list_with_idf = list(zip(cv_model.vocabulary, idf_model.idf.toArray()))
+4 用IDFModel transform cv_result得到tfidf_result
+5 得到tfidf_result之后，取topK，得到_keywordsByTFIDF (["article_id", "channel_id", "index", "tfidf"])入库
+6 计算textrank (["article_id", "channel_id", "keyword", "textrank"])
+7 计算每个词的idf值*textrank值["article_id","channel_id","keyword", "weights"]
+8 合并关键词权重到字典结果 ["article_id", "channel_id", "keywords"]
+9 将tfidf和textrank共现的词作为主题词 存入article_profile
+10 定时增量更新文章画像：
+    获取从news_article_basic表获取新增的文章
+    计算textrank和idf的值,存入画像表
+    先用历史文章训练word2Vec模型，使用LSH计算文章相似度，在用此模型计算新增文章与历史文章相似度.保存到hbase相似度表
+
+
+用户画像部分:
+包含2部分，基础属性和文章关键词属性，都存在hbase表user_profile中。2个列族
+
+离线召回部分：有2个hbase表，cb_recall:多个版本，每个列族存储各种方式召回的结果,history_recall
+ALS模型召回:
+content内容召回:用文章向量的计算相似度召回
+
+实时排序的特征哪里来：离线计算提供的hbase数据库读取。一般直接用spark提供的，比如LR。先把特征计算好
+深度模型怎么来:通过spark将离线的样本保存到tfrecords文件中，tf读取本地的tfrecords文件，训练模型，部署。
+    部署之后，提供接口给我们的实时排序
+
+CTR部分:
+1. spark LR模型训练。这一部分应该是要定时运行的，而课程中写到full_cal中了。并且这一步在特征中心的前面了。其实
+    是可以的，因为用到了用户画像和文章画像了，前面已经建立好了
+
+特征服务中心(即特征服务平台)
+    在前面使用spark LR训练模型的时候，由于是一步一步处理特征的，在实时排序阶段无法满足速度要求，因此，
+    建立特征服务中心显得尤为重要,hbase表
+    ctr_feature_user
+    ctr_feature_article
+    这2个表和之前的hive中用户画像表和文章画像表不一样，这2个表可以说是2个画像表上一层的封装。从2个画像表中提取特征，
+    存到到hbase中的ctr_feature表，所以应该是什么模型对应2个相应的特征表
+
+离线部分
+文章画像：文章TFIDF,TextRank,关键词和主题词，文章向量
+用户画像:用户行为表处理,用户每个频道的关键词以及权重
+用户召回:模型召回，内容召回，提供召回文章给用户推荐使用
+特征中心平台:用户的特征，文章的特征，提供实时排序
+
+hbase获取某行数据,table.row()
+hbase获取多个版本的数据,table.cells()
+
+首先，前端通过日志系统写到本地的一个文件，flume监听这个文件，写到hdfs，同时写到kafka中。
+如果一个点击日志行为被多个用户使用，在topic中进行分组，这样数据会备份多份
+
+在线部分：
+1. spark streaming 用户点击文章相似文章的召回-->hbase cb_recall online列族
+2. 热门与新文章的召回-->redis
+新文章的来源:web审核之后，会发送给推荐系统，我们这里的是kafka消息队列，通过python的kafka生产者代码写入kafka
+
+五. 实时推荐逻辑
+    首先读缓存，缓存没有，去hbase集群读->召回->排序->redis缓存(200-10,即剩下的190篇文章存到redis)和推送个用户
+
+1. 推荐接口对接
+请求参数：
+    feed流推荐：用户ID，频道ID，推荐文章数量，请求推荐时间戳
+    相似文章推荐(猜你喜欢):文章ID，推荐文章数量
+
+通过GRPC通信，对外提供推荐接口。其实可以通过python的flask模快提供http服务，可是涉及到复杂的逻辑，比如分流，获取推荐
+    结果，因此，最后选用grpc对外提供服务
+
+5.2 GRPC接口对接
+5.3 ABTest实验中心，即对用户进行分流
+5.4 推荐中心逻辑
+    整体召回结果的读取与排序模型排序过程的作用，经过上一步的用户分流之后，进入到推荐中心，读取召回结果，进入排序
+    环节排序，返回推荐结果
+    wait_recommend:待推荐表
+    history_recommend:历史推荐表，用于保存用户历史的推荐结果，方便用户查看历史记录
+
+5.5 召回集的读取服务 reco_recall.py
+
+5.7 排序模型在线预测
+
+
+
+首先在routing.py文件中，根据用户的id进行ABTest分流，将每个用户用不用的算法排序推荐，其中，每种不同的算法
+    对应了不同的召回逻辑。然后进入了reco_center.py中，根据用户的算法，用对应算法取出对应的召回策略
+    其实在als，content，online召回时，由于与history_recall进行了过滤，不在各种召回算法召回同一个article_id
+    的情况的。在reoc_recall.py文件中进行多路召回，把召回结果全部取出来之后，在reco_center.py中
+    与history_recommend中的历史推荐过滤，经过排序，推送给用户，把剩余的数据写到redis缓存中，下次推荐
+    先从缓存中读取，提高读取速度。如果缓存中没有，再读召回，排序。提高在线推荐的效率。在每次读取召回结果后
+    删除召回结果表中的数据。
+
+    前端通过grpc协议发送请求到routing.py文件中，由于routing.py文件充当了grpc服务器端的角色，接收用户的请求，
+    进入user_recommend接口方法，调用feed_recommend方法，得到返回参数，封装成响应数据格式，返回给用户端。
+    在feed_recommend方法中，进行ABTest，进行用户流量的切分，为每个用户分配不同的算法。然后进入RecoCenter
+    中的feed_recommend_time_stamp_logic方法。该方法主要完成的工作有，判断用户是浏览历史还是刷新请求操作。
+    如果是刷新请求，则先从缓存中拿数据，如果缓存没有，则先召回，再排序(此时还没添加排序的功能)。在召回的时候，
+    如果召回的数据很大(大于前端页面的请求数)，则将剩下的写进wait_recommend表，同时，将推荐给前端的数据写进
+    history_recommend。
+
+Wide&Deep模型中，wide侧，输入的是类别变量，并且只输入对应的index,比如学历(小学，初中，高中，博士，博士后，0,1,2,3,4)
+    只输入0,1,2,3,4这样的数字或者类别变量的交叉特征，deep侧，除了输入类别特征(类别特征必须增加一层embedding层)，
+    还要输入输入连续特征。
+    注意:wide侧用FTRL优化，deep侧用AdaGrad来训练，或者把2个loss合并成一个来训练
+
+
+
+
+

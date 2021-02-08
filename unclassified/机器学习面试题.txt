@@ -1,0 +1,314 @@
+1. 请详细说说支持向量机（support vector machine，SVM）的原理
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/919
+2. 哪些机器学习算法不需要做归一化处理？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/922
+3. 树形结构为什么不需要归一化？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/923
+4. 在k-means或kNN，我们常用欧氏距离来计算最近的邻居之间的距离，有时也用曼哈顿距离，请对比下这两种距离的差别
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/926
+5. 数据归一化（或者标准化，注意归一化和标准化不同）的原因
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/927
+6. 请简要说说一个完整机器学习项目的流程
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/929
+7. 逻辑斯特回归为什么要对特征进行离散化。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/930
+8. 简单介绍下LR
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/934
+9. overfitting怎么解决
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/941
+10. LR和SVM的联系与区别
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/943
+11. 什么是熵
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/944
+12. 说说梯度下降法
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/955
+13. 牛顿法和梯度下降法有什么不同？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/960
+14. 熵、联合熵、条件熵、相对熵、互信息的定义
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/961
+15. 说说你知道的核函数
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/965
+16. 什么是拟牛顿法（Quasi-Newton Methods）？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/966
+17. kmeans的复杂度？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/967
+18. 请说说随机梯度下降法的问题和挑战？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/970
+19. 说说共轭梯度法？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/976
+20. 对所有优化问题来说, 有没有可能找到比現在已知算法更好的算法？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/978
+21. 什么是最大熵
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/979
+22. LR与线性回归的区别与联系
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/983
+23. 简单说下有监督学习和无监督学习的区别
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/986
+24. 请问（决策树、Random Forest、Booting、Adaboot）GBDT和XGBoost的区别是什么？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/987
+25. 机器学习中的正则化到底是什么意思？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/988
+26. 说说常见的损失函数？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/989
+27. 为什么xgboost要用泰勒展开，优势在哪里？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/990
+28. 协方差和相关性有什么区别？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/991
+29. xgboost如何寻找最优特征？是有放回还是无放回的呢？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/992
+30. 谈谈判别式模型和生成式模型？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/993
+31. 线性分类器与非线性分类器的区别以及优劣
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/994
+32. L1和L2的区别
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/995
+33. L1和L2正则先验分别服从什么分布
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/997
+34. 简单介绍下logistics回归？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1001
+35. 说一下Adaboost，权值更新公式。当弱分类器是Gm时，每个样本的的权重是w1，w2...，请写出最终的决策公式。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1002
+36. 经常在网上搜索东西的朋友知道，当你不小心输入一个不存在的单词时，搜索引擎会提示你是不是要输入某一个正确的单词，比如当你在Google中输入“Julw”时，系统会猜测你的意图：是不是要搜索“July”，如下图所示：<img  src='https://julyedu-img-public.oss-cn-beijing.aliyuncs.com/Public/Image/Question/1512809753_997.png'/>
+这叫做拼写检查。
+
+根据谷歌一员工写的文章显示，Google的拼写检查基于贝叶斯方法。请说说的你的理解，具体Google是怎么利用贝叶斯方法，实现"拼写检查"的功能。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1004
+37. 为什么朴素贝叶斯如此“朴素”？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1005
+38. 请大致对比下plsa和LDA的区别
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1006
+39. 请简要说说EM算法
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1007
+40. KNN中的K如何选取的？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1008
+41. 防止过拟合的方法
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1009
+42. 机器学习中，为何要经常对数据做归一化
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1011
+43. 什么最小二乘法？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1012
+44. 梯度下降法找到的一定是下降最快的方向么？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1017
+45. 简单说说贝叶斯定理
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1020
+46. 怎么理解决策树、xgboost能处理缺失值？而有的模型(svm)对缺失值比较敏感。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1037
+47. 标准化与归一化的区别？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1041
+48. 随机森林如何处理缺失值？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1042
+49. 随机森林如何评估特征重要性？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1043
+50. 优化Kmeans？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1045
+51. KMeans初始类簇中心点的选取。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1046
+52. 解释对偶的概念。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1047
+53. 如何进行特征选择？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1050
+54. 衡量分类器的好坏？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1051
+55. 机器学习和统计里面的auc的物理意义是啥？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1052
+56. 数据预处理。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1053
+57. 观察增益gain, alpha和gamma越大，增益越小？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1054
+58. 什麽造成梯度消失问题?
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1056
+59. 简单说说特征工程。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1058
+60. 你知道有哪些数据处理和特征工程的处理？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1061
+61. 准备机器学习面试应该了解哪些理论知识？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1066
+62. 数据不平衡问题
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1150
+63. 特征比数据量还大时，选择什么样的分类器？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1225
+64. 常见的分类算法有哪些？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1366
+65. 常见的监督学习算法有哪些？ 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1368
+66. 说说常见的优化算法及其优缺点？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1524
+67. 特征向量的归一化方法有哪些？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1530
+68. RF与GBDT之间的区别与联系？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1531
+69. <img  src='https://julyedu-img-public.oss-cn-beijing.aliyuncs.com/Public/Image/Question/1514889198_863.png'/>
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1550
+70. 请比较下EM算法、HMM、CRF
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1553
+71. 带核的SVM为什么能分类非线性问题？ 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1566
+72. 请说说常用核函数及核函数的条件
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1567
+73. 请具体说说Boosting和Bagging的区别
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1568
+74. 逻辑回归相关问题
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1569
+75. 什么是共线性, 跟过拟合有什么关联?
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1571
+76. 机器学习中，有哪些特征选择的工程方法？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1572
+77. 用贝叶斯机率说明Dropout的原理
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1573
+78. 对于维度极低的特征，选择线性还是非线性分类器？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1698
+79. 请问怎么处理特征向量的缺失值
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1699
+80. SVM、LR、决策树的对比。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1700
+81. 什么是ill-condition病态问题？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1701
+82. 简述KNN最近邻分类算法的过程？
+
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1702
+83. 常用的聚类划分方式有哪些？列举代表算法。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1703
+84. 什么是偏差与方差？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2076
+85. 解决bias和Variance问题的方法是什么？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2077
+86. 采用 EM 算法求解的模型有哪些，为什么不用牛顿法或梯度下降法？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2078
+87. xgboost怎么给特征评分？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2079
+88. 什么是OOB？随机森林中OOB是如何计算的，它有什么优缺点？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2080
+89. 推导朴素贝叶斯分类 P(c|d)，文档 d（由若干 word 组成），求该文档属于类别 c 的概率， 并说明公式中哪些概率可以利用训练集计算得到
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2107
+90. 请写出你了解的机器学习特征工程操作，以及它的意义
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2116
+91. 请写出你对VC维的理解和认识
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2117
+92. kmeans聚类中，如何确定k的大小
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2119
+93. 请用Python实现下线性回归，并思考下更高效的实现方式
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2120
+94. 怎么理解“机器学习的各种模型与他们各自的损失函数一一对应？”
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2142
+95. 给你一个有1000列和1百万行的训练数据集。这个数据集是基于分类问题的。
+经理要求你来降低该数据集的维度以减少模型计算时间。你的机器内存有限。你会怎么做？（你可以自由做各种实际操作假设）
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2380
+96. 问2：在PCA中有必要做旋转变换吗？
+如果有必要，为什么？如果你没有旋转变换那些成分，会发生什么情况？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2381
+97. 给你一个数据集，这个数据集有缺失值，且这些缺失值分布在离中值有1个标准偏差的范围内。百分之多少的数据不会受到影响？为什么？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2382
+98. 给你一个癌症检测的数据集。你已经建好了分类模型，取得了96％的精度。为什么你还是不满意你的模型性能？你可以做些什么呢？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2383
+99. 为什么朴素贝叶斯如此“朴素”？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2384
+100. 解释朴素贝叶斯算法里面的先验概率、似然估计和边际似然估计？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2385
+101. 你正在一个时间序列数据集上工作。经理要求你建立一个高精度的模型。你开始用决策树算法，因为你知道它在所有类型数据上的表现都不错。
+后来，你尝试了时间序列回归模型，并得到了比决策树模型更高的精度。
+
+这种情况会发生吗？为什么？
+
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2386
+102. 给你分配了一个新的项目，是关于帮助食品配送公司节省更多的钱。问题是，公司的送餐队伍没办法准时送餐。结果就是他们的客户很不高兴。
+
+最后为了使客户高兴，他们只好以免餐费了事。哪个机器学习算法能拯救他们？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2388
+103. 你意识到你的模型受到低偏差和高方差问题的困扰。应该使用哪种算法来解决问题呢？为什么？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2390
+104. 给你一个数据集。该数据集包含很多变量，你知道其中一些是高度相关的。
+经理要求你用PCA。你会先去掉相关的变量吗？为什么？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2391
+105. 花了几个小时后，现在你急于建一个高精度的模型。结果，你建了5 个GBM （Gradient Boosted Models），想着boosting算法会显示魔力。
+不幸的是，没有一个模型比基准模型表现得更好。最后，你决定将这些模型结合到一起。
+尽管众所周知，结合模型通常精度高，但你就很不幸运。你到底错在哪里？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2392
+106. KNN和KMEANS聚类（kmeans clustering）有什么不同？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2393
+107. 真阳性率和召回有什么关系？写出方程式。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2394
+108. 你建了一个多元回归模型。你的模型R2为并不如你设想的好。为了改进，你去掉截距项，模型R的平方从0.3变为0.8。
+这是否可能？怎样才能达到这个结果？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2395
+109. 在分析了你的模型后，经理告诉你，你的模型有多重共线性。
+你会如何验证他说的是真的？在不丢失任何信息的情况下，你还能建立一个更好的模型吗？
+
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2396
+110. 什么时候Ridge回归优于Lasso回归？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2397
+111. 全球平均温度的上升导致世界各地的海盗数量减少。这是否意味着海盗的数量减少引起气候变化？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2398
+112. 如何在一个数据集上选择重要的变量？给出解释。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2399
+113. 是否有可能捕获连续变量和分类变量之间的相关性？如果可以的话，怎样做？
+
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2401
+114. Gradient boosting算法（GBM）和随机森林都是基于树的算法，它们有什么区别？
+
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2402
+115. 运行二元分类树算法很容易，但是你知道一个树是如何做分割的吗，即树如何决定把哪些变量分到哪个根节点和后续节点上？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2403
+116. 你已经建了一个有10000棵树的随机森林模型。在得到0.00的训练误差后，你非常高兴。但是，验证错误是34.23。到底是怎么回事？你还没有训练好你的模型吗？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2404
+117. 你有一个数据集，变量个数p大于观察值个数n。为什么用OLS是一个不好的选择？用什么技术最好？为什么？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2406
+118. 什么是凸包？（提示：想一想SVM）
+其他方法还包括子集回归、前向逐步回归。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2407
+119. 我们知道，一位有效编码会增加数据集的维度。但是，标签编码不会。为什么？
+
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2408
+120. 你会在时间序列数据集上使用什么交叉验证技术？是用k倍或LOOCV？
+
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2409
+121. 给你一个缺失值多于30%的数据集？比方说，在50个变量中，有8个变量的缺失值都多于30%。你对此如何处理？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2410
+122. “买了这个的客户，也买了......”亚马逊的建议是哪种算法的结果？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2411
+123. 你怎么理解第一类和第二类错误？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2412
+124. 当你在解决一个分类问题时，出于验证的目的，你已经将训练集随机抽样地分成训练集和验证集。你对你的模型能在未看见的数据上有好的表现非常有信心，因为你的验证精度高。但是，在得到很差的精度后，你大失所望。什么地方出了错？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2413
+125. 请简单阐述下决策树、回归、SVM、神经网络等算法各自的优缺点？
+
+正则化算法（Regularization Algorithms）
+集成算法（Ensemble Algorithms）
+
+决策树算法（Decision Tree Algorithm）
+回归（Regression）
+人工神经网络（Artificial Neural Network）
+深度学习（Deep Learning）
+支持向量机（Support Vector Machine）
+降维算法（Dimensionality Reduction Algorithms）
+
+聚类算法（Clustering Algorithms）
+基于实例的算法（Instance-based Algorithms）
+贝叶斯算法（Bayesian Algorithms）
+关联规则学习算法（Association Rule Learning Algorithms）
+图模型（Graphical Models）
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2533
+126. 在应用机器学习算法之前纠正和清理数据的步骤是什么？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2568
+127. 在 K-Means 中如何拾取 k？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2569
+128. 如何理解模型的过拟合与欠拟合，以及如何解决？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2584
+129. 请详细说说文字特征提取
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2586
+130. 请详细说说图像特征提取
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2587
+131. 了解xgboost么，请详细说说它的原理
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2590
+132. 请详细说说梯度提升树(GBDT)的原理
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2591
+133. 请说说Adaboost 算法的原理与推导
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2595
+134. 请详细说说协同过滤的原理
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2599
+135. 机器学习中的L0、L1与L2范数到底是什么意思？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2600
+136. 请详细说说决策树的构造原理
+
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2601
+137. 怎么确定LDA的topic个数？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2602

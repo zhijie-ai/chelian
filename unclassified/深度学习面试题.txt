@@ -1,0 +1,136 @@
+1. CNN的卷积核是单层的还是多层的？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/932
+2. 什么是卷积？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/935
+3. 什么是CNN的池化pool层？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/937
+4. 简述下什么是生成对抗网络。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/939
+5. 学梵高作画的原理是什么？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/942
+6. 请简要介绍下tensorflow的计算图
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/956
+7. 你有哪些deep learning（rnn、cnn）调参的经验？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/998
+8. CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1000
+9. LSTM结构推导，为什么比RNN好？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1003
+10. Sigmoid、Tanh、ReLu这三个激活函数有什么缺点或不足，有没改进的激活函数。
+
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1032
+11. 为什么引入非线性激励函数？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1040
+12. 请问人工神经网络中为什么ReLu要好过于tanh和sigmoid function？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1044
+13. 为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数，而不是选择统一一种sigmoid或者tanh？这样做的目的是什么？
+<img  src='https://julyedu-img-public.oss-cn-beijing.aliyuncs.com/Public/Image/Question/1512979821_580.jpg'/>
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1048
+14. 如何解决RNN梯度爆炸和弥散的问题？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1049
+15. 什麽样的资料集不适合用深度学习？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1059
+16. 广义线性模型是怎被应用在深度学习中？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1063
+17. 如何解决梯度消失和梯度膨胀
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1149
+18. 简述神经网络的发展历史
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1151
+19. 深度学习常用方法
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1152
+20. 请简述神经网络的发展史。
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1362
+21. 神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1551
+22. 梯度下降法的神经网络容易收敛到局部最优，为什么应用广泛？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1552
+23. 简单说说CNN常用的几个模型
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1554
+24. 为什么很多做人脸的Paper会最后加入一个Local Connected Conv？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1570
+25. 什么是梯度爆炸？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1711
+26. 梯度爆炸会引发什么问题？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1712
+27. 如何确定是否出现梯度爆炸？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1713
+28. 如何修复梯度爆炸问题？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1714
+29. LSTM神经网络输入输出究竟是怎样的？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1715
+30. 什么是RNN？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1716
+31. RNN是怎么从单层网络一步一步构造的？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1717
+32. 简单说下sigmoid激活函数
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1823
+33. 如何理解LSTM网络
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/1851
+34. 请详细说说CNN的工作原理
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2083
+35. CNN究竟是怎样一步一步工作的？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2084
+36. 基于深度学习的目标检测技术演进：R-CNN、Fast R-CNN、Faster R-CNN、YOLO、SSD
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2103
+37. rcnn、fast-rcnn和faster-rcnn三者的区别是什么
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2104
+38. 在神经网络中，有哪些办法防止过拟合？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2111
+39. CNN是什么，CNN关键的层有哪些？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2112
+40. GRU是什么？GRU对LSTM做了哪些改动？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2114
+41. 请简述应当从哪些方向上思考和解决深度学习中出现的的over fitting问题？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2115
+42. 神经网络中，是否隐藏层如果具有足够数量的单位，它就可以近似任何连续函数？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2121
+43. 为什么更深的网络更好？ 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2122
+44. 更多的数据是否有利于更深的神经网络？ 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2123
+45. 不平衡数据是否会摧毁神经网络？ 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2124
+46. 你如何判断一个神经网络是记忆还是泛化? 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2125
+47. 无监督降维提供的是帮助还是摧毁？ 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2126
+48. 是否可以将任何非线性作为激活函数? 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2127
+49. 批大小如何影响测试正确率？ 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2128
+50. 损失函数重要吗？ 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2129
+51. 初始化如何影响训练? 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2130
+52. 不同层的权重是否以不同的速度收敛？ 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2131
+53. 正则化如何影响权重？ 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2132
+54. 什么是fine-tuning？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2137
+55. 请简单解释下目标检测中的这个IOU评价函数（intersection-over-union）
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2138
+56. 什么是边框回归Bounding-Box regression，以及为什么要做、怎么做
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2139
+57. 请阐述下Selective Search的主要思想
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2140
+58. 什么是非极大值抑制（NMS）？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2141
+59. 什么是深度学习中的anchor？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2143
+60. CNN的特点以及优势 
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2576
+61. 深度学习中有什么加快收敛/降低训练难度的方法？
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2577
+62. 请简单说下计算流图的前向和反向传播
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2578
+63. 请写出链式法则并证明
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2581
+64. 请写出Batch Normalization的计算方法及其应用
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2582
+65. 神经网络中会用到批量梯度下降（BGD）吗？为什么用随机梯度下降（SGD）?
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2588
+66. 当神经网络的调参效果不好时，从哪些角度思考？（不要首先归结于overfiting）
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2589
+67. 请阐述下卷积神经网络CNN的基本原理
+答案链接：https://www.julyedu.com/question/big/kp_id/23/ques_id/2597

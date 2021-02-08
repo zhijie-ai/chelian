@@ -19,3 +19,7 @@ GAN/gan-qp/128/gan_qp_l2_load.py
 /textClassifier/transformer/impl/preprocessed/
 /textClassifier/transformer/impl/preprocessed/de.vocab.tsv
 /textClassifier/transformer/impl/preprocessed/en.vocab.tsv
+/NLP/chat_bot_seq2seq_attention/data/
+/NLP/seq2seq/image_label_gen/data/
+/toutiao_project/reco_sys/server/models/ckpt/
+/销量预测/example1/data/

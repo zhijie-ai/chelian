@@ -1,0 +1,45 @@
+特征与标签:
+1.历史销量标签:过去21天的历史销量
+2.节假日特征:过去21天及预测14天的节假日标注
+3.天气特征:过去21天及预测附近4天(之前2天，当天，之后一天)的降水量，人体舒适度SSD值，降水指数，天晴指数
+4.商家特征:平均View/Pay比值，平均每天开店时间，关店时间，开点总时长；首次营业日期，非节假日销量中位数，
+    节假日销量中位数，节假日/非节假日销量比值；商家类别，人均消费，评分，评论数，门店等级
+5.标签:未来14天销量
+
+代码说明
+Step1：生成精简版本user_pay, user_view 表格
+    data_new/table_regenerate.py
+        由于只需要预测商家的日销量，无需识别单个用户的行为，按照大数定理，可以只针对分时段的浏览与购买总数进行预测。
+        此程序按小时统计商户销量，并进行用户异常刷单清理，生成精简版本的pay和view表格分别为，
+        user_pay_new.csv 和 user_view_new.csv，文件大小减小至原始数据的1/10，以便后续访问及特征提取
+Step2：外部数据爬取
+    additional/Weather_underground_day.py
+        从 https://www.wunderground.com 按天读取机场所在地信息，爬取信息包含7列分别为[Port, Date,
+        Precip , Rise_act, Rise_cil, Set_act, Set_cil]，对应内容为[机场代号，日期，降水量，
+        真实日出时间，修正日出时间，真实日落时间，修正日落时间]。
+    additional/Weather_underground_hour.py
+        从 https://www.wunderground.com 按小时读取机场所在地信息，爬取信息包含14列分别为[Port, Date,
+        Time, Temp, Bodytemp, Dew, Humidity, Pressure, Visibility, Wind_dir, Wind_speed,
+         Gust_speed, Event, Condition]，对应内容为[机场代号，日期，时间，气温，体感温度，露点，湿度，
+         压力，能见度，风向，风速，阵风强度，气象事件，气象条件]。
+Step3：特征生成
+    feature/ WEATHER_FEATURES.py
+        生成天气特征表 WEATHER_FEATURES.csv，包含四项，分别为人体舒适度SSH值，SSH值日增量，降水指数，天晴指数。
+    feature/ SHOP_FEATURES.py
+        生成商家特征表SHOP_FEATURES.csv，包含平均View/Pay比值，平均每天开店时间，关店时间，开店总时长；
+        首次营业日期，非节假日销量中位数，节假日销量中位数，节假日/非节假日销量比值；商家类别，人均消费，
+        评分，评论数，门店等级。
+    feature/ TEST_SELLS.py
+        生成测试集历史过去三周销量表格，修正异常销量，以历史过去14天销量的μ±2σ 为限制，其中μ为均值，σ为均方根
+    feature/FEATURE_MERGE.py
+        整合所有特征，生成方便训练模型读取的X.csv, Y.csv, Xtest.csv三个表格
+Step4：常规销量模型训练
+    model/xgb_model1.py，model/xgb_model2.py，model/ GBDT_model.py
+    GBDT模型 ,详见3.1
+        model/correlation_model.py
+    均值模型，详见3.2
+Step5：双11修正系数训练
+    model/ DOU11_model.py
+    双11修正模型，获得双11当天销量增加百分比，以此针对常规销量在11-11, 11-12, 11-13三天进行乘法修正。
+Step6：模型融合
+    model/model_blend.py

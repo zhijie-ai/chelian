@@ -1,0 +1,7 @@
+        XGBoost 	        LightGBM 	                        范围
+叶子数 	num_leaves，默认为 	num_leaves,num_leaf 	            range(35,65,5)
+树深 	max_depth，默认为6 	max_depth 	                        range(3,10,2)
+样本抽样 	subsample 	        bagging_fraction，subsample 	        [i/10.0 for i in range(6,10)]
+特征抽样 	colsample_bytree 	feature_fraction，colsample_bytree 	[i/10.0 for i in range(6,10)]
+L1正则化 	alpha，reg_alpha 	lambda_l1，reg_alpha 	            [1e-5, 1e-2, 0.1, 1, 2,2.5,3]
+L2正则化 	lambda，reg_lambda 	lambda_l2，reg_lambda 	            [1e-5, 1e-2, 0.1, 1, 2,2.5,3]

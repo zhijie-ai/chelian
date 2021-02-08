@@ -1,0 +1,230 @@
+https://www.jianshu.com/p/1100e333fcab
+我们都知道，XGBoost 一共有三类参数通用参数，学习目标参数，Booster参数，那么对于
+    LightGBM，我们有核心参数，学习控制参数，IO参数，目标参数，度量参数，网络参数，GPU参数，
+    模型参数，这里我常修改的便是核心参数，学习控制参数，度量参数等
+1.核心参数
+    boosting:也称boost，boosting_type.默认是gbdt
+        LGB里面的boosting参数要比xgb多不少，我们有传统的gbdt，也有rf，
+        dart，doss，最后两种不太深入理解，但是试过，还是gbdt的效果比较经典稳定
+        gbdt, 传统的梯度提升决策树
+        rf, Random Forest (随机森林)
+        dart, Dropouts meet Multiple Additive Regression Trees
+        goss, Gradient-based One-Side Sampling (基于梯度的单侧采样)
+    num_thread:也称作num_thread,nthread.指定线程的个数。
+        这里官方文档提到，数字设置成cpu内核数比线程数训练效更快(考虑到现在cpu大多超线程)。
+        并行学习不应该设置成全部线程，这反而使得训练速度不佳。
+    application：默认为regression。，也称objective， app这里指的是任务目标
+        regression
+            regression_l2, L2 loss, alias=regression, mean_squared_error, mse
+            regression_l1, L1 loss, alias=mean_absolute_error, mae
+            huber, Huber loss
+            fair, Fair loss
+            poisson, Poisson regression
+            quantile, Quantile regression
+            quantile_l2, 类似于 quantile, 但是使用了 L2 loss
+
+        binary, binary log loss classification application
+        multi-class classification
+            multiclass, softmax 目标函数, 应该设置好 num_class
+            multiclassova, One-vs-All 二分类目标函数, 应该设置好 num_class
+
+        cross-entropy application
+            xentropy, 目标函数为 cross-entropy (同时有可选择的线性权重), alias=cross_entropy
+            xentlambda, 替代参数化的 cross-entropy, alias=cross_entropy_lambda
+            标签是 [0, 1] 间隔内的任意值
+
+        lambdarank, lambdarank application
+            在 lambdarank 任务中标签应该为 int type, 数值越大代表相关性越高 (e.g. 0:bad, 1:fair, 2:good, 3:perfect)
+            label_gain 可以被用来设置 int 标签的增益 (权重)
+    valid:验证集选用，也称test，valid_data, test_data.支持多验证集，以,分割
+    learning_rate:也称shrinkage_rate,梯度下降的步长。默认设置成0.1,我们一般设置成0.05-0.2之间
+    num_leaves:也称num_leaf,新版lgb将这个默认值改成31,这代表的是一棵树上的叶子数
+    num_iterations:也称num_iteration, num_tree, num_trees,
+        num_round, num_rounds,num_boost_round。迭代次数
+    device:default=cpu, options=cpu, gpu
+        为树学习选择设备, 你可以使用 GPU 来获得更快的学习速度
+        Note: 建议使用较小的 max_bin (e.g. 63) 来获得更快的速度
+        Note: 为了加快学习速度, GPU 默认使用32位浮点数来求和. 你可以设置 gpu_use_dp=true 来启用64位浮点数, 但是它会使训练速度降低
+        Note: 请参考 安装指南 来构建 GPU 版本
+2.学习控制参数
+    max_depth:
+        default=-1, type=int限制树模型的最大深度. 这可以在 #data 小的情况下防止过拟合.
+            树仍然可以通过 leaf-wise 生长.
+        < 0 意味着没有限制.
+    feature_fraction:default=1.0, type=double, 0.0 < feature_fraction < 1.0,
+        也称sub_feature, colsample_bytree
+        如果 feature_fraction 小于 1.0, LightGBM 将会在每次迭代中随机选择部分特征. 例如,
+            如果设置为 0.8, 将会在每棵树训练之前选择 80% 的特征
+        可以用来加速训练
+        可以用来处理过拟合
+    bagging_fraction:default=1.0, type=double, 0.0 < bagging_fraction < 1.0, 也称sub_row, subsample
+        类似于 feature_fraction, 但是它将在不进行重采样的情况下随机选择部分数据
+        可以用来加速训练
+        可以用来处理过拟合
+        Note: 为了启用 bagging, bagging_freq 应该设置为非零值
+    bagging_freq:default=0, type=int, 也称subsample_freq
+        bagging 的频率, 0 意味着禁用 bagging. k 意味着每 k 次迭代执行bagging
+        Note: 为了启用 bagging, bagging_fraction 设置适当
+    lambda_l1:默认为0,也称reg_alpha，表示的是L1正则化,double类型
+    lambda_l2:默认为0,也称reg_lambda，表示的是L2正则化，double类型
+    cat_smooth： default=10, type=double
+        用于分类特征
+        这可以降低噪声在分类特征中的影响, 尤其是对数据很少的类别
+    min_data_in_leaf:默认为20。 也称min_data_per_leaf , min_data, min_child_samples。
+        一个叶子上数据的最小数量。可以用来处理过拟合。
+    min_sum_hessian_in_leaf, default=1e-3, 也称min_sum_hessian_per_leaf, min_sum_hessian,
+        min_hessian, min_child_weight。
+        1)一个叶子上的最小 hessian 和. 类似于 min_data_in_leaf, 可以用来处理过拟合.
+        2)子节点所需的样本权重和(hessian)的最小阈值，若是基学习器切分后得到的叶节点中样本权重和
+            低于该阈值则不会进一步切分，在线性模型中该值就对应每个节点的最小样本数，该值越大模型的学习约保守，
+            同样用于防止模型过拟合
+    early_stopping_round:默认为0, type=int, 也称early_stopping_rounds, early_stopping。
+        如果一个验证集的度量在 early_stopping_round 循环中没有提升, 将停止训练
+    min_split_gain:默认为0, type=double, 也称min_gain_to_split`。执行切分的最小增益。
+    max_bin:最大直方图数目，默认为255，工具箱的最大数特征值决定了容量 工具箱的最小数特征值可能会降低训练的准确性,
+        但是可能会增加一些一般的影响（处理过拟合，越大越容易过拟合）。
+        1)针对直方图算法tree_method=hist时，用来控制将连续值特征离散化为多个直方图的直方图数目。
+        2)LightGBM 将根据 max_bin 自动压缩内存。 例如, 如果 maxbin=255, 那么 LightGBM 将使用 uint8t 的特性值。
+            12.subsample_for_bin
+            bin_construct_sample_cnt, 默认为200000, 也称subsample_for_bin。用来构建直方图的数据的数量。
+3.度量函数
+    1.metric:default={l2 for regression}, {binary_logloss for binary classification},
+        {ndcg for lambdarank}, type=multi-enum, options=l1, l2, ndcg, auc, binary_logloss,
+        binary_error …
+        1)l1, absolute loss, alias=mean_absolute_error, mae
+        2)l2, square loss, alias=mean_squared_error, mse
+        3)l2_root, root square loss, alias=root_mean_squared_error, rmse
+        4)quantile, Quantile regression
+        5)huber, Huber loss
+        6)fair, Fair loss
+        7)poisson, Poisson regression
+        8)ndcg, NDCG
+        9)map, MAP
+        10)auc, AUC
+        11)binary_logloss, log loss
+        12)binary_error, 样本: 0 的正确分类, 1 错误分类
+        13)multi_logloss, mulit-class 损失日志分类
+        14)multi_error, error rate for mulit-class 出错率分类
+        15)xentropy, cross-entropy (与可选的线性权重), alias=cross_entropy
+        16)xentlambda, “intensity-weighted” 交叉熵, alias=cross_entropy_lambda
+        17)kldiv, Kullback-Leibler divergence, alias=kullback_leibler
+        18)支持多指标, 使用 , 分隔
+    总的来说，我还是觉得LightGBM比XGBoost用法上差距不大。参数也有很多重叠的地方。
+        很多XGBoost的核心原理放在LightGBM上同样适用。 同样的，Lgb也是有train()函数和LGBClassifier()
+        与LGBRegressor()函数。后两个主要是为了更加贴合sklearn的用法，这一点和XGBoost一样。
+
+import pandas as pd
+import lightgbm as lgb
+from sklearn.grid_search import GridSearchCV  # Perforing grid search
+from sklearn.model_selection import train_test_split
+
+train_data = pd.read_csv('train.csv')   # 读取数据
+y = train_data.pop('30').values   # 用pop方式将训练数据中的标签值y取出来，作为训练目标，这里的‘30’是标签的列名
+col = train_data.columns
+x = train_data[col].values  # 剩下的列作为训练数据
+train_x, valid_x, train_y, valid_y = train_test_split(x, y, test_size=0.333, random_state=0)   # 分训练集和验证集
+train = lgb.Dataset(train_x, train_y)
+valid = lgb.Dataset(valid_x, valid_y, reference=train)
+
+
+parameters = {
+              'max_depth': [15, 20, 25, 30, 35],
+              'learning_rate': [0.01, 0.02, 0.05, 0.1, 0.15],
+              'feature_fraction': [0.6, 0.7, 0.8, 0.9, 0.95],
+              'bagging_fraction': [0.6, 0.7, 0.8, 0.9, 0.95],
+              'bagging_freq': [2, 4, 5, 6, 8],
+              'lambda_l1': [0, 0.1, 0.4, 0.5, 0.6],
+              'lambda_l2': [0, 10, 15, 35, 40],
+              'cat_smooth': [1, 10, 15, 20, 35]
+}
+gbm = lgb.LGBMClassifier(boosting_type='gbdt',
+                         objective = 'binary',
+                         metric = 'auc',
+                         verbose = 0,
+                         learning_rate = 0.01,
+                         num_leaves = 35,
+                         feature_fraction=0.8,
+                         bagging_fraction= 0.9,
+                         bagging_freq= 8,
+                         lambda_l1= 0.6,
+                         lambda_l2= 0)
+# 有了gridsearch我们便不需要fit函数
+gsearch = GridSearchCV(gbm, param_grid=parameters, scoring='accuracy', cv=3)
+gsearch.fit(train_x, train_y)
+
+print("Best score: %0.3f" % gsearch.best_score_)
+print("Best parameters set:")
+best_parameters = gsearch.best_estimator_.get_params()
+for param_name in sorted(parameters.keys()):
+    print("\t%s: %r" % (param_name, best_parameters[param_name]))
+
+调参核心:
+    调参1：提高准确率"：num_leaves, max_depth, learning_rate
+    调参2：降低过拟合 max_bin min_data_in_leaf
+    调参3：降低过拟合 正则化L1, L2
+    调参4：降低过拟合 数据抽样 列抽样
+调参方向：处理过拟合（过拟合和准确率往往相反）
+    使用较小的 max_bin
+    使用较小的 num_leaves
+    使用 min_data_in_leaf 和 min_sum_hessian_in_leaf
+    通过设置 bagging_fraction 和 bagging_freq 来使用 bagging
+    通过设置 feature_fraction <1来使用特征抽样
+    使用更大的训练数据
+    使用 lambda_l1, lambda_l2 和 min_gain_to_split 来使用正则
+    尝试 max_depth 来避免生成过深的树
+
+# 交叉验证
+# 将参数写成字典形式
+params = {
+    'task':'train',
+    'boosting_type':'gbdt',#设置提升类型
+    'objective':'regression_l2',#目标函数
+    'metrics':['rmse','l2'],
+    'num_leaves':31,
+    'max_bin ':64,
+    'num_thread':-1,
+    'categorical_feature':['company','category_title','status','catch','audit_status',
+                           'sdk_integrated','source','bdid_title','app_status',
+                           'app_entity','is_ok','type','where_from','week'],
+    'learning_rate':0.1,
+    'feature_fraction':0.9,#建树的特征选择比例，subsample:0.8
+    'bagging_fraction':0.8,# 建树的样本采样比例colsample_bytree:0.8
+    'bagging_freq':5,#k意味着每k次迭代执行bagging
+    'verbose':1#<0,显示致命的，=0 :显示错误的(警告),>0 显示信息
+}
+
+#如果此时没有metrics配置，则用上面的。并且输出的key为
+#     dict_keys(['rmse-stdv', 'rmse-mean', 'l2-mean', 'l2-stdv'])
+# 如果配置了metrics参数，则会覆盖上面的，输出dict_keys(['rmse-mean', 'rmse-stdv'])
+cv_results = lgb.cv(params,lgb_eval,num_boost_round=100,nfold=3,early_stopping_rounds=3,shuffle=True,
+                    stratified=False,metrics=['rmse'],seed=0)
+print(cv_results.keys())
+print('best n_estimators:', len(cv_results['auc-mean']))
+print('best cv score:', pd.Series(cv_results['auc-mean']).max())
+
+# 模型训练
+# 将参数写成字典形式
+params = {
+    'task':'train',
+    'boosting_type':'gbdt',#设置提升类型
+    'objective':'regression_l2',#目标函数
+    'metric':{'mse','auc'},
+    'num_leaves':64,
+    'nthread':4,
+    'min_data_in_leaf': 21,  # 防止过拟合
+    'learning_rate':0.1,
+    'feature_fraction':0.9,#建树的特征选择比例，subsample:0.8
+    'bagging_fraction':0.8,# 建树的样本采样比例colsample_bytree:0.8
+    'bagging_freq':5,#k意味着每k次迭代执行bagging
+    'verbose':1,#<0,显示致命的，=0 :显示错误的(警告),>0 显示信息,
+    'header': True  # 数据集是否带表头
+}
+
+print('Starting training.....')
+# 训练cv and train
+gbm = lgb.train(params,lgb_eval,valid_sets=[lgb_eval],num_boost_round=1958,
+               valid_names='mse',verbose_eval=100)
+
+GridSearchCV：verbose：日志冗长度，int：冗长度，0：不输出训练过程，1：偶尔输出，>1：对每个子模型都输出。
+    设置为1，会输出Parallel的信息
+lgb.cv 的verbose:1#<0,显示致命的，=0 :显示错误的(警告),>0 显示信息

@@ -1,0 +1,73 @@
+2019-09-05 14:11:07,888 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-09-05 14:11:12,008 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª8000
+2019-09-05 14:11:12,010 - G:\Anaconda3\lib\site-packages\flask\app.py[line:1891] - ERROR: Exception on /exp2rank [GET]
+Traceback (most recent call last):
+  File "G:\Anaconda3\lib\site-packages\flask\app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "G:\Anaconda3\lib\site-packages\flask\app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "G:\Anaconda3\lib\site-packages\flask\app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "G:\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "G:\Anaconda3\lib\site-packages\flask\app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "G:\Anaconda3\lib\site-packages\flask\app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "G:/workspace/chelian/unclassified/hello.py", line 50, in exp2rank
+    logging.info('Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:'+ rank)
+TypeError: ufunc 'add' did not contain a loop with signature matching types dtype('<U32') dtype('<U32') dtype('<U32')
+2019-09-05 14:11:12,022 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:11:12] "[1m[35mGET /exp2rank?q=8000 HTTP/1.1[0m" 500 -
+2019-09-05 14:12:03,441 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-09-05 14:12:05,868 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª8000
+2019-09-05 14:12:05,871 - G:\Anaconda3\lib\site-packages\flask\app.py[line:1891] - ERROR: Exception on /exp2rank [GET]
+Traceback (most recent call last):
+  File "G:\Anaconda3\lib\site-packages\flask\app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "G:\Anaconda3\lib\site-packages\flask\app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "G:\Anaconda3\lib\site-packages\flask\app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "G:\Anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "G:\Anaconda3\lib\site-packages\flask\app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "G:\Anaconda3\lib\site-packages\flask\app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "G:/workspace/chelian/unclassified/hello.py", line 50, in exp2rank
+    logging.info('Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:'+ rank[0])
+TypeError: Can't convert 'numpy.float64' object to str implicitly
+2019-09-05 14:12:05,890 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:12:05] "[1m[35mGET /exp2rank?q=8000 HTTP/1.1[0m" 500 -
+2019-09-05 14:13:12,056 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-09-05 14:13:14,673 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª8000
+2019-09-05 14:13:14,675 - G:/workspace/chelian/unclassified/hello.py[line:50] - INFO: Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:15.428091896690603
+2019-09-05 14:13:14,677 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:13:14] "[37mGET /exp2rank?q=8000 HTTP/1.1[0m" 200 -
+2019-09-05 14:13:17,762 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª8000
+2019-09-05 14:13:17,765 - G:/workspace/chelian/unclassified/hello.py[line:50] - INFO: Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:15.428091896690603
+2019-09-05 14:13:17,766 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:13:17] "[37mGET /exp2rank?q=8000 HTTP/1.1[0m" 200 -
+2019-09-05 14:13:19,796 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª8000
+2019-09-05 14:13:19,798 - G:/workspace/chelian/unclassified/hello.py[line:50] - INFO: Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:15.428091896690603
+2019-09-05 14:13:19,799 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:13:19] "[37mGET /exp2rank?q=8000 HTTP/1.1[0m" 200 -
+2019-09-05 14:13:27,162 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª8002
+2019-09-05 14:13:27,163 - G:/workspace/chelian/unclassified/hello.py[line:50] - INFO: Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:15.360974699007784
+2019-09-05 14:13:27,164 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:13:27] "[37mGET /exp2rank?q=8002 HTTP/1.1[0m" 200 -
+2019-09-05 14:13:32,374 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª10000
+2019-09-05 14:13:32,375 - G:/workspace/chelian/unclassified/hello.py[line:50] - INFO: Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:2.1756118368957686
+2019-09-05 14:13:32,375 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:13:32] "[37mGET /exp2rank?q=10000 HTTP/1.1[0m" 200 -
+2019-09-05 14:14:30,256 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-09-05 14:14:32,437 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª10000
+2019-09-05 14:14:32,438 - G:/workspace/chelian/unclassified/hello.py[line:50] - INFO: Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:[2.17561184]
+2019-09-05 14:14:32,439 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:14:32] "[37mGET /exp2rank?q=10000 HTTP/1.1[0m" 200 -
+2019-09-05 14:15:10,071 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-09-05 14:15:12,206 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª10000
+2019-09-05 14:15:12,208 - G:/workspace/chelian/unclassified/hello.py[line:50] - INFO: Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:[2.17561184]
+2019-09-05 14:15:12,210 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:15:12] "[37mGET /exp2rank?q=10000 HTTP/1.1[0m" 200 -
+2019-09-05 14:15:13,051 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª10000
+2019-09-05 14:15:13,053 - G:/workspace/chelian/unclassified/hello.py[line:50] - INFO: Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:[2.17561184]
+2019-09-05 14:15:13,054 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:15:13] "[37mGET /exp2rank?q=10000 HTTP/1.1[0m" 200 -
+2019-09-05 14:15:13,341 - G:/workspace/chelian/unclassified/hello.py[line:43] - INFO: ½ÓÊÕµ½µÄexpÊýÖµÎª10000
+2019-09-05 14:15:13,342 - G:/workspace/chelian/unclassified/hello.py[line:50] - INFO: Í¨¹ýÄ£ÐÍËã³öµÄÅÅÃûÎª:[2.17561184]
+2019-09-05 14:15:13,343 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:15:13] "[37mGET /exp2rank?q=10000 HTTP/1.1[0m" 200 -
+2019-09-05 14:15:23,138 - G:/workspace/chelian/unclassified/hello.py[line:26] - INFO: ½ÓÊÕµ½µÄrankÊýÖµÎª:2
+2019-09-05 14:15:23,140 - G:/workspace/chelian/unclassified/hello.py[line:33] - INFO: Í¨¹ýÄ£ÐÍËã³öµÄÖ¸ÊýÎª:[8376.08587733]
+2019-09-05 14:15:23,141 - G:\Anaconda3\lib\site-packages\werkzeug\_internal.py[line:122] - INFO: 127.0.0.1 - - [05/Sep/2019 14:15:23] "[37mGET /rank2exp?q=2 HTTP/1.1[0m" 200 -
