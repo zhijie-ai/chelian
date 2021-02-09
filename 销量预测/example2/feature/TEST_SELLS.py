@@ -10,10 +10,12 @@
 #               不胜人生一场醉。                 #
 #----------------------------------------------
 # 异常值修复，他这生成测试集时，把所有的date变成column了
-from ..TOOLS.IJCAI2017_TOOL import *
+# 生成测试集历史过去三周销量表格，修正异常销量，以历史过去14天销量的μ±2σ 为限制，其中μ为均值，σ为均方根
+from example2.TOOLS.IJCAI2017_TOOL import *
 
 PAYNW = pd.read_csv('../data_new/user_pay_new.csv')
 
+# index为shop_id，column为date
 PAYNW_TAB = pd.pivot_table(PAYNW, values=['Num_post'], index=['SHOP_ID'], columns=['DATE'], aggfunc=np.sum)
 PAYNW_TAB = pd.concat([PAYNW_TAB[PAYNW_TAB.columns[0:169:1]], pd.DataFrame({'A': [np.nan], }, index=np.arange(1, 2001)),
                        PAYNW_TAB[PAYNW_TAB.columns[169::1]]], axis=1)
@@ -21,21 +23,23 @@ PAYNW_TAB.columns = [str((datetime.datetime.strptime('20150626', '%Y%m%d') + dat
                      in range(PAYNW_TAB.shape[1])]
 inspect_cols = [str((datetime.datetime.strptime('20161009', '%Y%m%d') + datetime.timedelta(days=x)).date()) for x in
                 range(23)]
-
+print(PAYNW_TAB.head())
 #以历史3周的销量数据
 PAYNW_TAB_OCT = PAYNW_TAB.loc[:, '2016-10-09':'2016-10-31']
 PAYNW_TAB_OCT.reset_index(level=0, inplace=True)
+print(PAYNW_TAB_OCT.head())
 
 SHOP_MELT = pd.melt(PAYNW_TAB_OCT, id_vars=['SHOP_ID'], value_vars=inspect_cols)
 SHOP_MELT = SHOP_MELT.rename(columns={'variable': 'DATE'})
 
 # %% find all the shops with small value, substitude with the mininum value of day of week in 4 weeks
-# 以销量少的为目标，取前后2周的数据
+# 以销量少的为目标，取前后2周的数据,销量少，次数也少的shop
 SMALL_SHOP = SHOP_MELT.loc[SHOP_MELT['value'] <= 10, :]# value即为Num_post
 SMALL_SHOP = SMALL_SHOP.sort_values(by=['SHOP_ID', 'DATE'])
 SMALL_count = SMALL_SHOP.groupby(by=['SHOP_ID'], as_index=False).count()
-SMALL_count = SMALL_count[SMALL_count['DATE'] <= 2]
-SMALL_SHOP = SMALL_SHOP[SMALL_SHOP.SHOP_ID.isin(SMALL_count.SHOP_ID)]
+SMALL_count = SMALL_count[SMALL_count['DATE'] <= 2]#每个商铺的支付的时间跨度不大于2天
+SMALL_SHOP = SMALL_SHOP[SMALL_SHOP.SHOP_ID.isin(SMALL_count.SHOP_ID)]# 2个条件
+print('AAAA',SMALL_SHOP)
 SMALL_SHOP.index = np.arange(len(SMALL_SHOP))
 Substitude_list = []
 for ind, value in SMALL_SHOP.iterrows():
