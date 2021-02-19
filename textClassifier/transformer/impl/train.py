@@ -37,7 +37,7 @@ class Graph():
             # Encoder
             with tf.variable_scope("encoder"):
                 ## Embedding
-                self.enc = embedding(self.x,
+                self.enc = embedding(self.x,#x已经用pad填充过了为0
                                      vocab_size=len(de2idx),
                                      num_units=hp.hidden_units,
                                      scale=True,

@@ -17,6 +17,8 @@
 # 切分成8个head，也即本文的实现，但好像这种方式的实现
 # 不太优雅，不能并行，
 # 另一种是在linear层时，输出直接是n_heads*size_per_head,参照attention_tf.py
+# 如果词向量是预训练的，则在词库中第一个词人为的设置为PAD，并且向量置0，参考transformer.py中的199行代码
+# 如果词向量是在训练模型的过程中一起训练的，比如modules.py中117行，因此会人为的将PAD对应的向量置0。
 
 import tensorflow as tf
 import numpy as np
@@ -56,7 +58,7 @@ class Model:
             # embedding: 计算word embedding和position embedding，使用word embedding+position embedding作为输入
             enc = tf.nn.embedding_lookup(self.embeddings, x)  # (N, T1, d_model)
             enc *= self.embedding_dim ** 0.5  # scale
-            enc += self.positional_encoding(enc, self.max_seq_length_x)
+            enc += self.positional_encoding(enc, self.max_seq_length_x)#加上了位置编码
             # dropout防止过拟合处理
             enc = tf.layers.dropout(enc, self.dropout_rate, training=training)
 
@@ -164,7 +166,7 @@ class Model:
             V_ = tf.concat(tf.split(V, num_heads, axis=2), axis=0)  # (h*N, T_k, d_model/h)
 
             # Attention: Scaled Dot-Product Attention操作，causality区别是否进行sequence mask
-            #(128*8,200,64)
+            #(128*8,200,64)拿到Q_,K_,V_后
             outputs = self.scaled_dot_product_attention(Q_, K_, V_, causality, dropout_rate, training)
 
             # Restore shape: 对8个multi-heads输出attention结果做concat操作
@@ -244,7 +246,7 @@ class Model:
             return outputs
 
     def positional_encoding(self, inputs,
-                            maxlen,
+                            maxlen,#200
                             masking=True,
                             scope="positional_encoding"):
         """Sinusoidal Positional_Encoding. See 3.5
@@ -254,6 +256,7 @@ class Model:
         scope: Optional scope for `variable_scope`.
         returns
         3d tensor that has the same shape as inputs.
+        注意另外2种实现PE的方式:attention_keras.py和attention_tf.py
         """
 
         # inputs.shape (128,200,512)
@@ -264,7 +267,7 @@ class Model:
             position_ind = tf.tile(tf.expand_dims(tf.range(T), 0), [N, 1])  # (N, T)
             # First part of the PE function: sin and cos argument
             position_enc = np.array([
-                [pos / np.power(10000, (i - i % 2) / E) for i in range(E)]
+                [pos / np.power(10000, (i - i % 2) / E) for i in range(E)]#E为向量的维度,i可为0-511，也可为0-255
                 for pos in range(maxlen)])
 
             # Second part, apply the cosine to even columns and sin to odds.
@@ -306,13 +309,13 @@ class Model:
             [0., 0.]]], dtype=float32)
         """
         # inputs (128*8,200,200)
-        # Q (128*8,200,64)
+        # l
         padding_num = -2 ** 32 + 1
         # 其中type=k/q都是padding mask,type=feature是sequence mask
         if type in ("k", "key", "keys"):
             # Generate masks
-            # keys.shape (128*8,200,64)
-            masks = tf.sign(tf.reduce_sum(tf.abs(keys), axis=-1))  # (N, T_k)
+            # keys.shape (128*8,200,64),keys是三维的，且如果存在PAD的词，那么该词的向量为0，
+            masks = tf.sign(tf.reduce_sum(tf.abs(keys), axis=-1))  # (N, T_k)，如果存在0，则说明之前有PAD的词
             masks = tf.expand_dims(masks, 1)  # (N, 1, T_k)#(128*8,1,200)
             masks = tf.tile(masks, [1, tf.shape(queries)[1], 1])  # (N, T_q, T_k)(128*8,200,200)
 

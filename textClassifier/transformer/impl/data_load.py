@@ -10,7 +10,7 @@
 #               不胜人生一场醉。                 #
 #----------------------------------------------
 from __future__ import print_function
-from .hyperparams import Hyperparams as hp
+from textClassifier.transformer.impl.hyperparams import Hyperparams as hp
 import tensorflow as tf
 import numpy as np
 import codecs
@@ -106,3 +106,6 @@ def get_batch_data():
                                   allow_smaller_final_batch=False)
 
     return x, y, num_batch  # (N, T), (N, T), ()
+
+if __name__ == '__main__':
+    print(load_de_vocab()[0])
