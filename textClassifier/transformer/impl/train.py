@@ -71,7 +71,7 @@ class Graph():
                 ## Blocks
                 for i in range(hp.num_blocks):
                     with tf.variable_scope("num_blocks_{}".format(i)):
-                        ### Multihead Attention
+                        ### Multihead Attention,在进入multihead_attention方法的enc是结合emb+pe的向量，emb可以人为置0，但PE是直接算的，
                         self.enc = multihead_attention(queries=self.enc,
                                                        keys=self.enc,
                                                        num_units=hp.hidden_units,

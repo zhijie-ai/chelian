@@ -20,6 +20,17 @@
 # 如果词向量是预训练的，则在词库中第一个词人为的设置为PAD，并且向量置0，参考transformer.py中的199行代码
 # 如果词向量是在训练模型的过程中一起训练的，比如modules.py中117行，因此会人为的将PAD对应的向量置0。
 
+'''
+人为的将PAD向量置零，但PE向量却一定不为零，参考train.py中的思路，key*mask即将PE中掩掉。这样加上pe的编码后填充位置的向量依然为0，可以进入multihead_attention了
+transformer.py中的思路其实和train.py差不多。
+train.py：先得到word emb并且pad置零然后+position embedding(虽然加上了PE后，填充位置的向量不为空，但是代码里*了一个mask使得填充位置的向量为0了)
+transformer.py：在进入_multiheadAttention方法前有2个参数，一个embeddedWords，相当于是2个emb的向量求和，一个inputX，二维数组，如果某个位置填充，则为0，
+    那么就可以根据inputX来确定哪些掩掉。train.py相当于是直接根据inputX来确定需要掩掉的位置，加上PE的向量后再乘以mask，传到_multiheadAttention后根据enc
+    还是能知道哪些位置需要掩掉。
+
+本文和modules.py中多头注意力的实现既有对key的mask又有对query的mask，而transformer.py中只有对key的mask
+'''
+
 import tensorflow as tf
 import numpy as np
 
@@ -167,7 +178,7 @@ class Model:
 
             # Attention: Scaled Dot-Product Attention操作，causality区别是否进行sequence mask
             #(128*8,200,64)拿到Q_,K_,V_后
-            outputs = self.scaled_dot_product_attention(Q_, K_, V_, causality, dropout_rate, training)
+            outputs = self.scaled_dot_product_attention(Q_, K_, V_, causality, dropout_rate, training)#(128*8,200,64)
 
             # Restore shape: 对8个multi-heads输出attention结果做concat操作
             # (128,200,64*8)
@@ -202,7 +213,7 @@ class Model:
             # scale
             outputs /= d_k ** 0.5
 
-            # key masking: 对Q,K,outputs做padding mask操作
+            # key masking: 对Q,K,outputs做padding mask操作，对outputs做掩码，根据K生成掩码，让pading的位置经过softmax为零
             outputs = self.mask(outputs, Q, K, type="key")#(128*8,200,200)
 
             # causality or future blinding masking: 下面mask操作是sequence mask操作
@@ -211,15 +222,15 @@ class Model:
 
             # softmax
             outputs = tf.nn.softmax(outputs)
-            attention = tf.transpose(outputs, [0, 2, 1])
-            tf.summary.image("attention", tf.expand_dims(attention[:1], -1))
+            # attention = tf.transpose(outputs, [0, 2, 1])
+            # tf.summary.image("attention", tf.expand_dims(attention[:1], -1))
 
-            # query masking：最后对输出再做一次padding mask操作
-            outputs = self.mask(outputs, Q, K, type="query")
+            # query masking：最后对输出再做一次padding mask操作，对outputs做掩码，根据Q生成掩码，
+            outputs = self.mask(outputs, Q, K, type="query")#(128*8,200,200)
 
             # dropout
             outputs = tf.layers.dropout(outputs, rate=dropout_rate, training=training)
-            # weighted sum (context vectors)
+            # weighted sum (context vectors)(128*8,200,200)，(128*8,200,64)
             outputs = tf.matmul(outputs, V)  # (N, T_q, d_v)(128*8,200,64)
 
         return outputs
@@ -325,6 +336,8 @@ class Model:
             outputs = tf.where(tf.equal(masks, 0), paddings, inputs)  # (N, T_q, T_k)
         elif type in ("q", "query", "queries"):
             # Generate masks
+            # inputs：(128*8,200,200)
+            # queries：(128*8,200,64)
             masks = tf.sign(tf.reduce_sum(tf.abs(queries), axis=-1))  # (N, T_q)
             masks = tf.expand_dims(masks, -1)  # (N, T_q, 1)
             masks = tf.tile(masks, [1, 1, tf.shape(keys)[1]])  # (N, T_q, T_k)

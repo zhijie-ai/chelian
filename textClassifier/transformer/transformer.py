@@ -131,7 +131,7 @@ class Dataset(object):
 
     def _genTrainEvalData(self, x, y, word2idx, rate):
         """
-        生成训练集和验证集
+        生成训练集和验证集，前n个字预测下一个字
         """
         reviews = []
         for review in x:
@@ -765,7 +765,7 @@ with tf.Graph().as_default():
 
         def trainStep(batchX, batchY):
             """
-            训练函数
+            训练函数，batchX:有batch_size句话，每一句话都是取n个字。如果不足才pad
             """
             feed_dict = {
                 transformer.inputX: batchX,
@@ -818,7 +818,7 @@ with tf.Graph().as_default():
 
 
         for i in range(config.training.epoches):
-            # 训练模型
+            # 训练模型,将所有的数据按batch_size来计算次数。
             print("start training model")
             for batchTrain in nextBatch(trainReviews, trainLabels, config.batchSize):
                 loss, acc, prec, recall, f_beta = trainStep(batchTrain[0], batchTrain[1])
