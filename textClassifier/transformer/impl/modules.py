@@ -234,7 +234,7 @@ def multihead_attention(queries,
         outputs = tf.where(tf.equal(key_masks, 0), paddings, outputs)  # (h*N, T_q, T_k)
 
         # Causality = Future blinding
-        if causality:
+        if causality:#防止decoder看到未来的信息
             diag_vals = tf.ones_like(outputs[0, :, :])  # (T_q, T_k)
             tril = tf.linalg.LinearOperatorLowerTriangular(diag_vals).to_dense()  # (T_q, T_k)
             masks = tf.tile(tf.expand_dims(tril, 0), [tf.shape(outputs)[0], 1, 1])  # (h*N, T_q, T_k)

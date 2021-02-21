@@ -49,6 +49,8 @@ def create_data(source_sents, target_sents):
     X = np.zeros([len(x_list), hp.maxlen], np.int32)
     Y = np.zeros([len(y_list), hp.maxlen], np.int32)
     for i, (x, y) in enumerate(zip(x_list, y_list)):
+        # np.lib.pad：表示各个方向填充的个数(0,4),表示在第一个轴前填充0个，后填充4个，第二个轴前0个，后4个
+        # ((2,4),(1,3)),表示第一个周前2个，后4个，第二个轴前1个后3个
         X[i] = np.lib.pad(x, [0, hp.maxlen - len(x)], 'constant', constant_values=(0, 0))
         Y[i] = np.lib.pad(y, [0, hp.maxlen - len(y)], 'constant', constant_values=(0, 0))
 

@@ -27,7 +27,7 @@ class Graph():
                 self.y = tf.placeholder(tf.int32, shape=(None, hp.maxlen))
 
             # define decoder inputs
-            # 2:<S>，即加go处理
+            # 2:<S>，即加go处理<S>
             self.decoder_inputs = tf.concat((tf.ones_like(self.y[:, :1]) * 2, self.y[:, :-1]), -1)
 
             # Load vocabulary
@@ -120,7 +120,7 @@ class Graph():
                 ## Blocks
                 for i in range(hp.num_blocks):
                     with tf.variable_scope("num_blocks_{}".format(i)):
-                        ## Multihead Attention ( self-attention)
+                        ## Multihead Attention ( self-attention),掩掉未来的信息
                         self.dec = multihead_attention(queries=self.dec,
                                                        keys=self.dec,
                                                        num_units=hp.hidden_units,
@@ -130,7 +130,7 @@ class Graph():
                                                        causality=True,
                                                        scope="self_attention")
 
-                        ## Multihead Attention ( vanilla attention)
+                        ## Multihead Attention ( vanilla attention),soft-attention
                         self.dec = multihead_attention(queries=self.dec,
                                                        keys=self.enc,
                                                        num_units=hp.hidden_units,
@@ -144,7 +144,7 @@ class Graph():
                         self.dec = feedforward(self.dec, num_units=[4 * hp.hidden_units, hp.hidden_units])
 
             # Final linear projection
-            self.logits = tf.layers.dense(self.dec, len(en2idx))
+            self.logits = tf.layers.dense(self.dec, len(en2idx))#(N, T_q, C)
             self.preds = tf.to_int32(tf.arg_max(self.logits, dimension=-1))
             self.istarget = tf.to_float(tf.not_equal(self.y, 0))
             self.acc = tf.reduce_sum(tf.to_float(tf.equal(self.preds, self.y)) * self.istarget) / (
