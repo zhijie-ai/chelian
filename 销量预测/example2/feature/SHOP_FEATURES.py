@@ -12,6 +12,12 @@
 
 from ..TOOLS.IJCAI2017_TOOL import *
 
+'''
+生成商家特征表SHOP_FEATURES.csv，包含平均View/Pay比值，平均每天开店时间，关店时间，
+    开店总时长；首次营业日期，非节假日销量中位数，节假日销量中位数，节假日/非节假日销量比值；
+    商家类别，人均消费，评分，评论数，门店等级。
+'''
+
 SHOP_INFO_EN = pd.read_csv('../data_new/SHOP_INFO_EN.csv')
 
 # %% category infomation
@@ -49,7 +55,7 @@ TOP_N = 1
 SHOP_ID = []
 SHOP_HOUR_head = []
 SHOP_PCT_head = []
-for SHOP_IND in range(1, 2001):
+for SHOP_IND in range(1, 2001):#SHOP_ID,DATE,HOUR,Num_raw,Num_post,DofW
     tt = PAYNW[PAYNW['SHOP_ID'] == SHOP_IND]
     #算出数据集里每家店按小时分组的支付次数
     tt2 = tt.groupby('HOUR', as_index=False).sum()#算出每家店按小时分组的购买次数(1人买了2次算2次)
@@ -78,7 +84,7 @@ SHOP_LAST = []
 SHOP_MEAN = []
 for SHOP_IND in range(1, 2001):
     tt = PAYNW[PAYNW['SHOP_ID'] == SHOP_IND]
-    tt2 = tt.groupby('DATE', as_index=False).min().mean()
+    tt2 = tt.groupby('DATE', as_index=False).min().mean()#
     tt3 = tt.groupby('DATE', as_index=False).max().mean()
     tt['MEAN'] = tt['Num_post'] * tt['HOUR']
     SHOP_ID.append(SHOP_IND)
@@ -104,7 +110,7 @@ PAYNW_gp = pd.merge(PAYNW_gp, HOLI, on=['DATE'], how='left')
 VIENW_gp = pd.merge(VIENW_gp, HOLI, on=['DATE'], how='left')
 
 PAYNW_VIENW = pd.merge(PAYNW_gp, VIENW_gp, on=['DATE', 'SHOP_ID'], how='inner')
-#View/Pay,每天的比例
+#Pay/View,每天的比例
 PAYNW_VIENW['RATIO'] = PAYNW_VIENW['Num_post_y'] / PAYNW_VIENW['Num_post_x']
 SHOP_PAYNW_VIENW = PAYNW_VIENW.groupby('SHOP_ID', as_index=False).mean()
 SHOP_SC = 'SC00'  ### view/pay ratio

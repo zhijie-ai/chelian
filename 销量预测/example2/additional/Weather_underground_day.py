@@ -13,9 +13,13 @@ from bs4 import BeautifulSoup
 import urllib
 import pandas as pd
 import numpy as np
+import requests
 
-CITY_NAME = pd.read_csv('CITY_NAME2.csv')
-PORT_NAME = CITY_NAME[['AIRPORT_CODE', 'PORT']].groupby('AIRPORT_CODE', as_index=False).count()
+CITY_NAME = pd.read_csv('CITY_NAME2.csv',sep='\t')
+cols = [i.strip() for i in CITY_NAME.columns]
+CITY_NAME.columns =cols
+PORT_NAME = CITY_NAME[['AIRPORT_CODE', 'PORT']].groupby(['AIRPORT_CODE'], as_index=False).count()
+print(PORT_NAME.head())
 for ind, value in PORT_NAME.iterrows():
     print(value['AIRPORT_CODE'])
     # %%
@@ -52,8 +56,11 @@ for ind, value in PORT_NAME.iterrows():
                 theport = value['AIRPORT_CODE']
 
                 theurl = "http://www.wunderground.com/history/airport/" + theport + "/" + theDate + "/DailyHistory.html?MR=1"
-                thepage = urllib.request.urlopen(theurl)
-                soup = BeautifulSoup(thepage, "html.parser")
+                print(theurl)
+                # thepage = urllib.request.urlopen(theurl)
+                thepage = requests.get(theurl)
+                print(thepage.text)
+                soup = BeautifulSoup(thepage.text, "html.parser")
 
                 soup_detail = soup.find_all('tr')
 

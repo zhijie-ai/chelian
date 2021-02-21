@@ -17,6 +17,19 @@
 # 切分成8个head，也即本文的实现，但好像这种方式的实现
 # 不太优雅，不能并行，
 # 另一种是在linear层时，输出直接是n_heads*size_per_head,参照attention_tf.py
+# 如果词向量是预训练的，则在词库中第一个词人为的设置为PAD，并且向量置0，参考transformer.py中的199行代码
+# 如果词向量是在训练模型的过程中一起训练的，比如modules.py中117行，因此会人为的将PAD对应的向量置0。
+
+'''
+人为的将PAD向量置零，但PE向量却一定不为零，参考train.py中的思路，key*mask即将PE中掩掉。这样加上pe的编码后填充位置的向量依然为0，可以进入multihead_attention了
+transformer.py中的思路其实和train.py差不多。
+train.py：先得到word emb并且pad置零然后+position embedding(虽然加上了PE后，填充位置的向量不为空，但是代码里*了一个mask使得填充位置的向量为0了)
+transformer.py：在进入_multiheadAttention方法前有2个参数，一个embeddedWords，相当于是2个emb的向量求和，一个inputX，二维数组，如果某个位置填充，则为0，
+    那么就可以根据inputX来确定哪些掩掉。train.py相当于是直接根据inputX来确定需要掩掉的位置，加上PE的向量后再乘以mask，传到_multiheadAttention后根据enc
+    还是能知道哪些位置需要掩掉。
+
+本文和modules.py中多头注意力的实现既有对key的mask又有对query的mask，而transformer.py中只有对key的mask
+'''
 
 import tensorflow as tf
 import numpy as np
@@ -56,7 +69,7 @@ class Model:
             # embedding: 计算word embedding和position embedding，使用word embedding+position embedding作为输入
             enc = tf.nn.embedding_lookup(self.embeddings, x)  # (N, T1, d_model)
             enc *= self.embedding_dim ** 0.5  # scale
-            enc += self.positional_encoding(enc, self.max_seq_length_x)
+            enc += self.positional_encoding(enc, self.max_seq_length_x)#加上了位置编码
             # dropout防止过拟合处理
             enc = tf.layers.dropout(enc, self.dropout_rate, training=training)
 
@@ -164,8 +177,8 @@ class Model:
             V_ = tf.concat(tf.split(V, num_heads, axis=2), axis=0)  # (h*N, T_k, d_model/h)
 
             # Attention: Scaled Dot-Product Attention操作，causality区别是否进行sequence mask
-            #(128*8,200,64)
-            outputs = self.scaled_dot_product_attention(Q_, K_, V_, causality, dropout_rate, training)
+            #(128*8,200,64)拿到Q_,K_,V_后
+            outputs = self.scaled_dot_product_attention(Q_, K_, V_, causality, dropout_rate, training)#(128*8,200,64)
 
             # Restore shape: 对8个multi-heads输出attention结果做concat操作
             # (128,200,64*8)
@@ -200,7 +213,7 @@ class Model:
             # scale
             outputs /= d_k ** 0.5
 
-            # key masking: 对Q,K,outputs做padding mask操作
+            # key masking: 对Q,K,outputs做padding mask操作，对outputs做掩码，根据K生成掩码，让pading的位置经过softmax为零
             outputs = self.mask(outputs, Q, K, type="key")#(128*8,200,200)
 
             # causality or future blinding masking: 下面mask操作是sequence mask操作
@@ -209,15 +222,15 @@ class Model:
 
             # softmax
             outputs = tf.nn.softmax(outputs)
-            attention = tf.transpose(outputs, [0, 2, 1])
-            tf.summary.image("attention", tf.expand_dims(attention[:1], -1))
+            # attention = tf.transpose(outputs, [0, 2, 1])
+            # tf.summary.image("attention", tf.expand_dims(attention[:1], -1))
 
-            # query masking：最后对输出再做一次padding mask操作
-            outputs = self.mask(outputs, Q, K, type="query")
+            # query masking：最后对输出再做一次padding mask操作，对outputs做掩码，根据Q生成掩码，
+            outputs = self.mask(outputs, Q, K, type="query")#(128*8,200,200)
 
             # dropout
             outputs = tf.layers.dropout(outputs, rate=dropout_rate, training=training)
-            # weighted sum (context vectors)
+            # weighted sum (context vectors)(128*8,200,200)，(128*8,200,64)
             outputs = tf.matmul(outputs, V)  # (N, T_q, d_v)(128*8,200,64)
 
         return outputs
@@ -244,7 +257,7 @@ class Model:
             return outputs
 
     def positional_encoding(self, inputs,
-                            maxlen,
+                            maxlen,#200
                             masking=True,
                             scope="positional_encoding"):
         """Sinusoidal Positional_Encoding. See 3.5
@@ -254,6 +267,7 @@ class Model:
         scope: Optional scope for `variable_scope`.
         returns
         3d tensor that has the same shape as inputs.
+        注意另外2种实现PE的方式:attention_keras.py和attention_tf.py
         """
 
         # inputs.shape (128,200,512)
@@ -264,7 +278,7 @@ class Model:
             position_ind = tf.tile(tf.expand_dims(tf.range(T), 0), [N, 1])  # (N, T)
             # First part of the PE function: sin and cos argument
             position_enc = np.array([
-                [pos / np.power(10000, (i - i % 2) / E) for i in range(E)]
+                [pos / np.power(10000, (i - i % 2) / E) for i in range(E)]#E为向量的维度,i可为0-511，也可为0-255
                 for pos in range(maxlen)])
 
             # Second part, apply the cosine to even columns and sin to odds.
@@ -306,13 +320,13 @@ class Model:
             [0., 0.]]], dtype=float32)
         """
         # inputs (128*8,200,200)
-        # Q (128*8,200,64)
+        # l
         padding_num = -2 ** 32 + 1
         # 其中type=k/q都是padding mask,type=feature是sequence mask
         if type in ("k", "key", "keys"):
             # Generate masks
-            # keys.shape (128*8,200,64)
-            masks = tf.sign(tf.reduce_sum(tf.abs(keys), axis=-1))  # (N, T_k)
+            # keys.shape (128*8,200,64),keys是三维的，且如果存在PAD的词，那么该词的向量为0，
+            masks = tf.sign(tf.reduce_sum(tf.abs(keys), axis=-1))  # (N, T_k)，如果存在0，则说明之前有PAD的词
             masks = tf.expand_dims(masks, 1)  # (N, 1, T_k)#(128*8,1,200)
             masks = tf.tile(masks, [1, tf.shape(queries)[1], 1])  # (N, T_q, T_k)(128*8,200,200)
 
@@ -322,6 +336,8 @@ class Model:
             outputs = tf.where(tf.equal(masks, 0), paddings, inputs)  # (N, T_q, T_k)
         elif type in ("q", "query", "queries"):
             # Generate masks
+            # inputs：(128*8,200,200)
+            # queries：(128*8,200,64)
             masks = tf.sign(tf.reduce_sum(tf.abs(queries), axis=-1))  # (N, T_q)
             masks = tf.expand_dims(masks, -1)  # (N, T_q, 1)
             masks = tf.tile(masks, [1, 1, tf.shape(keys)[1]])  # (N, T_q, T_k)

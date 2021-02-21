@@ -119,7 +119,8 @@ def embedding(inputs,
                                        shape=[vocab_size, num_units],
                                        initializer=tf.contrib.layers.xavier_initializer())
 
-        # 将填充部分的0的最后一维全部置0
+        # 将填充部分的0的最后一维全部置0,相当于在原有词库中有PAD，
+        # 本来随机初始化PADK的向量不会为0的，人为强制将PAD的向量置0,而一般PAD会人为作为词库中的第一个词,注意PAD和UNK并不是同一个词。
         if zero_pad:
             lookup_table = tf.concat((tf.zeros(shape=[1, num_units]),
                                       lookup_table[1:, :]), 0)
@@ -131,7 +132,7 @@ def embedding(inputs,
     return outputs
 
 def positional_encoding(inputs,
-                        num_units,
+                        num_units,#512
                         zero_pad=True,
                         scale=True,
                         scope="positional_encoding",

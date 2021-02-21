@@ -19,7 +19,7 @@ HOLI_TAB = HOLI.transpose()
 HOLI_TAB.columns = [str((datetime.datetime.strptime('20150626', '%Y%m%d') + datetime.timedelta(days=x)).date()) for x in
                     range(HOLI_TAB.shape[1])]
 # %%  readin shop data
-PAYNW = pd.read_csv('../data_new/user_pay_new.csv')#[shop_id,user_id,date,num_post]
+PAYNW = pd.read_csv('../data_new/user_pay_new.csv')#SHOP_ID,DATE,HOUR,Num_raw,Num_post,DofW
 VIENW = pd.read_csv('../data_new/user_view_new.csv')
 
 # 每个商店每天的用户支付数

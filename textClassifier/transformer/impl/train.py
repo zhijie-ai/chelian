@@ -37,7 +37,7 @@ class Graph():
             # Encoder
             with tf.variable_scope("encoder"):
                 ## Embedding
-                self.enc = embedding(self.x,
+                self.enc = embedding(self.x,#x已经用pad填充过了为0
                                      vocab_size=len(de2idx),
                                      num_units=hp.hidden_units,
                                      scale=True,
@@ -71,7 +71,7 @@ class Graph():
                 ## Blocks
                 for i in range(hp.num_blocks):
                     with tf.variable_scope("num_blocks_{}".format(i)):
-                        ### Multihead Attention
+                        ### Multihead Attention,在进入multihead_attention方法的enc是结合emb+pe的向量，emb可以人为置0，但PE是直接算的，
                         self.enc = multihead_attention(queries=self.enc,
                                                        keys=self.enc,
                                                        num_units=hp.hidden_units,
