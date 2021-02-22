@@ -74,6 +74,7 @@ with tf.Session() as sess:
 
     sess.run(train_init_op)
     total_steps = hp.num_epochs * num_train_batches
+    total_steps=1
     _gs = sess.run(global_step)
     for i in tqdm(range(_gs, total_steps+1)):
         _, _gs, _summary = sess.run([train_op, global_step, train_summaries])

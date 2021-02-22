@@ -30,7 +30,7 @@ def load_vocab(vocab_fpath):
     Returns
     two dictionaries.
     '''
-    vocab = [line.split()[0] for line in open(vocab_fpath, 'r').read().splitlines()]
+    vocab = [line.split()[0] for line in open(vocab_fpath, 'r',encoding='utf8').read().splitlines()]
     token2idx = {token: idx for idx, token in enumerate(vocab)}
     idx2token = {idx: token for idx, token in enumerate(vocab)}
     return token2idx, idx2token
@@ -46,7 +46,7 @@ def load_data(fpath1, fpath2, maxlen1, maxlen2):
     sents2: list of target sents
     '''
     sents1, sents2 = [], []
-    with open(fpath1, 'r') as f1, open(fpath2, 'r') as f2:
+    with open(fpath1, 'r',encoding='utf8') as f1, open(fpath2, 'r',encoding='utf8') as f2:
         for sent1, sent2 in zip(f1, f2):
             if len(sent1.split()) + 1 > maxlen1: continue # 1: </s>
             if len(sent2.split()) + 1 > maxlen2: continue  # 1: </s>
@@ -121,7 +121,7 @@ def input_fn(sents1, sents2, vocab_fpath, batch_size, shuffle=False):
                 (0, 0, 0, ''))
 
     dataset = tf.data.Dataset.from_generator(
-        generator_fn,
+        generator_fn,# 该生成器的作用就是给X添加结束符，给decoder部分添加开始和结束符。
         output_shapes=shapes,
         output_types=types,
         args=(sents1, sents2, vocab_fpath))  # <- arguments for generator_fn. converted to np string arrays
@@ -148,6 +148,7 @@ def get_batch(fpath1, fpath2, maxlen1, maxlen2, vocab_fpath, batch_size, shuffle
     num_batches: number of mini-batches
     num_samples
     '''
+    # source,target
     sents1, sents2 = load_data(fpath1, fpath2, maxlen1, maxlen2)
     batches = input_fn(sents1, sents2, vocab_fpath, batch_size, shuffle=shuffle)
     num_batches = calc_num_batches(len(sents1), batch_size)
