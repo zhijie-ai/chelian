@@ -47,6 +47,7 @@ eval_batches, num_eval_batches, num_eval_samples = get_batch(hp.eval1, hp.eval2,
                                              shuffle=False)
 
 # create a iterator of the correct shape and type
+# 或者用dataset.make_one_shoe_iterator来构造迭代器,可以直接用for i in dataset来遍历，也可以构造一个迭代器
 iter = tf.data.Iterator.from_structure(train_batches.output_types, train_batches.output_shapes)
 xs, ys = iter.get_next()
 
@@ -74,7 +75,6 @@ with tf.Session() as sess:
 
     sess.run(train_init_op)
     total_steps = hp.num_epochs * num_train_batches
-    total_steps=1
     _gs = sess.run(global_step)
     for i in tqdm(range(_gs, total_steps+1)):
         _, _gs, _summary = sess.run([train_op, global_step, train_summaries])
@@ -90,7 +90,7 @@ with tf.Session() as sess:
             summary_writer.add_summary(_eval_summaries, _gs)
 
             logging.info("# get hypotheses")
-            hypotheses = get_hypotheses(num_eval_batches, num_eval_samples, sess, y_hat, m.idx2token)
+            hypotheses = get_hypotheses(num_eval_batches, num_eval_samples, sess, y_hat, m.idx2token)#将id->token
 
             logging.info("# write results")
             model_output = "iwslt2016_E%02dL%.2f" % (epoch, _loss)

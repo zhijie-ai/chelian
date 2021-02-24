@@ -51,7 +51,7 @@ class Transformer:
         memory: encoder outputs. (N, T1, d_model)
         '''
         with tf.variable_scope("encoder", reuse=tf.AUTO_REUSE):
-            x, seqlens, sents1 = xs
+            x, seqlens, sents1 = xs# x是二维的数组，pad之后的数组
 
             # src_masks
             src_masks = tf.math.equal(x, 0) # (N, T1)
@@ -173,9 +173,11 @@ class Transformer:
         At inference, input ys is ignored.
         Returns
         y_hat: (N, T2)
+        x, seqlens, sents1 = xs
         '''
         decoder_inputs, y, y_seqlen, sents2 = ys
 
+        # 在推理阶段，decoder_inputs为(N,1)*2
         decoder_inputs = tf.ones((tf.shape(xs[0])[0], 1), tf.int32) * self.token2idx["<s>"]
         ys = (decoder_inputs, y, y_seqlen, sents2)
 

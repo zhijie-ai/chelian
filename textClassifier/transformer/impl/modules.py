@@ -18,6 +18,25 @@
 
 # seq2seq中，由于采用的是RNN的方式，能捕捉位置信息，而transfomer中，采用的是attention方式，必须加入position_en
 # 才能捕捉位置信息
+# seq2seq模型中，在训练阶段输入有3部分
+#     encoder的输入:定长处理，有的代码加eos，有的又不加
+#     decoder的输入:加eos，然后定长处理
+#     target:在decoder input的基础上，删除掉最后一个字符，然后在开始加go处理
+# 定长处理：keras.processing.sequence.pad_sequences
+#   basic_seq2seq_letter.py中，遍历当前batch中的每一行，根据最大值用pad填充 321行
+#   impl1中是np.lib.pad来填充的
+#   impl2中是用dataset.padded_batch来填充的
+# decoder input加 go处理:
+#   basic_seq2seq_letter.py:
+#       ending = tf.strided_slice(data, [0, 0], [batch_size, -1], [1, 1])
+#       decoder_input = tf.concat([tf.fill([batch_size, 1], vocab_to_int['<GO>']), ending], 1)
+#   impl1:
+#       self.decoder_inputs = tf.concat((tf.ones_like(self.y[:, :1]) * 2, self.y[:, :-1]), -1)
+#   impl2:
+#       decoder_input, y = y[:-1], y[1:]
+# seq2seq模型中，encoder编码成一个向量，decoder部分还是一个N vs N的模型，虽然在推理时没有decoder_input，但是在推理时还是要
+#   指定decoder_input，将其设置为<s>即可。因为在模型前向推理的过程中是要输入decoder_input的的。
+
 
 from __future__ import print_function
 import tensorflow as tf

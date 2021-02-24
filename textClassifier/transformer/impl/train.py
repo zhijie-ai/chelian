@@ -138,13 +138,13 @@ class Graph():
                                                        dropout_rate=hp.dropout_rate,
                                                        is_training=is_training,
                                                        causality=False,
-                                                       scope="vanilla_attention")
+                                                       scope="vanilla_attention")#(N, T_q, C)
 
                         ## Feed Forward
                         self.dec = feedforward(self.dec, num_units=[4 * hp.hidden_units, hp.hidden_units])
 
             # Final linear projection
-            self.logits = tf.layers.dense(self.dec, len(en2idx))#(N, T_q, C)
+            self.logits = tf.layers.dense(self.dec, len(en2idx))#(N, T_q, vocab)
             self.preds = tf.to_int32(tf.arg_max(self.logits, dimension=-1))
             self.istarget = tf.to_float(tf.not_equal(self.y, 0))
             self.acc = tf.reduce_sum(tf.to_float(tf.equal(self.preds, self.y)) * self.istarget) / (

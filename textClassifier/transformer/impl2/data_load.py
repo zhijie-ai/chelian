@@ -113,6 +113,8 @@ def input_fn(sents1, sents2, vocab_fpath, batch_size, shuffle=False):
         y_seqlen: int32 tensor. (N, )
         sents2: str tensor. (N,)
     '''
+    #tf.TensorShape([]) 表示长度为单个数字
+    #tf.TensorShape([None]) 表示长度未知的向量
     shapes = (([None], (), ()),
               ([None], [None], (), ()))
     types = ((tf.int32, tf.int32, tf.string),

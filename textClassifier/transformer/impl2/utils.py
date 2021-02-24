@@ -146,7 +146,7 @@ def get_hypotheses(num_batches, num_samples, sess, tensor, dict):
     for _ in range(num_batches):
         h = sess.run(tensor)
         hypotheses.extend(h.tolist())
-    hypotheses = postprocess(hypotheses, dict)
+    hypotheses = postprocess(hypotheses, dict)#将id变成token
 
     return hypotheses[:num_samples]
 

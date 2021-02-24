@@ -142,7 +142,7 @@ def get_encoder_layer(input_data, rnn_size, num_layers,
 
 def process_decoder_input(data, vocab_to_int, batch_size):
     '''
-    补充<GO>，并移除最后一个字符
+    补充<GO>，并移除最后一个字符,首先给target加了EOS处理，然后根据当前batch的最大值定长处理，移除最后一个字符，然后加GO。
     '''
     # cut掉最后一个字符
     ending = tf.strided_slice(data, [0, 0], [batch_size, -1], [1, 1])

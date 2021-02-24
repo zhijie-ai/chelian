@@ -99,7 +99,7 @@ def get_batch_data():
     # Create Queues
     input_queues = tf.train.slice_input_producer([X, Y])
 
-    # create batch queues
+    # create batch queues,tf.train.batch也是放入一个 queue runner
     x, y = tf.train.shuffle_batch(input_queues,
                                   num_threads=8,
                                   batch_size=hp.batch_size,
