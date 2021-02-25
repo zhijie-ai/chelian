@@ -14,11 +14,11 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR))
 
-from server import redis_client
-from server import pool
+from reco_sys.server import redis_client
+from reco_sys.server import pool
 import logging
 from datetime import datetime
-from server.utils import HBaseUtils
+from reco_sys.server.utils import HBaseUtils
 
 logger = logging.getLogger('recommend')
 

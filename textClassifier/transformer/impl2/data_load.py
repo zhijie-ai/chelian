@@ -88,8 +88,8 @@ def generator_fn(sents1, sents2, vocab_fpath):
     '''
     token2idx, _ = load_vocab(vocab_fpath)
     for sent1, sent2 in zip(sents1, sents2):
-        x = encode(sent1, "x", token2idx)
-        y = encode(sent2, "y", token2idx)
+        x = encode(sent1, "x", token2idx)#如果是source则添加一个结束符
+        y = encode(sent2, "y", token2idx)# 如果是target这添加开始和结束符
         decoder_input, y = y[:-1], y[1:]
 
         x_seqlen, y_seqlen = len(x), len(y)

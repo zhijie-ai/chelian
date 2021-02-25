@@ -70,9 +70,9 @@ def scaled_dot_product_attention(Q, K, V, key_masks,
                                  training=True,
                                  scope="scaled_dot_product_attention"):
     '''See 3.2.1.
-    Q: Packed queries. 3d tensor. [N, T_q, d_k].
-    K: Packed keys. 3d tensor. [N, T_k, d_k].
-    V: Packed values. 3d tensor. [N, T_k, d_v].
+    Q: Packed queries. 3d tensor. (h*N, T_q, d_model/h).
+    K: Packed keys. 3d tensor. (h*N, T_q, d_model/h).
+    V: Packed values. 3d tensor. (h*N, T_q, d_model/h).
     key_masks: A 2d tensor with shape of [N, key_seqlen]
     causality: If True, applies masking for future blinding
     dropout_rate: A floating point number of [0, 1].
@@ -131,9 +131,10 @@ def mask(inputs, key_masks=None, type=None):
        [[ 0.0000000e+00, -4.2949673e+09, -4.2949673e+09],
         [ 0.0000000e+00, -4.2949673e+09, -4.2949673e+09]]], dtype=float32)
     """
+    # inputs:(h*N, T_q, T_q)
     padding_num = -2 ** 32 + 1
     if type in ("k", "key", "keys"):
-        key_masks = tf.to_float(key_masks)
+        key_masks = tf.to_float(key_masks)#(N, T1)
         key_masks = tf.tile(key_masks, [tf.shape(inputs)[0] // tf.shape(key_masks)[0], 1])  # (h*N, seqlen)
         key_masks = tf.expand_dims(key_masks, 1)  # (h*N, 1, seqlen)
         outputs = inputs + key_masks * padding_num
@@ -284,6 +285,8 @@ def positional_encoding(inputs,
         position_ind = tf.tile(tf.expand_dims(tf.range(T), 0), [N, 1])  # (N, T)
 
         # First part of the PE function: sin and cos argument
+        # PE(pos,2i)  =sin(pos/10000^(2i/d_model))
+        # PE(pos,2i+1)=sin(pos/10000^(2i/d_model))
         position_enc = np.array([
             [pos / np.power(10000, (i - i % 2) / E) for i in range(E)]
             for pos in range(maxlen)])

@@ -325,6 +325,7 @@ class Model:
         # 其中type=k/q都是padding mask,type=feature是sequence mask
         if type in ("k", "key", "keys"):
             # Generate masks
+            # inputs:(128*8,200,200)
             # keys.shape (128*8,200,64),keys是三维的，且如果存在PAD的词，那么该词的向量为0，
             masks = tf.sign(tf.reduce_sum(tf.abs(keys), axis=-1))  # (N, T_k)，如果存在0，则说明之前有PAD的词
             masks = tf.expand_dims(masks, 1)  # (N, 1, T_k)#(128*8,1,200)
@@ -338,9 +339,9 @@ class Model:
             # Generate masks
             # inputs：(128*8,200,200)
             # queries：(128*8,200,64)
-            masks = tf.sign(tf.reduce_sum(tf.abs(queries), axis=-1))  # (N, T_q)
-            masks = tf.expand_dims(masks, -1)  # (N, T_q, 1)
-            masks = tf.tile(masks, [1, 1, tf.shape(keys)[1]])  # (N, T_q, T_k)
+            masks = tf.sign(tf.reduce_sum(tf.abs(queries), axis=-1))  # (N, T_q),(128*8,200)
+            masks = tf.expand_dims(masks, -1)  # (N, T_q, 1)(128*8,200,1)
+            masks = tf.tile(masks, [1, 1, tf.shape(keys)[1]])  # (N, T_q, T_k)#(128*8,200,200)
 
             # Apply masks to inputs
             outputs = inputs * masks

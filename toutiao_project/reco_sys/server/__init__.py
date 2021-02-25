@@ -32,4 +32,4 @@ cache_client = redis.StrictRedis(host=DefaultConfig.REDIS_HOST,
 # conf = SparkConf()
 # conf.setAll(DefaultConfig.SPARK_GRPC_CONFIG)
 #
-# SORT_SPARK = SparkSession.builder.config(conf=conf).getOrCreate()
+SORT_SPARK = SparkSession.builder.config(conf=conf).getOrCreate()

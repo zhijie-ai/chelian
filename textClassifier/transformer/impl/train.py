@@ -120,7 +120,7 @@ class Graph():
                 ## Blocks
                 for i in range(hp.num_blocks):
                     with tf.variable_scope("num_blocks_{}".format(i)):
-                        ## Multihead Attention ( self-attention),掩掉未来的信息
+                        ## Multihead Attention ( self-attention),掩掉未来的信息以及填充位置的信息
                         self.dec = multihead_attention(queries=self.dec,
                                                        keys=self.dec,
                                                        num_units=hp.hidden_units,
@@ -130,7 +130,7 @@ class Graph():
                                                        causality=True,
                                                        scope="self_attention")
 
-                        ## Multihead Attention ( vanilla attention),soft-attention
+                        ## Multihead Attention ( vanilla attention),soft-attention,掩掉encoder中填充位置的信息
                         self.dec = multihead_attention(queries=self.dec,
                                                        keys=self.enc,
                                                        num_units=hp.hidden_units,

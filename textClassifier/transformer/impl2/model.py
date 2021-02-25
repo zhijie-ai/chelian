@@ -132,8 +132,8 @@ class Transformer:
 
         # Final linear projection (embedding weights are shared)
         weights = tf.transpose(self.embeddings) # (d_model, vocab_size)
-        logits = tf.einsum('ntd,dk->ntk', dec, weights) # (N, T2, vocab_size)
-        y_hat = tf.to_int32(tf.argmax(logits, axis=-1))
+        logits = tf.einsum('ntd,dk->ntk', dec, weights,name='logits') # (N, T2, vocab_size)
+        y_hat = tf.to_int32(tf.argmax(logits, axis=-1),name='y_hat')
 
         return logits, y_hat, y, sents2
 
@@ -177,7 +177,7 @@ class Transformer:
         '''
         decoder_inputs, y, y_seqlen, sents2 = ys
 
-        # 在推理阶段，decoder_inputs为(N,1)*2
+        # 在推理阶段，decoder_inputs为(N,1)*2 xs[0])[0]为batch_size
         decoder_inputs = tf.ones((tf.shape(xs[0])[0], 1), tf.int32) * self.token2idx["<s>"]
         ys = (decoder_inputs, y, y_seqlen, sents2)
 

@@ -15,12 +15,12 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR))
 import hashlib
-from setting.default import RAParam
-from server.utils import HBaseUtils
-from server.recall_service import ReadRecall
-from server.redis_cache import get_cache_from_redis_hbase
-from server.sort_service import lr_sort_service
-from server import pool
+from reco_sys.setting.default import RAParam
+from reco_sys.server.utils import HBaseUtils
+from reco_sys.server.recall_service import ReadRecall
+from reco_sys.server.redis_cache import get_cache_from_redis_hbase
+from reco_sys.server.sort_service import lr_sort_service
+from reco_sys.server import pool
 from datetime import datetime
 import logging
 import json
@@ -90,6 +90,7 @@ class RecoCenter():
     def __init__(self):
         self.hbu = HBaseUtils(pool)
         self.recall_service = ReadRecall()
+        ReadRecall.read_hbase_recall()
 
     def feed_recommend_time_stamp_logic(self,temp):
         '''
@@ -192,7 +193,7 @@ class RecoCenter():
         # 1. 循环算法组合参数，遍历不同召回结果进行过滤
         reco_set = []
         # (1, [100, 101, 102, 103, 104], [])
-        for number in RAParam.COMBINE[temp.algo[1]]:
+        for number in RAParam.COMBINE[temp.algo][1]:
             if number ==103:
                 _res = self.recall_service.read_redis_new_article(temp.channel_id)
                 reco_set = list(set(reco_set).union(set(_res)))
