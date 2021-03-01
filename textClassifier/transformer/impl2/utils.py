@@ -24,6 +24,7 @@ import tensorflow as tf
 import json
 import os, re
 import logging
+from tensorflow.python.framework import graph_util
 
 logging.basicConfig(level=logging.INFO)
 
@@ -176,3 +177,50 @@ def calc_bleu(ref, translation):
 #     var_to_shape_map = reader.get_variable_to_shape_map()
 #     vars = [v for v in sorted(var_to_shape_map) if filter not in v]
 #     return vars
+
+# 将模型保存为savedModel格式，供tf serving调用
+def save_model(saved_model_dir,sess,encoder_input,deocer_input,y_pred):
+    builder = tf.saved_model.builder.SavedModelBuilder(saved_model_dir)
+    inputs = {'encoder_input':tf.saved_model.utils.build_tensor_info(encoder_input),
+              'decoder_input':tf.saved_model.utils.build_tensor_info(deocer_input)}
+    outputs = {'y_pred':tf.saved_model.utils.build_tensor_info(y_pred)}
+    signature = tf.saved_model.signature_def_utils.build_signature_def(inputs,outputs,'test_sig_name')
+    # builder.add_meta_graph_and_variables(sess,['test_saved_model'],{'test_signature':signature})
+    builder.add_meta_graph_and_variables(sess,[tf.saved_model.tag_constants.SERVING],{'test_signature':signature})
+    builder.save()
+
+def load_saved_model(sess,dir):
+    meta_graph_def = tf.saved_model.load(sess,['test_saved_model'],dir)
+    signature = meta_graph_def.signature_def
+
+    # 从signature中找出具体输入输出的tensor name
+    encoder_inp_name = signature['test_sig_name'].inputs['encoder_input'].name
+    decoder_inp_name = signature['test_sig_name'].inputs['decoder_input'].name
+    y_pred = signature['test_sig_name'].outputs['y_pred'].name
+
+    encoder_input = sess.graph.get_tensor_by_name(encoder_inp_name)
+    decoder_input = sess.graph.get_tensor_by_name(decoder_inp_name)
+    y_pred = sess.graph.get_tensor_by_name(y_pred)
+    # 在运行的时候，encoder和decoder的输入一定要和get_batche方法里的处理一样，先加结束符再定长处理
+    return encoder_input,decoder_input,y_pred
+
+
+
+# 将模型保存为pb格式
+def save_model_to_pb(dir,sess):
+    constant_graph = graph_util.convert_variables_to_constants(sess,sess.graph_def,['pb_model'])
+    with tf.gfile.FastGFile(dir+'model.pb','wb') as f:
+        f.write(constant_graph.SerializeToString())
+
+
+def load_model_pb():
+    model_path = 'XXX.pb'
+    with tf.gfile.GFile(model_path, "rb") as f:
+        graph_def = tf.GraphDef()
+        graph_def.ParseFromString(f.read())
+    tf.import_graph_def(graph_def, name='XXX')
+    graph = tf.get_default_graph()
+    input_images  = graph.get_tensor_by_name('XXX/image_tensor:0')
+    output_num_boxes = graph.get_tensor_by_name('XXX/num_boxes:0')
+    output_scores = graph.get_tensor_by_name('XXX/scores:0')
+

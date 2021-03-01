@@ -11,8 +11,10 @@
 #-----------------------------------------------
 import tensorflow as tf
 from tensorflow.contrib.session_bundle import exporter
+#https://www.jianshu.com/p/5b74f1bc0178
 
 
+# exporter的方式是旧API的导出方式，新API用saved_model的方式
 def Export():
     export_path = "model/half_plus_ten"
     with tf.Session() as sess:

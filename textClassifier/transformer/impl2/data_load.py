@@ -63,7 +63,7 @@ def encode(inp, type, dict):
     Returns
     list of numbers
     '''
-    inp_str = inp.decode("utf-8")
+    inp_str = inp.decode("utf-8")#如果是字符串则似乎是二进制数据
     if type=="x": tokens = inp_str.split() + ["</s>"]
     else: tokens = ["<s>"] + inp_str.split() + ["</s>"]
 

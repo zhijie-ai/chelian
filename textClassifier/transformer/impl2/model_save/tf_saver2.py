@@ -34,7 +34,7 @@ def save_model():
         print(predict_y)
 
         saver = tf.train.Saver()
-        saver.save(session,"model_pb/model.ckpt")
+        saver.save(session,"model_ckpt/model.ckpt")
 
 
 #保存为pb模型
@@ -49,7 +49,7 @@ def export_model(session, m):
 
         method_name=signature_constants.PREDICT_METHOD_NAME)
 
-    export_path = "pb_model/1"
+    export_path = "model_savedModel/1"
     if os.path.exists(export_path):
         os.system("rm -rf "+ export_path)
     print("Export the model to {}".format(export_path))
@@ -71,10 +71,10 @@ def export_model(session, m):
     except Exception as e:
         print("Fail to export saved model, exception: {}".format(e))
 
-#加载pb模型
-def load_pb():
+#加载savedModel模型
+def load_savedModel():
     session = tf.Session(graph=tf.Graph())
-    model_file_path = "pb_model/1"
+    model_file_path = "model_savedModel/1"
     meta_graph = tf.saved_model.loader.load(session, [tf.saved_model.tag_constants.SERVING], model_file_path)
 
     model_graph_signature = list(meta_graph.signature_def.items())[0][1]
@@ -107,7 +107,7 @@ if __name__ == "__main__":
         m = model()
         saver = tf.train.Saver()
     with tf.Session(graph=graph2) as session:
-        saver.restore(session, "model_pb/model.ckpt") #加载ckpt模型
+        saver.restore(session, "model_ckpt/model.ckpt") #加载ckpt模型
         export_model(session, m)
 
-    load_pb()
+    load_savedModel()

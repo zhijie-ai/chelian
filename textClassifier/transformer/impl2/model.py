@@ -186,7 +186,7 @@ class Transformer:
         logging.info("Inference graph is being built. Please be patient.")
         for _ in tqdm(range(self.hp.maxlen2)):
             logits, y_hat, y, sents2 = self.decode(ys, memory, src_masks, False)
-            if tf.reduce_sum(y_hat, 1) == self.token2idx["<pad>"]: break
+            if tf.reduce_sum(y_hat, 1) == self.token2idx["<pad>"]: break# 如果当前时刻decode出来的是pad，则
 
             _decoder_inputs = tf.concat((decoder_inputs, y_hat), 1)
             ys = (_decoder_inputs, y, y_seqlen, sents2)

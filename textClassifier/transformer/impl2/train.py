@@ -21,7 +21,7 @@ import tensorflow as tf
 from model import Transformer
 from tqdm import tqdm
 from data_load import get_batch
-from utils import save_hparams, save_variable_specs, get_hypotheses, calc_bleu
+from utils import save_hparams, save_variable_specs, get_hypotheses, calc_bleu,save_model
 import os
 from hparams import Hparams
 import math
@@ -51,7 +51,7 @@ eval_batches, num_eval_batches, num_eval_samples = get_batch(hp.eval1, hp.eval2,
 iter = tf.data.Iterator.from_structure(train_batches.output_types, train_batches.output_shapes)
 xs, ys = iter.get_next()
 
-train_init_op = iter.make_initializer(train_batches)
+train_init_op = iter.make_initializer(train_batches)#字符串似乎是二进制数据
 eval_init_op = iter.make_initializer(eval_batches)
 
 logging.info("# Load model")
@@ -105,6 +105,11 @@ with tf.Session() as sess:
             logging.info("# save models")
             ckpt_name = os.path.join(hp.logdir, model_output)
             saver.save(sess, ckpt_name, global_step=_gs)
+
+            #保存为saved_model格式的模型，供tf serving使用
+            saved_model_dir='./saved_model'
+            save_model(saved_model_dir,sess,xs[0],ys[0],y_hat)
+
             logging.info("after training of {} epochs, {} has been saved.".format(epoch, ckpt_name))
 
             logging.info("# fall back to train mode")
