@@ -31,13 +31,13 @@ def ln(inputs, epsilon=1e-8, scope="ln"):
     Returns:
       A tensor with the same shape and data dtype as `inputs`.
     '''
-    with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
+    with tf.compat.v1.variable_scope(scope, reuse=tf.compat.v1.AUTO_REUSE):
         inputs_shape = inputs.get_shape()
         params_shape = inputs_shape[-1:]
 
         mean, variance = tf.nn.moments(inputs, [-1], keep_dims=True)
-        beta = tf.get_variable("beta", params_shape, initializer=tf.zeros_initializer())
-        gamma = tf.get_variable("gamma", params_shape, initializer=tf.ones_initializer())
+        beta = tf.compat.v1.get_variable("beta", params_shape, initializer=tf.zeros_initializer())
+        gamma = tf.compat.v1.get_variable("gamma", params_shape, initializer=tf.ones_initializer())
         normalized = (inputs - mean) / ((variance + epsilon) ** (.5))
         outputs = gamma * normalized + beta
 
@@ -54,8 +54,8 @@ def get_token_embeddings(vocab_size, num_units, zero_pad=True):
     Returns
     weight variable: (V, E)
     '''
-    with tf.variable_scope("shared_weight_matrix"):
-        embeddings = tf.get_variable('weight_mat',
+    with tf.compat.v1.variable_scope("shared_weight_matrix"):
+        embeddings = tf.compat.v1.get_variable('weight_mat',
                                      dtype=tf.float32,
                                      shape=(vocab_size, num_units),
                                      initializer=tf.contrib.layers.xavier_initializer())
@@ -79,7 +79,7 @@ def scaled_dot_product_attention(Q, K, V, key_masks,
     training: boolean for controlling droput
     scope: Optional scope for `variable_scope`.
     '''
-    with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
+    with tf.compat.v1.variable_scope(scope, reuse=tf.compat.v1.AUTO_REUSE):
         d_k = Q.get_shape().as_list()[-1]
 
         # dot product
@@ -98,7 +98,7 @@ def scaled_dot_product_attention(Q, K, V, key_masks,
         # softmax
         outputs = tf.nn.softmax(outputs)
         attention = tf.transpose(outputs, [0, 2, 1])
-        tf.summary.image("attention", tf.expand_dims(attention[:1], -1))
+        tf.compat.v1.summary.image("attention", tf.expand_dims(attention[:1], -1))
 
         # # query masking
         # outputs = mask(outputs, Q, K, type="query")
@@ -134,7 +134,7 @@ def mask(inputs, key_masks=None, type=None):
     # inputs:(h*N, T_q, T_q)
     padding_num = -2 ** 32 + 1
     if type in ("k", "key", "keys"):
-        key_masks = tf.to_float(key_masks)#(N, T1)
+        key_masks = tf.cast(key_masks,dtype='float32')#(N, T1)
         key_masks = tf.tile(key_masks, [tf.shape(inputs)[0] // tf.shape(key_masks)[0], 1])  # (h*N, seqlen)
         key_masks = tf.expand_dims(key_masks, 1)  # (h*N, 1, seqlen)
         outputs = inputs + key_masks * padding_num
@@ -180,11 +180,11 @@ def multihead_attention(queries, keys, values, key_masks,
       A 3d tensor with shape of (N, T_q, C)
     '''
     d_model = queries.get_shape().as_list()[-1]
-    with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
+    with tf.compat.v1.variable_scope(scope, reuse=tf.compat.v1.AUTO_REUSE):
         # Linear projections
-        Q = tf.layers.dense(queries, d_model, use_bias=True)  # (N, T_q, d_model)
-        K = tf.layers.dense(keys, d_model, use_bias=True)  # (N, T_k, d_model)
-        V = tf.layers.dense(values, d_model, use_bias=True)  # (N, T_k, d_model)
+        Q = tf.keras.layers.Dense(d_model, use_bias=True)(queries)  # (N, T_q, d_model)
+        K = tf.keras.layers.Dense(d_model, use_bias=True)(keys)  # (N, T_k, d_model)
+        V = tf.keras.layers.Dense(d_model, use_bias=True)(values)  # (N, T_k, d_model)
 
         # Split and concat
         Q_ = tf.concat(tf.split(Q, num_heads, axis=2), axis=0)  # (h*N, T_q, d_model/h)
@@ -215,12 +215,12 @@ def ff(inputs, num_units, scope="positionwise_feedforward"):
     Returns:
       A 3d tensor with the same shape and dtype as inputs
     '''
-    with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
+    with tf.compat.v1.variable_scope(scope, reuse=tf.compat.v1.AUTO_REUSE):
         # Inner layer
-        outputs = tf.layers.dense(inputs, num_units[0], activation=tf.nn.relu)
+        outputs = tf.keras.layers.Dense(num_units[0], activation=tf.nn.relu)(inputs)
 
         # Outer layer
-        outputs = tf.layers.dense(outputs, num_units[1])
+        outputs = tf.keras.layers.Dense(num_units[1])(outputs)
 
         # Residual connection
         outputs += inputs
@@ -280,7 +280,7 @@ def positional_encoding(inputs,
 
     E = inputs.get_shape().as_list()[-1]  # static
     N, T = tf.shape(inputs)[0], tf.shape(inputs)[1]  # dynamic
-    with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
+    with tf.compat.v1.variable_scope(scope, reuse=tf.compat.v1.AUTO_REUSE):
         # position indices
         position_ind = tf.tile(tf.expand_dims(tf.range(T), 0), [N, 1])  # (N, T)
 
@@ -303,7 +303,7 @@ def positional_encoding(inputs,
         if masking:
             outputs = tf.where(tf.equal(inputs, 0), inputs, outputs)
 
-        return tf.to_float(outputs)
+        return tf.cast(outputs,dtype='float32')
 
 
 def noam_scheme(init_lr, global_step, warmup_steps=4000.):

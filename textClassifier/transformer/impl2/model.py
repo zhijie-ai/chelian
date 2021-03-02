@@ -50,7 +50,7 @@ class Transformer:
         Returns
         memory: encoder outputs. (N, T1, d_model)
         '''
-        with tf.variable_scope("encoder", reuse=tf.AUTO_REUSE):
+        with tf.compat.v1.variable_scope("encoder", reuse=tf.compat.v1.AUTO_REUSE):
             x, seqlens, sents1 = xs# x是二维的数组，pad之后的数组
 
             # src_masks
@@ -65,7 +65,7 @@ class Transformer:
 
             ## Blocks
             for i in range(self.hp.num_blocks):
-                with tf.variable_scope("num_blocks_{}".format(i), reuse=tf.AUTO_REUSE):
+                with tf.compat.v1.variable_scope("num_blocks_{}".format(i), reuse=tf.compat.v1.AUTO_REUSE):
                     # self-attention
                     enc = multihead_attention(queries=enc,
                                               keys=enc,
@@ -90,7 +90,7 @@ class Transformer:
         y: (N, T2). int32
         sents2: (N,). string.
         '''
-        with tf.variable_scope("decoder", reuse=tf.AUTO_REUSE):
+        with tf.compat.v1.variable_scope("decoder", reuse=tf.compat.v1.AUTO_REUSE):
             decoder_inputs, y, seqlens, sents2 = ys
 
             # tgt_masks
@@ -105,7 +105,7 @@ class Transformer:
 
             # Blocks
             for i in range(self.hp.num_blocks):
-                with tf.variable_scope("num_blocks_{}".format(i), reuse=tf.AUTO_REUSE):
+                with tf.compat.v1.variable_scope("num_blocks_{}".format(i), reuse=tf.compat.v1.AUTO_REUSE):
                     # Masked self-attention (Note that causality is True at this time)
                     dec = multihead_attention(queries=dec,
                                               keys=dec,
@@ -133,7 +133,7 @@ class Transformer:
         # Final linear projection (embedding weights are shared)
         weights = tf.transpose(self.embeddings) # (d_model, vocab_size)
         logits = tf.einsum('ntd,dk->ntk', dec, weights,name='logits') # (N, T2, vocab_size)
-        y_hat = tf.to_int32(tf.argmax(logits, axis=-1),name='y_hat')
+        y_hat = tf.cast(tf.argmax(logits, axis=-1),name='y_hat',dtype='int32')
 
         return logits, y_hat, y, sents2
 
@@ -152,19 +152,20 @@ class Transformer:
         # train scheme
         y_ = label_smoothing(tf.one_hot(y, depth=self.hp.vocab_size))
         ce = tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits, labels=y_)
-        nonpadding = tf.to_float(tf.not_equal(y, self.token2idx["<pad>"]))  # 0: <pad>
+        nonpadding = tf.cast(tf.not_equal(y, self.token2idx["<pad>"]),dtype='float32')  # 0: <pad>
         loss = tf.reduce_sum(ce * nonpadding) / (tf.reduce_sum(nonpadding) + 1e-7)
 
-        global_step = tf.train.get_or_create_global_step()
+        global_step = tf.compat.v1.train.get_or_create_global_step()
         lr = noam_scheme(self.hp.lr, global_step, self.hp.warmup_steps)
-        optimizer = tf.train.AdamOptimizer(lr)
+        optimizer = tf.compat.v1.train.AdamOptimizer(lr)
         train_op = optimizer.minimize(loss, global_step=global_step)
 
-        tf.summary.scalar('lr', lr)
-        tf.summary.scalar("loss", loss)
-        tf.summary.scalar("global_step", global_step)
+        tf.compat.v1.summary.scalar('lr', lr)
+        tf.compat.v1.summary.scalar("loss", loss)
+        tf.compat.v1.summary.scalar("global_step", global_step)
 
-        summaries = tf.summary.merge_all()
+        # summaries = tf.summary.merge_all()
+        summaries = tf.compat.v1.summary.merge_all()
 
         return loss, train_op, global_step, summaries
 
@@ -192,14 +193,14 @@ class Transformer:
             ys = (_decoder_inputs, y, y_seqlen, sents2)
 
         # monitor a random sample
-        n = tf.random_uniform((), 0, tf.shape(y_hat)[0]-1, tf.int32)
+        n = tf.random.uniform((), 0, tf.shape(y_hat)[0]-1, tf.int32)
         sent1 = sents1[n]
         pred = convert_idx_to_token_tensor(y_hat[n], self.idx2token)
         sent2 = sents2[n]
 
-        tf.summary.text("sent1", sent1)
-        tf.summary.text("pred", pred)
-        tf.summary.text("sent2", sent2)
-        summaries = tf.summary.merge_all()
+        tf.compat.v1.summary.text("sent1", sent1)
+        tf.compat.v1.summary.text("pred", pred)
+        tf.compat.v1.summary.text("sent2", sent2)
+        summaries = tf.compat.v1.summary.merge_all()
 
         return y_hat, summaries

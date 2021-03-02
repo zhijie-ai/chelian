@@ -48,7 +48,8 @@ eval_batches, num_eval_batches, num_eval_samples = get_batch(hp.eval1, hp.eval2,
 
 # create a iterator of the correct shape and type
 # 或者用dataset.make_one_shoe_iterator来构造迭代器,可以直接用for i in dataset来遍历，也可以构造一个迭代器
-iter = tf.data.Iterator.from_structure(train_batches.output_types, train_batches.output_shapes)
+iter = tf.compat.v1.data.Iterator.from_structure(tf.compat.v1.data.get_output_types(train_batches),
+                                       tf.compat.v1.data.get_output_shapes(train_batches))
 xs, ys = iter.get_next()
 
 train_init_op = iter.make_initializer(train_batches)#字符串似乎是二进制数据
@@ -61,17 +62,17 @@ y_hat, eval_summaries = m.eval(xs, ys)
 # y_hat = m.infer(xs, ys)
 
 logging.info("# Session")
-saver = tf.train.Saver(max_to_keep=hp.num_epochs)
-with tf.Session() as sess:
+saver = tf.compat.v1.train.Saver(max_to_keep=hp.num_epochs)
+with tf.compat.v1.Session() as sess:
     ckpt = tf.train.latest_checkpoint(hp.logdir)
     if ckpt is None:
         logging.info("Initializing from scratch")
-        sess.run(tf.global_variables_initializer())
+        sess.run(tf.compat.v1.global_variables_initializer())
         save_variable_specs(os.path.join(hp.logdir, "specs"))
     else:
         saver.restore(sess, ckpt)
 
-    summary_writer = tf.summary.FileWriter(hp.logdir, sess.graph)
+    summary_writer = tf.compat.v1.summary.FileWriter(hp.logdir, sess.graph)
 
     sess.run(train_init_op)
     total_steps = hp.num_epochs * num_train_batches

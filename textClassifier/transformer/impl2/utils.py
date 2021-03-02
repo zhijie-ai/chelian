@@ -46,7 +46,7 @@ def convert_idx_to_token_tensor(inputs, idx2token):
     def my_func(inputs):
         return " ".join(idx2token[elem] for elem in inputs)
 
-    return tf.py_func(my_func, [inputs], tf.string)
+    return tf.numpy_function(my_func, [inputs], tf.string)
 
 # # def pad(x, maxlen):
 # #     '''Pads x, list of sequences, and make it as a numpy array.
@@ -179,24 +179,25 @@ def calc_bleu(ref, translation):
 #     return vars
 
 # 将模型保存为savedModel格式，供tf serving调用
-def save_model(saved_model_dir,sess,encoder_input,deocer_input,y_pred):
+def save_model(saved_model_dir,sess,encoder_input,decoder_input,y_pred):
+    # deocer_input = tf.ones((tf.shape(encoder_input)[0], 1), tf.int32) * 3 # 3代表<s>
     builder = tf.saved_model.builder.SavedModelBuilder(saved_model_dir)
     inputs = {'encoder_input':tf.saved_model.utils.build_tensor_info(encoder_input),
-              'decoder_input':tf.saved_model.utils.build_tensor_info(deocer_input)}
+              'decoder_input':tf.saved_model.utils.build_tensor_info(decoder_input)}
     outputs = {'y_pred':tf.saved_model.utils.build_tensor_info(y_pred)}
-    signature = tf.saved_model.signature_def_utils.build_signature_def(inputs,outputs,'test_sig_name')
+    signature = tf.compat.v1.saved_model.signature_def_utils.build_signature_def(inputs,outputs,'test_sig_name')
     # builder.add_meta_graph_and_variables(sess,['test_saved_model'],{'test_signature':signature})
-    builder.add_meta_graph_and_variables(sess,[tf.saved_model.tag_constants.SERVING],{'test_signature':signature})
+    builder.add_meta_graph_and_variables(sess,[tf.saved_model.SERVING],{'test_signature':signature})
     builder.save()
 
 def load_saved_model(sess,dir):
-    meta_graph_def = tf.saved_model.load(sess,['test_saved_model'],dir)
+    meta_graph_def = tf.compat.v1.saved_model.load(sess,[tf.saved_model.SERVING],dir)
     signature = meta_graph_def.signature_def
 
     # 从signature中找出具体输入输出的tensor name
-    encoder_inp_name = signature['test_sig_name'].inputs['encoder_input'].name
-    decoder_inp_name = signature['test_sig_name'].inputs['decoder_input'].name
-    y_pred = signature['test_sig_name'].outputs['y_pred'].name
+    encoder_inp_name = signature['test_signature'].inputs['encoder_input'].name
+    decoder_inp_name = signature['test_signature'].inputs['decoder_input'].name
+    y_pred = signature['test_signature'].outputs['y_pred'].name
 
     encoder_input = sess.graph.get_tensor_by_name(encoder_inp_name)
     decoder_input = sess.graph.get_tensor_by_name(decoder_inp_name)
