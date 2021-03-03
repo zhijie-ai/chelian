@@ -24,6 +24,7 @@ import tensorflow as tf
 import json
 import os, re
 import logging
+import time
 from tensorflow.python.framework import graph_util
 
 logging.basicConfig(level=logging.INFO)
@@ -179,7 +180,12 @@ def calc_bleu(ref, translation):
 #     return vars
 
 # 将模型保存为savedModel格式，供tf serving调用
-def save_model(saved_model_dir,sess,encoder_input,decoder_input,y_pred):
+def save_model(saved_model_dir,sess,encoder_input,decoder_input,y_pred,version=1):
+    version = int(time.time())
+    saved_model_dir = os.path.join(
+        tf.compat.as_bytes(saved_model_dir),
+        tf.compat.as_bytes(str(version))
+    )
     # deocer_input = tf.ones((tf.shape(encoder_input)[0], 1), tf.int32) * 3 # 3代表<s>
     builder = tf.compat.v1.saved_model.builder.SavedModelBuilder(saved_model_dir)
     inputs = {'encoder_input':tf.compat.v1.saved_model.utils.build_tensor_info(encoder_input),

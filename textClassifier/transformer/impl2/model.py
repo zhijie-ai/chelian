@@ -197,11 +197,11 @@ class Transformer:
         # monitor a random sample
         n = tf.random.uniform((), 0, tf.shape(y_hat)[0]-1, tf.int32)
         sent1 = sents1[n]
-        pred = convert_idx_to_token_tensor(y_hat[n], self.idx2token)
+        # pred = convert_idx_to_token_tensor(y_hat[n], self.idx2token)
         sent2 = sents2[n]
 
         tf.compat.v1.summary.text("sent1", sent1)
-        tf.compat.v1.summary.text("pred", pred)
+        # tf.compat.v1.summary.text("pred", pred)
         tf.compat.v1.summary.text("sent2", sent2)
         summaries = tf.compat.v1.summary.merge_all()
 

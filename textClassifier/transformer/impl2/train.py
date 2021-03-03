@@ -64,7 +64,9 @@ y_hat, eval_summaries = m.eval(xs, ys)
 logging.info("# Session")
 saver = tf.compat.v1.train.Saver(max_to_keep=hp.num_epochs)
 gpu_options = tf.compat.v1.GPUOptions(allow_growth=True)#按需设置显存
-with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options)) as sess:
+with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options,
+                                                          allow_soft_placement=True,
+                                                          log_device_placement=True)) as sess:
     ckpt = tf.train.latest_checkpoint(hp.logdir)
     if ckpt is None:
         logging.info("Initializing from scratch")
