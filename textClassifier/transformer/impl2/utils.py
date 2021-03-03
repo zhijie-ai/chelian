@@ -124,7 +124,7 @@ def save_variable_specs(fpath):
         return size
 
     params, num_params = [], 0
-    for v in tf.global_variables():
+    for v in tf.compat.v1.global_variables():
         params.append("{}==={}".format(v.name, v.shape))
         num_params += _get_size(v.shape)
     print("num_params: ", num_params)
@@ -181,10 +181,10 @@ def calc_bleu(ref, translation):
 # 将模型保存为savedModel格式，供tf serving调用
 def save_model(saved_model_dir,sess,encoder_input,decoder_input,y_pred):
     # deocer_input = tf.ones((tf.shape(encoder_input)[0], 1), tf.int32) * 3 # 3代表<s>
-    builder = tf.saved_model.builder.SavedModelBuilder(saved_model_dir)
-    inputs = {'encoder_input':tf.saved_model.utils.build_tensor_info(encoder_input),
-              'decoder_input':tf.saved_model.utils.build_tensor_info(decoder_input)}
-    outputs = {'y_pred':tf.saved_model.utils.build_tensor_info(y_pred)}
+    builder = tf.compat.v1.saved_model.builder.SavedModelBuilder(saved_model_dir)
+    inputs = {'encoder_input':tf.compat.v1.saved_model.utils.build_tensor_info(encoder_input),
+              'decoder_input':tf.compat.v1.saved_model.utils.build_tensor_info(decoder_input)}
+    outputs = {'y_pred':tf.compat.v1.saved_model.utils.build_tensor_info(y_pred)}
     signature = tf.compat.v1.saved_model.signature_def_utils.build_signature_def(inputs,outputs,'test_sig_name')
     # builder.add_meta_graph_and_variables(sess,['test_saved_model'],{'test_signature':signature})
     builder.add_meta_graph_and_variables(sess,[tf.saved_model.SERVING],{'test_signature':signature})

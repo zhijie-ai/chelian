@@ -303,7 +303,8 @@ def positional_encoding(inputs,
         if masking:
             outputs = tf.where(tf.equal(inputs, 0), inputs, outputs)
 
-        return tf.cast(outputs,dtype='float32')
+        # return tf.cast(outputs,dtype='float32')
+        return tf.cast(outputs,dtype=tf.float32)
 
 
 def noam_scheme(init_lr, global_step, warmup_steps=4000.):
