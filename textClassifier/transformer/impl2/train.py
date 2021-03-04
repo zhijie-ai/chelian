@@ -29,6 +29,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
+os.environ['TF_XLA_FLAGS'] = '--tf_xla_cpu_global_jit'
 
 logging.info("# hparams")
 hparams = Hparams()

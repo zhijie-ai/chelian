@@ -193,7 +193,7 @@ def save_model(saved_model_dir,sess,encoder_input,decoder_input,y_pred,version=1
     outputs = {'y_pred':tf.compat.v1.saved_model.utils.build_tensor_info(y_pred)}
     signature = tf.compat.v1.saved_model.signature_def_utils.build_signature_def(inputs,outputs,'test_sig_name')
     # builder.add_meta_graph_and_variables(sess,['test_saved_model'],{'test_signature':signature})
-    builder.add_meta_graph_and_variables(sess,[tf.saved_model.SERVING],{'test_signature':signature})
+    builder.add_meta_graph_and_variables(sess,[tf.compat.v1.saved_model.SERVING],{'test_signature':signature})
     builder.save()
 
 def load_saved_model(sess,dir):
