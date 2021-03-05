@@ -179,9 +179,28 @@ def calc_bleu(ref, translation):
 #     vars = [v for v in sorted(var_to_shape_map) if filter not in v]
 #     return vars
 
+def load_ckpt_model(ckpt_dir):
+    sess = tf.compat.v1.Session()
+    ckpt = tf.train.latest_checkpoint(ckpt_dir)
+    saver = tf.compat.v1.train.import_meta_graph(ckpt+'.meta')
+    saver.restore(sess,ckpt)
+
+    graph = tf.get_default_graph()
+
+    ds = graph.get_operation_by_name('IteratorGetNext').outputs
+    y_hat = graph.get_tensor_by_name('y_hat:0')
+    encoder_input = ds[0]
+    decoder_input = ds[3]
+    return sess,encoder_input,decoder_input,y_hat
+
+def format_saved_model(ckpt_dir,saved_model_dir):
+    sess,encoder_input,decoder_input,y_hat = load_ckpt_model(ckpt_dir)
+    save_model(saved_model_dir,sess,encoder_input,decoder_input,y_hat)
+    print('---------------saved done--------------------------------')
+
 # 将模型保存为savedModel格式，供tf serving调用
 def save_model(saved_model_dir,sess,encoder_input,decoder_input,y_pred,version=1):
-    version = int(time.time())
+    version = time.strftime('%Y%m%d%H',time.localtime())
     saved_model_dir = os.path.join(
         tf.compat.as_bytes(saved_model_dir),
         tf.compat.as_bytes(str(version))
@@ -191,7 +210,7 @@ def save_model(saved_model_dir,sess,encoder_input,decoder_input,y_pred,version=1
     inputs = {'encoder_input':tf.compat.v1.saved_model.utils.build_tensor_info(encoder_input),
               'decoder_input':tf.compat.v1.saved_model.utils.build_tensor_info(decoder_input)}
     outputs = {'y_pred':tf.compat.v1.saved_model.utils.build_tensor_info(y_pred)}
-    signature = tf.compat.v1.saved_model.signature_def_utils.build_signature_def(inputs,outputs,'test_sig_name')
+    signature = tf.compat.v1.saved_model.signature_def_utils.build_signature_def(inputs=inputs,outputs=outputs,method_name='test_sig_name')
     # builder.add_meta_graph_and_variables(sess,['test_saved_model'],{'test_signature':signature})
     builder.add_meta_graph_and_variables(sess,[tf.compat.v1.saved_model.SERVING],{'test_signature':signature})
     builder.save()

@@ -21,11 +21,12 @@ import tensorflow as tf
 from model import Transformer
 from tqdm import tqdm
 from data_load import get_batch
-from utils import save_hparams, save_variable_specs, get_hypotheses, calc_bleu,save_model
+from utils import save_hparams, save_variable_specs, get_hypotheses, calc_bleu,format_saved_model
 import os
 from hparams import Hparams
 import math
 import logging
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -111,14 +112,16 @@ with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_option
             ckpt_name = os.path.join(hp.logdir, model_output)
             saver.save(sess, ckpt_name, global_step=_gs)
 
-            #保存为saved_model格式的模型，供tf serving使用
-            saved_model_dir='./saved_model'
-            save_model(saved_model_dir,sess,xs[0],ys[0],y_hat)
-
             logging.info("after training of {} epochs, {} has been saved.".format(epoch, ckpt_name))
 
             logging.info("# fall back to train mode")
             sess.run(train_init_op)
+
+    #保存为saved_model格式的模型，供tf serving使用，如果放在for循环里，
+    # 每次都保存一个模型同saver.save方法，虽然精确到秒不会冲突，但saved_model模型应该是最后一个或者最优的模型
+    saved_model_dir='./saved_model'
+    ckpt_dir = hp.logdir
+    format_saved_model(ckpt_dir,saved_model_dir)
     summary_writer.close()
 
 
