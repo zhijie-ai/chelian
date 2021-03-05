@@ -194,12 +194,12 @@ def load_ckpt_model(ckpt_dir):
     return sess,encoder_input,decoder_input,y_hat
 
 def format_saved_model(ckpt_dir,saved_model_dir):
-    sess,encoder_input,decoder_input,y_hat = load_ckpt_model(ckpt_dir)
-    save_model(saved_model_dir,sess,encoder_input,decoder_input,y_hat)
+    sess,encoder_input_,decoder_input_,y_hat_ = load_ckpt_model(ckpt_dir)
+    save_model(saved_model_dir,sess,encoder_input_,decoder_input_,y_hat_)
     print('---------------saved done--------------------------------')
 
 # 将模型保存为savedModel格式，供tf serving调用
-def save_model(saved_model_dir,sess,encoder_input,decoder_input,y_pred,version=1):
+def save_model(saved_model_dir,sess,encoder_input_,decoder_input_,y_hat_,version=1):
     version = time.strftime('%Y%m%d%H',time.localtime())
     saved_model_dir = os.path.join(
         tf.compat.as_bytes(saved_model_dir),
@@ -207,9 +207,9 @@ def save_model(saved_model_dir,sess,encoder_input,decoder_input,y_pred,version=1
     )
     # deocer_input = tf.ones((tf.shape(encoder_input)[0], 1), tf.int32) * 3 # 3代表<s>
     builder = tf.compat.v1.saved_model.builder.SavedModelBuilder(saved_model_dir)
-    inputs = {'encoder_input':tf.compat.v1.saved_model.utils.build_tensor_info(encoder_input),
-              'decoder_input':tf.compat.v1.saved_model.utils.build_tensor_info(decoder_input)}
-    outputs = {'y_pred':tf.compat.v1.saved_model.utils.build_tensor_info(y_pred)}
+    inputs = {'encoder_input':tf.compat.v1.saved_model.utils.build_tensor_info(encoder_input_),
+              'decoder_input':tf.compat.v1.saved_model.utils.build_tensor_info(decoder_input_)}
+    outputs = {'y_pred':tf.compat.v1.saved_model.utils.build_tensor_info(y_hat_)}
     signature = tf.compat.v1.saved_model.signature_def_utils.build_signature_def(inputs=inputs,outputs=outputs,method_name='test_sig_name')
     # builder.add_meta_graph_and_variables(sess,['test_saved_model'],{'test_signature':signature})
     builder.add_meta_graph_and_variables(sess,[tf.compat.v1.saved_model.SERVING],{'test_signature':signature})

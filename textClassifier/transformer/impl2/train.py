@@ -21,7 +21,7 @@ import tensorflow as tf
 from model import Transformer
 from tqdm import tqdm
 from data_load import get_batch
-from utils import save_hparams, save_variable_specs, get_hypotheses, calc_bleu,format_saved_model
+from utils import save_hparams, save_variable_specs, get_hypotheses, calc_bleu,format_saved_model,save_model
 import os
 from hparams import Hparams
 import math
@@ -120,8 +120,9 @@ with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_option
     #保存为saved_model格式的模型，供tf serving使用，如果放在for循环里，
     # 每次都保存一个模型同saver.save方法，虽然精确到秒不会冲突，但saved_model模型应该是最后一个或者最优的模型
     saved_model_dir='./saved_model'
-    ckpt_dir = hp.logdir
-    format_saved_model(ckpt_dir,saved_model_dir)
+    # ckpt_dir = hp.logdir
+    # format_saved_model(ckpt_dir,saved_model_dir)
+    save_model(saved_model_dir,sess,xs[0],ys[0],y_hat)
     summary_writer.close()
 
 
