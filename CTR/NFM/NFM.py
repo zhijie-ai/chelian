@@ -16,7 +16,7 @@ from time import time
 from sklearn.base import BaseEstimator,TransformerMixin
 from sklearn.metrics import roc_auc_score
 
-class AFM(BaseEstimator,TransformerMixin):
+class NFM(BaseEstimator,TransformerMixin):
 
     def __init__(self,feature_size,field_size,
                  embedding_size=8,

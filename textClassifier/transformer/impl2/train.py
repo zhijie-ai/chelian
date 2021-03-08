@@ -69,7 +69,7 @@ gpu_options = tf.compat.v1.GPUOptions(allow_growth=True)#按需设置显存
 with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options,
                                                           allow_soft_placement=True,
                                                           log_device_placement=True)) as sess:
-    ckpt = tf.train.latest_checkpoint(hp.logdir)
+    ckpt = tf.compat.v1.train.latest_checkpoint(hp.logdir)
     if ckpt is None:
         logging.info("Initializing from scratch")
         sess.run(tf.compat.v1.global_variables_initializer())
@@ -80,8 +80,8 @@ with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_option
     summary_writer = tf.compat.v1.summary.FileWriter(hp.logdir, sess.graph)
 
     sess.run(train_init_op)
-    total_steps = hp.num_epochs * num_train_batches
-    _gs = sess.run(global_step)
+    total_steps = hp.num_epochs * num_train_batches#122700
+    _gs = sess.run(global_step)#如果重复训练，global_step为122701
     for i in tqdm(range(_gs, total_steps+1)):
         _, _gs, _summary = sess.run([train_op, global_step, train_summaries])
         epoch = math.ceil(_gs / num_train_batches)
