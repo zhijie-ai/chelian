@@ -95,9 +95,9 @@ class AFM(BaseEstimator,TransformerMixin):
 
             # attention part
             num_interactions = int(self.field_size*(self.field_size-1)/2)
-            # wx+b->relu(wx+b)->h*relu(wx+b)
+            # wx+b->relu(wx+b)->h*relu(wx+b) 心得:softmax一般分母是确定个数的，然后归一化，当我们不知道时，可以自己定义个数，类似当前代码的实现
             self.attention_wx_plus_b = tf.reshape(tf.add(tf.matmul(tf.reshape(self.element_wise_product,shape=(-1,self.embedding_size)),
-                                                                   self.weights['attention_w']),
+                                                                   self.weights['attention_w']),#(-1,attention_size)
                                                          self.weights['attention_b']),
                                                   shape=[-1,num_interactions,self.attention_size]) # N * ( F * F - 1 / 2) * A
 
