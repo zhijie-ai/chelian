@@ -102,11 +102,12 @@ class IFM(BaseEstimator,TransformerMixin):
                     self.dnn = self.batch_norm_layer(self.dnn,train_phase=self.train_phase,scope_bn='bn_%d'%i)#None * layer[i] * 1
                 self.dnn = tf.nn.relu(self.dnn)
                 self.dnn = tf.nn.dropout(self.dnn,self.dropout_keep[i])# dropout at each Deep layer
-            self.dnn_out = tf.matmul(self.dnn,self.weights2['prediction_dnn'])## None * 10
-            self.outm=tf.constant(float(self.valid_dimension))*tf.nn.softmax(self.dnn_out)
+            self.dnn_out = tf.matmul(self.dnn,self.weights2['prediction_dnn'])## None * 10,None*valid_dimension
+            self.outm=tf.constant(float(self.valid_dimension))*tf.nn.softmax(self.dnn_out)#就是论文中的m_x,i
             # self.dnn_out = tf.matmul(self.dnn_out, self.weights['prediction'])
 
-            self.nonzero_embeddings_m = tf.multiply(self.nonzero_embeddings, tf.expand_dims(self.outm, 2))
+            #nonzero_embeddings:N*F*E
+            self.nonzero_embeddings_m = tf.multiply(self.nonzero_embeddings, tf.expand_dims(self.outm, 2))#就是论文中的v_x,i
 
             # FM Prediction Layer
             element_wise_product_list=[]
@@ -123,7 +124,7 @@ class IFM(BaseEstimator,TransformerMixin):
             self.interactions = tf.reduce_sum(self.element_wise_product,2,name='interactions')
 
             self.IFM=tf.reduce_sum(self.element_wise_product,1,name='ifm')
-            self.IFM=tf.nn.dropout(self.IFM,self.dropout_keep[-1])
+            self.IFM=tf.nn.dropout(self.IFM,self.dropout_keep[-1])#None,K
 
             # _________out _________
             self.Bilinear=tf.reduce_sum(self.IFM,1,keep_dims=True)# None * 1

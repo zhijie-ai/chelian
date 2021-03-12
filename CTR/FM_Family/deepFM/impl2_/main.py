@@ -18,7 +18,7 @@ from sklearn.model_selection import StratifiedKFold
 from .DataReader import FeatureDictionary, DataParser
 from matplotlib import pyplot as plt
 
-import CTR.deepFM.impl2_.config as config
+import CTR.FM_Family.deepFM.impl2_.config as config
 from .metrics import gini_norm
 from .DeepFM import DeepFM
 
@@ -149,7 +149,7 @@ dfm_params = {
     "l2_reg":0.01,
     "verbose":True,
     "eval_metric":gini_norm,
-    "random_seed":config.RANDOM_SEED
+    "random_seed": config.RANDOM_SEED
 }
 
 # load data
