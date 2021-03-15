@@ -89,7 +89,7 @@ class IFM(BaseEstimator,TransformerMixin):
             # get the summed up embeddings of features.
             self.nonzero_embeddings = tf.nn.embedding_lookup(self.weights['feature_embeddings'],self.train_features,name='nonzero_embeddings')
 
-            # Factor Estimating Net.
+            # Factor Estimating Net. 拼接h个向量
             dnn_nonzero_embeddings = tf.reshape(self.nonzero_embeddings,shape=[-1,self.valid_dimension*self.embedding_size])
             self.dnn = tf.add(tf.matmul(dnn_nonzero_embeddings,self.weights2['fenlayer_0']),self.weights2['fenbias_0'])# None * layer[i] * 1
             if self.batch_norm:
