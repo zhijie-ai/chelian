@@ -28,3 +28,6 @@ AFM如果没有权重aij,那么他就是一个FM算法，为了得到aij，需�
     求aij，如果直接借鉴deepFM的lookup的思路，虽然可以得到多个embedding向量，但是并没有交叉特征的意义在里面，仅仅是原始的
     向量，且少于AFM的思路得到的向量的个数。
 '''
+import tensorflow as tf
+
+tf.keras.applications.NASNetLarge

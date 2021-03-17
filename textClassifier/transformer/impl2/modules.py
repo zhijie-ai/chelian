@@ -83,7 +83,7 @@ def scaled_dot_product_attention(Q, K, V, key_masks,
         d_k = Q.get_shape().as_list()[-1]
 
         # dot product
-        outputs = tf.matmul(Q, tf.transpose(K, [0, 2, 1]))  # (N, T_q, T_k)
+        outputs = tf.matmul(Q, tf.transpose(K, [0, 2, 1]))  # (N, T_q, T_q)
 
         # scale
         outputs /= d_k ** 0.5

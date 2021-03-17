@@ -17,8 +17,17 @@ from impl1.Dice import dice
 class Model():
     def __init__(self,user_count,item_count,cate_count,cate_list):
 
+        '''
+            uij=(u, i, y, hist_i, sl)
+            self.i: uij[1],
+            self.y: uij[2],
+            self.hist_i: uij[3],
+            self.sl: uij[4],
+            self.lr: l
+        '''
+
         # self.u = tf.placeholder(tf.int32,[None,],name='user')
-        self.i = tf.placeholder(tf.int32,[None,],name='item')
+        self.i = tf.placeholder(tf.int32,[None,],name='item')#pos or neg id ,target
         self.j = tf.placeholder(tf.int32,[None,],name='item_j')
         self.y = tf.placeholder(tf.float32,[None,],name='label')
         self.hist_i = tf.placeholder(tf.int32,[None,None],name='history_i')
@@ -187,6 +196,7 @@ def extract_axis_1(data, ind):
 
 def attention(queries,keys,keys_length):
     '''
+        这里相当于是正常的attention，即seq2seq中的attention，注意transformer中的self-attention，ATF相当于是self-attention
         queries:     [B, H]
         keys:        [B, T, H]
         keys_length: [B]
@@ -217,6 +227,7 @@ def attention(queries,keys,keys_length):
 
     # Activation
     outputs = tf.nn.softmax(outputs) # B * 1 * T
+    # outputs = tf.nn.sigmoid(outputs)#不一定非要用softmax,原论文说不用softmax
 
     # Weighted Sum
     outputs = tf.matmul(outputs,keys) # B * 1 * H 三维矩阵相乘，相乘发生在后两维，即 B * (( 1 * T ) * ( T * H ))

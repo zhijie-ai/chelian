@@ -100,6 +100,7 @@ def din_model_fn(features, labels, mode, params):
     att_creativeid = tf.string_to_hash_bucket_fast(features["creative_id_att"], 200000)
     creativeid_emb = tf.nn.embedding_lookup(creativeid_embeddings, att_creativeid)
 
+    #相当于是Vu,history和target加权之后的embedding
     creative_click_attention = attention_layer(creativeid_emb, last_click_creativeid_emb,
                                                features["user_click_creatives_att"])
 
