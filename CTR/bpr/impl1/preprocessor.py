@@ -59,7 +59,7 @@ class Data_preprocessor():
         """
         基於協同式過濾的特性，若test data中含有train data沒出現過的item，將該item過濾掉
         """
-        test = test[np.in1d(test['movieId'], train['movieId'])]
+        test = test[np.in1d(test['movieId'], train['movieId'])]#test和train中都有的item
         tslength = test.groupby('userId').size()
         test = test[np.in1d(test['userId'], tslength[tslength>=2].index)]
         print("測試資料集統計:  session個數:%d , item個數:%d , event數:%d"%(test['userId'].nunique(),test['movieId'].nunique(),len(test)))

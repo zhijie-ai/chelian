@@ -2,12 +2,24 @@
 # -*- encoding=utf-8 -*-                       #
 # __author__:'焉知飞鱼'                         #
 # CreateTime:                                  #
-#       2021/3/29 14:53                         #
+#       2021/3/29 14:54                         #
 #                                              #
 #               天下风云出我辈，                 #
 #               一入江湖岁月催。                 #
 #               皇图霸业谈笑中，                 #
 #               不胜人生一场醉。                 #
 #-----------------------------------------------
-# 生成训练集的时候，都是用隐式反馈的正例，然后给每条数据随机生成n条负例,其实可以自己控制，降低热门item成为正样本的概率，
-#     提升热门item成为负样本的概率
+from impl1.preprocessor import Data_preprocessor
+from impl1.BPR import BPR
+import pandas as pd
+
+__author__ = "Bo-Syun Cheng"
+__email__ = "k12s35h813g@gmail.com"
+
+if __name__ == "__main__":
+    data = pd.read_csv('ratings_small.csv')
+    dp = Data_preprocessor(data)
+    processed_data = dp.preprocess()
+
+    bpr = BPR(processed_data)
+    bpr.fit()

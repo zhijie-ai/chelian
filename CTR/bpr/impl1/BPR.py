@@ -73,7 +73,7 @@ class BPR():
             self.testing_data.append([index,random_pick])
 
 
-    def negative_sample(self):
+    def negative_sample(self):#相当于给每个点击的(user,item) 配置train_sample_size个负样本
         user_session = self.data.groupby('userId')['movieId'].apply(set).reset_index().loc[:,['movieId']].values.reshape(-1)
         sample_dict = {}
 
