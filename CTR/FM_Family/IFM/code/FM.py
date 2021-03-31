@@ -20,7 +20,7 @@ import code.loadData as DATA
 from tensorflow.contrib.layers.python.layers import batch_norm as batch_norm
 from sklearn.metrics import mean_absolute_error
 
-
+#onehot后的特征数为5382，如果将embedding矩阵定义为(6001,6)，则index为6000的向量无法训练，应该数据集中没有出现index为6000的数据
 os.environ['CUDA_VISIBLE_DEVICES']='2'
 
 #################### Arguments ####################
@@ -28,11 +28,11 @@ FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_string('process', 'train','Process type: train, evaluate.')
 tf.app.flags.DEFINE_string('path', '../data/','Input data path.')
 tf.app.flags.DEFINE_string('dataset', 'frappe', 'Choose a dataset.')
-tf.app.flags.DEFINE_integer('epoch', 100, 'Number of epochs.')
+tf.app.flags.DEFINE_integer('epoch', 2, 'Number of epochs.')
 tf.app.flags.DEFINE_string("metric", "MAE", " MAE OR RMSE")
 tf.app.flags.DEFINE_integer('pretrain', -1, 'flag for pretrain. 1: initialize from pretrain; 0: randomly initialize; -1: save to pretrain file')
 tf.app.flags.DEFINE_integer('batch_size', 2048, 'Batch size.')
-tf.app.flags.DEFINE_integer('embedding_size', 256, 'Number of embedding size.')
+tf.app.flags.DEFINE_integer('embedding_size', 6, 'Number of embedding size.')
 tf.app.flags.DEFINE_integer('valid_dimen', 10, 'Valid dimension of the dataset. (e.g. frappe=10, ml-tag=3)')
 tf.app.flags.DEFINE_float("lamda", 0.01, "Regularizer for FEN part")
 tf.app.flags.DEFINE_float('keep', '0.7', 'Keep probility (1-dropout) for the bilinear interaction layer. 1: no dropout')
@@ -53,6 +53,8 @@ class FM(BaseEstimator, TransformerMixin):
         self.save_file = save_file
         self.pretrain_flag = pretrain_flag
         self.features_M = features_M
+        print('BBBBB',self.features_M)
+        self.features_M = 6001
         self.lamda = lamda
         self.keep = keep
         self.epoch = epoch
@@ -215,6 +217,7 @@ class FM(BaseEstimator, TransformerMixin):
             init_valid = self.evaluate(Validation_data)
             print("Init: \t train=%.4f, validation=%.4f [%.1f s]" %(init_train, init_valid, time()-t2))
 
+        print('AAA',self.sess.run(self.weights['feature_embeddings'])[6000])
         for epoch in range(self.epoch):
             t1 = time()
             self.shuffle_in_unison_scary(Train_data['X'], Train_data['Y'])
@@ -224,6 +227,7 @@ class FM(BaseEstimator, TransformerMixin):
                 batch_xs = self.get_random_block_from_data(Train_data, self.batch_size)
                 # Fit training
                 self.partial_fit(batch_xs)
+                print('AAA',self.sess.run(self.weights['feature_embeddings'])[6000])
             t2 = time()
 
             # output validation
