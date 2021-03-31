@@ -20,8 +20,7 @@ import math
 __author__ = "Bo-Syun Cheng"
 __email__ = "k12s35h813g@gmail.com"
 
-# 假设训练集用户数只有100，而系统内用1000，如果生成的emb向量为1000个，则在训练集中没有出现的用户的embedding不会被更新
-# 相反，item的embedding会被更新到，因为在随机抽取sku的时候有可能抽取到
+
 class BPR():
     '''
     parameter
@@ -30,7 +29,7 @@ class BPR():
     num_k : item embedding的維度大小
     evaluation_at : recall@多少，及正樣本要排前幾名，我們才視為推薦正確
     '''
-    def __init__(self,data,n_epochs=10,batch_size=32,train_sample_size=10,test_sample_size=50,num_k=6,evaluation_at=10):
+    def __init__(self,data,n_epochs=10,batch_size=32,train_sample_size=10,test_sample_size=50,num_k=100,evaluation_at=10):
         self.n_epochs = n_epochs
         self.batch_size = batch_size
         self.train_sample_size = train_sample_size
@@ -41,7 +40,6 @@ class BPR():
         self.data = data
         self.num_user = len(self.data['userId'].unique())
         self.num_item = len(self.data['movieId'].unique())
-        print('AAAA',self.num_item,self.data['movieId'].max(),self.data['movieId'].min())
         self.num_event = len(self.data)
 
         self.all_item = set(self.data['movieId'].unique())
@@ -61,11 +59,9 @@ class BPR():
         self.split_data() #split data into training_data and testing
         self.sample_dict = self.negative_sample() #for each trainging data (user,item+) , we sample 10 negative item for bpr training
 
-
         self.build_model() #build TF graph
         self.sess = tf.Session() #create session
         self.sess.run(tf.global_variables_initializer())
-
 
 
     def split_data(self):
@@ -87,20 +83,17 @@ class BPR():
         return sample_dict
 
     def build_model(self):
-        import copy
         self.X_user = tf.placeholder(tf.int32,shape=(None , 1))
         self.X_pos_item = tf.placeholder(tf.int32,shape=(None , 1))
         self.X_neg_item = tf.placeholder(tf.int32,shape=(None , 1))
         self.X_predict = tf.placeholder(tf.int32,shape=(1))
 
-        self.user_embedding = tf.Variable(tf.truncated_normal(shape=[self.num_user+1000,self.num_k],mean=0.0,stddev=0.5))
-        self.item_embedding = tf.Variable(tf.truncated_normal(shape=[self.num_item+1000,self.num_k],mean=0.0,stddev=0.5))
-        self.user_embedding_ = copy.copy(self.user_embedding)
-        self.item_embedding_ = copy.copy(self.item_embedding)
+        user_embedding = tf.Variable(tf.truncated_normal(shape=[self.num_user,self.num_k],mean=0.0,stddev=0.5))
+        item_embedding = tf.Variable(tf.truncated_normal(shape=[self.num_item,self.num_k],mean=0.0,stddev=0.5))
 
-        embed_user = tf.nn.embedding_lookup(self.user_embedding , self.X_user)
-        embed_pos_item = tf.nn.embedding_lookup(self.item_embedding , self.X_pos_item)
-        embed_neg_item = tf.nn.embedding_lookup(self.item_embedding , self.X_neg_item)
+        embed_user = tf.nn.embedding_lookup(user_embedding , self.X_user)
+        embed_pos_item = tf.nn.embedding_lookup(item_embedding , self.X_pos_item)
+        embed_neg_item = tf.nn.embedding_lookup(item_embedding , self.X_neg_item)
 
         pos_score = tf.matmul(embed_user , embed_pos_item , transpose_b=True)
         neg_score = tf.matmul(embed_user , embed_neg_item , transpose_b=True)
@@ -108,12 +101,10 @@ class BPR():
         self.loss = tf.reduce_mean(-tf.log(tf.nn.sigmoid(pos_score-neg_score)))
         self.optimizer = tf.train.AdamOptimizer(learning_rate=0.001).minimize(self.loss)
 
-        predict_user_embed = tf.nn.embedding_lookup(self.user_embedding , self.X_predict)
-        self.predict = tf.matmul(predict_user_embed , self.item_embedding , transpose_b=True)
+        predict_user_embed = tf.nn.embedding_lookup(user_embedding , self.X_predict)
+        self.predict = tf.matmul(predict_user_embed , item_embedding , transpose_b=True)
 
     def fit(self):
-        print('AA',self.sess.run(self.item_embedding)[160000])
-        print('CC',self.sess.run(self.item_embedding_[160000]))
         self.experiment = []
         for epoch in range(self.n_epochs):
             np.random.shuffle(self.training_data)
@@ -145,11 +136,5 @@ class BPR():
                 if (result[[self.item_id_map[s] for s in random.sample(self.all_item , self.test_sample_size)]] > result[test[1]]).sum()+1 <= self.evaluation_at:
                     num_true += 1
 
-            # print("epoch:%d , loss:%.2f , recall:%.2f"%(epoch , total_loss , num_true/len(self.testing_data)))
+            print("epoch:%d , loss:%.2f , recall:%.2f"%(epoch , total_loss , num_true/len(self.testing_data)))
             self.experiment.append([epoch , total_loss , num_true/len(self.testing_data)])
-
-            print('BBB',self.sess.run(self.item_embedding)[160000])
-
-        print(id(self.user_embedding))
-        print(id(self.user_embedding_))
-

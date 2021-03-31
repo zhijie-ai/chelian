@@ -79,7 +79,7 @@ x_train,ix = vectorize_dic({'users':train['user'].values,
 x_test,ix = vectorize_dic({'users':test['user'].values,
                            'items':test['item'].values},ix,x_train.shape[1],n=len(test.index),g=2)
 
-print(x_train)
+print(max(ix.values()))
 y_train = train['rating'].values
 y_test = test['rating'].values
 
@@ -91,6 +91,8 @@ print(x_train)
 print(x_train.shape)
 print (x_test.shape)
 print('=========')
+# (90570, 2623)
+# (9430, 2623)
 print(ix)
 
 n,p = x_train.shape
@@ -137,7 +139,6 @@ batch_size = 1000
 init = tf.global_variables_initializer()
 with tf.Session() as sess:
     sess.run(init)
-
     for epoch in tqdm(range(epochs), unit='epoch'):
         perm = np.random.permutation(x_train.shape[0])
         # iterate over batches
