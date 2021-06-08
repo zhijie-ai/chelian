@@ -28,4 +28,4 @@ header = {'User-Agent':
 resp = requests.post('http://localhost:8501/v1/models/transformer_model:predict', json=dit)
 print(resp.text)
 t2 = time.time()
-print('time cost:{} s'.format(t2-t1))
+print('time cost:{} s'.format(t2-t1))#time cost:232.50107765197754 s

@@ -75,6 +75,7 @@ class IFM(BaseEstimator,TransformerMixin):
             # Set graph level random seed
             tf.set_random_seed(self.random_seed)
             # Input data.
+            # train_features是libsvm中的数据，将每个字段重新映射为index(4149:1-->50)[[1,10,5],[2,6,9]]
             self.train_features = tf.placeholder(tf.int32,shape=[None,None],name='train_feature_fm')# None * features_M
             # self.memory_features = tf.placeholder(tf.int32, shape=[None, None],name="memory_features")  # None * features_M+1
             # self.nomemory_features = tf.placeholder(tf.int32, shape=[None, None],name="memory_features")  # None * features_M+1
@@ -146,14 +147,16 @@ class IFM(BaseEstimator,TransformerMixin):
                 self.loss = tf.nn.l2_loss(tf.subtract(self.train_labels,self.out))
 
             # Optimizer
-            if self.optimizer_type=='AdamOptimizer':
-                self.optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate,beta1 = 0.9,beta2=0.999,epsilon=1e-8).minimize(self.loss)
-            elif self.optimizer_type=='AdagradOptimizer':
-                self.optimizer = tf.train.AdagradOptimizer(learning_rate=self.learning_rate,initial_accumulator_value=1e-8).minimize(self.loss)
-            elif self.optimizer_type =='GradientDescentOptimizer':
-                self.optimizer = tf.train.GradientDescentOptimizer(learning_rate=self.learning_rate).minimize(self.loss)
-            elif self.optimizer_type=='MomentumOptimizer':
-                self.optimizer = tf.train.MomentumOptimizer(learning_rate=self.learning_rate, momentum=0.95).minimize(self.loss)
+            update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+            with tf.control_dependencies(update_ops):
+                if self.optimizer_type=='AdamOptimizer':
+                    self.optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate,beta1 = 0.9,beta2=0.999,epsilon=1e-8).minimize(self.loss)
+                elif self.optimizer_type=='AdagradOptimizer':
+                    self.optimizer = tf.train.AdagradOptimizer(learning_rate=self.learning_rate,initial_accumulator_value=1e-8).minimize(self.loss)
+                elif self.optimizer_type =='GradientDescentOptimizer':
+                    self.optimizer = tf.train.GradientDescentOptimizer(learning_rate=self.learning_rate).minimize(self.loss)
+                elif self.optimizer_type=='MomentumOptimizer':
+                    self.optimizer = tf.train.MomentumOptimizer(learning_rate=self.learning_rate, momentum=0.95).minimize(self.loss)
 
             #init
             self.sess = self._init_session()

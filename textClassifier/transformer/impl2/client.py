@@ -34,4 +34,4 @@ with grpc.insecure_channel('localhost:8500') as channel:
     res_from_server_np = tf.make_ndarray(response.outputs['y_pred'])
     print(res_from_server_np)
 t2 = time.time()
-print('time cost:{} s'.format(t2-t1))
+print('time cost:{} s'.format(t2-t1))#149.51098799705505 s
