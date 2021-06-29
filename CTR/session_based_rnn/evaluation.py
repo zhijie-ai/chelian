@@ -75,7 +75,7 @@ def evaluate_sessions_batch(model, train_data, test_data, cut_off=20, batch_size
             ranks = (preds.values.T[valid_mask].T > np.diag(preds.iloc[in_idx].values)[valid_mask]).sum(axis=0) + 1
             rank_ok = ranks < cut_off
             recall += rank_ok.sum()
-            mrr += (1.0 / ranks[rank_ok]).sum()''
+            mrr += (1.0 / ranks[rank_ok]).sum()
             evalutation_point_count += len(ranks)
         start = start + minlen - 1
         mask = np.arange(len(iters))[(valid_mask) & (end - start <= 1)]

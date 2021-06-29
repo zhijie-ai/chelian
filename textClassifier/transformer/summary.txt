@@ -1,0 +1,40 @@
+注意:transfomer中的输入和输出的处理和seq2seq中的区别:
+在seq2seq中，输入定长处理，输出加eos再定长，decoder阶段的输入是定长后的target去掉最后一个字符，在开始处加go
+在seq2seq中，lookup阶段，输入是input_vocab_size，输出是input_embedding_size，input_vocab_size包含开始
+结束，填充等特殊字符,在transfomer的look_up阶段，有将最后一维置0的操作，目的是为了mask，在训练阶段的decoder输入
+阶段，也加了类似go的处理<S> self.decoder_inputs = tf.concat((tf.ones_like(self.y[:, :1]) * 2, self.y[:, :-1]), -1)
+
+seq2seq中，由于采用的是RNN的方式，能捕捉位置信息，而transfomer中，采用的是attention方式，必须加入position_en
+才能捕捉位置信息
+seq2seq模型中，在训练阶段输入有3部分
+    encoder的输入:定长处理，有的代码加eos，有的又不加
+    target:加eos，然后定长处理
+    decoder的输入:在target的基础上，删除掉最后一个字符，然后在开始加go处理
+定长处理：keras.processing.sequence.pad_sequences
+  basic_seq2seq_letter.py中，遍历当前batch中的每一行，根据最大值用pad填充 321行
+  impl1中是np.lib.pad来填充的
+  impl2中是用dataset.padded_batch来填充的
+decoder input加 go处理:
+  basic_seq2seq_letter.py:
+      ending = tf.strided_slice(data, [0, 0], [batch_size, -1], [1, 1])
+      decoder_input = tf.concat([tf.fill([batch_size, 1], vocab_to_int['<GO>']), ending], 1)
+  impl1:
+      self.decoder_inputs = tf.concat((tf.ones_like(self.y[:, :1]) * 2, self.y[:, :-1]), -1)
+  impl2:
+      decoder_input, y = y[:-1], y[1:]
+seq2seq模型中，encoder编码成一个向量，decoder部分还是一个N vs N的模型，虽然在推理时没有decoder_input，但是在推理时还是要
+  指定decoder_input，将其设置为<s>即可。因为在模型前向推理的过程中是要输入decoder_input的的。
+
+人为的将PAD向量置零，但PE向量却一定不为零，参考train.py中的思路，key*mask即将PE中掩掉。这样加上pe的编码后填充位置的向量依然为0，可以进入multihead_attention了
+transformer.py中的思路其实和train.py差不多。
+train.py：先得到word emb并且pad置零然后+position embedding(虽然加上了PE后，填充位置的向量不为空，但是代码里*了一个mask使得填充位置的向量为0了)
+transformer.py：在进入_multiheadAttention方法前有2个参数，一个embeddedWords，相当于是2个emb的向量求和，一个inputX，二维数组，如果某个位置填充，则为0，
+    那么就可以根据inputX来确定哪些掩掉。train.py相当于是直接根据inputX来确定需要掩掉的位置，加上PE的向量后再乘以mask，传到_multiheadAttention后根据enc
+    还是能知道哪些位置需要掩掉。
+
+impl1:
+    在data_load.py中对source和target进行加eos并定长处理，在self.decoder_inputs = tf.concat((tf.ones_like(self.y[:, :1]) * 2, self.y[:, :-1]), -1)
+    然后基于y生成decoder_input,人为将pad的向量置0(modules.py 115行),key_masks根据填充为0的三维向量可以计算出，
+    其实也可以直接根据x计算,然后就是正常的多头注意力的计算过程
+impl2:
+    在generator_fn对x加开始符，对y加开始和结束符，然后生成decoder_input, y = y[:-1], y[1:]，对pad的向量置0

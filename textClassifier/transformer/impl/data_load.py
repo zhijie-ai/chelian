@@ -87,7 +87,7 @@ def load_test_data():
 
 def get_batch_data():
     # Load data
-    X, Y = load_train_data()
+    X, Y = load_train_data()  # 加了eos并定长处理
 
     # calc total batch count
     num_batch = len(X) // hp.batch_size

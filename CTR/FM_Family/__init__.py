@@ -27,6 +27,11 @@ NFM的Bilinear layer就是在做二阶特征组合。最终可以化简为和的
 AFM如果没有权重aij,那么他就是一个FM算法，为了得到aij，需要使用bi-interaction的思路得到多个向量，再根据这多个向量
     求aij，如果直接借鉴deepFM的lookup的思路，虽然可以得到多个embedding向量，但是并没有交叉特征的意义在里面，仅仅是原始的
     向量，且少于AFM的思路得到的向量的个数。
+
+IFM的特征处理方式有点特别,输入是libsvm格式的数据
+dict中的key是libsvm中的16:1(index为16，值为1)。合起来为key
+AFM的输入是csv格式的数据,将train合test的数据concat，区分连续值类型合category类型，依次将每一个特征分配一个index
+然后给出对应df的index及value，类别特征为1，数值型特征为对应的value
 '''
 import tensorflow as tf
 

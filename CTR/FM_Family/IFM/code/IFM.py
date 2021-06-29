@@ -129,7 +129,6 @@ class IFM(BaseEstimator,TransformerMixin):
 
             # _________out _________
             self.Bilinear=tf.reduce_sum(self.IFM,1,keep_dims=True)# None * 1
-            self.Bilinear1 = tf.reduce_sum(self.IFM,1,keep_dims=True)#None * 1
             self.Feature_bias = tf.reduce_sum(
                 tf.multiply(tf.nn.embedding_lookup(self.weights['feature_bias'],self.train_features),
                             tf.expand_dims(self.outm,2)),1)#None * 1
@@ -234,7 +233,7 @@ class IFM(BaseEstimator,TransformerMixin):
 
             # prediction layer
             glorot = np.sqrt(2.0 / (self.fenlayers[-1] + 1))
-            weights['prediction_dnn'] = tf.Variable(
+            weights['prediction_dnn'] = tf.Variable(#最后输出为field的数目
                 np.random.normal(loc=0, scale=glorot, size=(self.fenlayers[-1], self.valid_dimension)),
                 dtype=np.float32)  # layers[-1] * 1
             all_weights['prediction'] = tf.Variable(
