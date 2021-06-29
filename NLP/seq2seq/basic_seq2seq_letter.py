@@ -5,6 +5,14 @@
 
 # 总结:刚开始时，将每个词变为对应的id，并为target加上eos结束符。然后在get_batches方法里，对X,target进行定长填充
 # 在进入decoder之前，对target做删除最后一个字符，在最开始加go的处理方式
+# decoder 的ht = f(ht-1,yt-1,c)
+# p(yt|yt-1...y1,c)=g(ht,yt-1,c)
+# y1 = f(c),y2=f(c,y1),y3=f(c,y1,y2)
+# https://blog.csdn.net/jerr__y/article/details/53749693
+# c可以作为decoder中第一个的输入，也可以是decoder中每个时刻的输入。也可以每个时刻输入不同的c
+# yt=W*ht
+# https://blog.csdn.net/xbinworld/article/details/54605408
+# https://zhuanlan.zhihu.com/p/46260179
 
 
 # coding: utf-8
