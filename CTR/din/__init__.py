@@ -22,3 +22,4 @@ print(json.dumps(sys.path,indent=4))
 # 2.执行2_remap_id.py文件
 # 3.执行build_dataset.py文件，生成训练集及其他数据
 # 4.
+# 采用的是正常的attention，即seq2seq中的attention，key和query不一样,注意，向量拼接的不同，impl1.model.py 197行

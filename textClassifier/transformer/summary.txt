@@ -23,7 +23,7 @@ decoder input加 go处理:
   impl2:
       decoder_input, y = y[:-1], y[1:]
 seq2seq模型中，encoder编码成一个向量，decoder部分还是一个N vs N的模型，虽然在推理时没有decoder_input，但是在推理时还是要
-  指定decoder_input，将其设置为<s>即可。因为在模型前向推理的过程中是要输入decoder_input的的。
+  指定decoder_input，将其设置为<s>即可。因为在模型前向推理的过程中是要输入decoder_input的的。可以将前一时刻的输出当做输入即作为decoder_input
 
 人为的将PAD向量置零，但PE向量却一定不为零，参考train.py中的思路，key*mask即将PE中掩掉。这样加上pe的编码后填充位置的向量依然为0，可以进入multihead_attention了
 transformer.py中的思路其实和train.py差不多。

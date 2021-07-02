@@ -17,6 +17,7 @@ class Model(object):
 
     def __init__(self, user_count, item_count, cate_count, cate_list, predict_batch_size, predict_ads_num):
         '''
+            train_set.append((reviewerID, hist, pos_list[i], 1))
             (u, i, y, hist_i, sl)
             self.u: uij[0],
             self.i: uij[1],
