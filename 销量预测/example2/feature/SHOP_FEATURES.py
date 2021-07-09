@@ -18,6 +18,9 @@ from ..TOOLS.IJCAI2017_TOOL import *
     商家类别，人均消费，评分，评论数，门店等级。
 '''
 
+# shop_id,city_name,location_id,per_pay,score,comment_cnt,shop_level,cate_1_name,cate_2_name,cate_3_name
+#  商家id(000001) ,市名(北京),所在位置编号，位置接近的商家具有相同的编号(001), 人均消费（数值越大消费越高）(3) , 评分（数值越大评分越高）(1) ,
+#    评论数（数值越大评论数越多）(2) 门店等级（数值越大门店等级越高） (1),一级品类名称(美食),二级品类名称(小吃),三级品类名称(其他小吃)
 SHOP_INFO_EN = pd.read_csv('../data_new/SHOP_INFO_EN.csv')
 
 # %% category infomation
@@ -51,6 +54,7 @@ HOLI = pd.read_csv('../additional/HOLI.csv')
 HOLI['DATE'] = [(lambda x: str(datetime.datetime.strptime(str(x), '%Y%m%d').date()))(x) for x in HOLI['DATE']]
 
 # %%  calculate top hours   SE,SF
+# 支付次数及比重
 TOP_N = 1
 SHOP_ID = []
 SHOP_HOUR_head = []
@@ -102,6 +106,7 @@ SHOP_SG = map(lambda x: 'SG' + str(x).zfill(2), np.arange(4))
 HOUR_INFO.columns = ['SHOP_ID'] + SHOP_SG
 
 # %%  need to fillna 0
+# SHOP_ID,DATE,HOUR,Num_raw,Num_post,DofW
 PAYNW_gp = PAYNW.groupby(['DATE', 'SHOP_ID'], as_index=False).sum()
 VIENW_gp = VIENW.groupby(['DATE', 'SHOP_ID'], as_index=False).sum()
 PAYNW_gp['DofW'] = Datestr2DofW(PAYNW_gp['DATE'])

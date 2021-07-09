@@ -215,7 +215,7 @@ df_part_1_u_b_count[['u_b1_count_in_6',
 # u_b4_rate
 df_part_1_u_b_count['u_b4_rate'] = df_part_1_u_b_count['u_b4_count_in_6'] / df_part_1_u_b_count['u_b_count_in_6']
 
-# u_b4_diff_time
+# u_b4_diff_time,用户第一次购买时间和第一次曝光时间之间的差值转化为小时为单位
 df_part_1 = df_part_1.sort_values(by=['user_id', 'time'])
 df_part_1_u_b4_time = df_part_1[df_part_1['behavior_type'] == 4].drop_duplicates(['user_id'], 'first')[
     ['user_id', 'time']]
