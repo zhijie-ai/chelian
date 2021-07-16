@@ -1038,6 +1038,7 @@ def get_accumulate_user_feat(end_date, all_actions, day):
 #     actions[before_date + '_6_ratio'] = actions[before_date +
 #                                                 '_4'] / actions[before_date +
 #                                                                 '_6']
+    # 类型为4的总次数/各自总次数，即各种转化率
     actions[before_date + '_1_ratio'] =  np.log(1 + actions[before_date + '_4']) - np.log(1 + actions[before_date +'_1'])
     actions[before_date + '_2_ratio'] =  np.log(1 + actions[before_date + '_4']) - np.log(1 + actions[before_date +'_2'])
     actions[before_date + '_3_ratio'] =  np.log(1 + actions[before_date + '_4']) - np.log(1 + actions[before_date +'_3'])
