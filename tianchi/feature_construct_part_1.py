@@ -13,16 +13,16 @@
 # input
 path_df_D = "../../data/raw/tianchi_fresh_comp_train_user.csv"
 
-path_df_part_1 = "../../data/mobile/raw/df_part_1.csv"
-path_df_part_2 = "../../data/mobile/raw/df_part_2.csv"
-path_df_part_3 = "../../data/mobile/raw/df_part_3.csv"
+path_df_part_1 = "data/df_part_1.csv"
+path_df_part_2 = "data/df_part_2.csv"
+path_df_part_3 = "data/df_part_3.csv"
 
-path_df_part_1_tar = "../../data/mobile/raw/df_part_1_tar.csv"
-path_df_part_2_tar = "../../data/mobile/raw/df_part_2_tar.csv"
+path_df_part_1_tar = "data/df_part_1_tar.csv"
+path_df_part_2_tar = "data/df_part_2_tar.csv"
 
-path_df_part_1_uic_label = "../../data/mobile/raw/df_part_1_uic_label.csv"
-path_df_part_2_uic_label = "../../data/mobile/raw/df_part_2_uic_label.csv"
-path_df_part_3_uic = "../../data/mobile/raw/df_part_3_uic.csv"
+path_df_part_1_uic_label = "data/df_part_1_uic_label.csv"
+path_df_part_2_uic_label = "data/df_part_2_uic_label.csv"
+path_df_part_3_uic = "data/df_part_3_uic.csv"
 
 # output
 path_df_part_1_U = "../../data/mobile/feature/df_part_1_U.csv"
