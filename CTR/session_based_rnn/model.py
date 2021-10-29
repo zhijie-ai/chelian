@@ -113,6 +113,8 @@ class GRU4Rec:
 
     ############################LOSS FUNCTIONS######################
 
+    # 之前没想明白为啥用对象线就可以计算bpr loss了，现在想明白了。正的score-负的score。对角线上就是正的score。其他的就是同一个
+    #   batch内中采样的负的score。
     def cross_entropy(self, yhat):
         # tf.diag_part取出对角线的值
         return tf.reduce_mean(-tf.log(tf.diag_part(yhat)+1e-24))
