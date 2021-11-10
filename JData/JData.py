@@ -173,9 +173,9 @@ print (len(prod['brand'].unique()))
 
 
 print ('No. of unknown age user: {0} and the percent: {1} '.format(user[user['age']=='-1'].shape[0],
-                                                                  user[user['age']=='-1'].shape[0]*1.0/user.shape[0]))
+                                                                   user[user['age']=='-1'].shape[0]*1.0/user.shape[0]))
 print ('No. of unknown sex user: {0} and the percent: {1} '.format(user[user['sex']==2].shape[0],
-                                                                  user[user['sex']==2].shape[0]*1.0/user.shape[0]))
+                                                                   user[user['sex']==2].shape[0]*1.0/user.shape[0]))
 
 
 # In[12]:
@@ -186,7 +186,7 @@ def unknown_records(f_path, f_name, col_name):
     missing = df_file[df_file[col_name]==-1].shape[0]
     print ('No. of unknown {0} in {1} is {2}'.format(col_name, f_name, missing) )
     print ('percent: ', missing * 1.0 / df_file.shape[0])
-    
+
 unknown_records(PRODUCT_FILE, 'Product', 'a1')
 unknown_records(PRODUCT_FILE, 'Product', 'a2')
 unknown_records(PRODUCT_FILE, 'Product', 'a3')
@@ -232,7 +232,7 @@ user_action_check()
 
 
 def deduplicate(filepath, filename, newpath):
-    df_file = pd.read_csv(filepath,nrows=500000)       
+    df_file = pd.read_csv(filepath,nrows=500000)
     before = df_file.shape[0]
     df_file.drop_duplicates(inplace=True)
     after = df_file.shape[0]
@@ -266,7 +266,7 @@ df_month.ix[df_month.time >= '2016-4-16']
 # In[29]:
 
 
-IsDuplicated = df_month.duplicated() 
+IsDuplicated = df_month.duplicated()
 df_d=df_month[IsDuplicated]
 df_d.groupby('type').count()
 
@@ -383,17 +383,17 @@ bar_width = 0.2
 # 透明度
 opacity = 0.4
 plt.figure(figsize=(10,6))
-plt.bar(df_user['weekday'], df_user['user_num'], bar_width, 
+plt.bar(df_user['weekday'], df_user['user_num'], bar_width,
         alpha=opacity, color='c', label='user')
-plt.bar(df_item['weekday']+bar_width, df_item['item_num'], 
+plt.bar(df_item['weekday']+bar_width, df_item['item_num'],
         bar_width, alpha=opacity, color='g', label='item')
-plt.bar(df_ui['weekday']+bar_width*2, df_ui['user_item_num'], 
+plt.bar(df_ui['weekday']+bar_width*2, df_ui['user_item_num'],
         bar_width, alpha=opacity, color='m', label='user_item')
 plt.xlabel('weekday')
 plt.ylabel('number')
 plt.title('A Week Purchase Table')
 plt.xticks(df_user['weekday'] + bar_width * 3 / 2., (1,2,3,4,5,6,7))
-plt.tight_layout() 
+plt.tight_layout()
 plt.legend(prop={'size':10})
 
 
@@ -436,18 +436,18 @@ opacity = 0.4
 day_range = range(1,len(df_user['day']) + 1, 1)
 # 设置图片大小
 plt.figure(figsize=(14,6))
-plt.bar(df_user['day'], df_user['user_num'], bar_width, 
+plt.bar(df_user['day'], df_user['user_num'], bar_width,
         alpha=opacity, color='c', label='user')
-plt.bar(df_item['day']+bar_width, df_item['item_num'], 
+plt.bar(df_item['day']+bar_width, df_item['item_num'],
         bar_width, alpha=opacity, color='g', label='item')
-plt.bar(df_ui['day']+bar_width*2, df_ui['user_item_num'], 
+plt.bar(df_ui['day']+bar_width*2, df_ui['user_item_num'],
         bar_width, alpha=opacity, color='m', label='user_item')
 plt.xlabel('day')
 plt.ylabel('number')
 plt.title('February Purchase Table')
 plt.xticks(df_user['day'] + bar_width * 3 / 2., day_range)
 # plt.ylim(0, 80)
-plt.tight_layout() 
+plt.tight_layout()
 plt.legend(prop={'size':9})
 
 
@@ -488,18 +488,18 @@ opacity = 0.4
 day_range = range(1,len(df_user['day']) + 1, 1)
 # 设置图片大小
 plt.figure(figsize=(14,6))
-plt.bar(df_user['day'], df_user['user_num'], bar_width, 
+plt.bar(df_user['day'], df_user['user_num'], bar_width,
         alpha=opacity, color='c', label='user')
-plt.bar(df_item['day']+bar_width, df_item['item_num'], 
+plt.bar(df_item['day']+bar_width, df_item['item_num'],
         bar_width, alpha=opacity, color='g', label='item')
-plt.bar(df_ui['day']+bar_width*2, df_ui['user_item_num'], 
+plt.bar(df_ui['day']+bar_width*2, df_ui['user_item_num'],
         bar_width, alpha=opacity, color='m', label='user_item')
 plt.xlabel('day')
 plt.ylabel('number')
 plt.title('March Purchase Table')
 plt.xticks(df_user['day'] + bar_width * 3 / 2., day_range)
 # plt.ylim(0, 80)
-plt.tight_layout() 
+plt.tight_layout()
 plt.legend(prop={'size':9})
 
 
@@ -540,18 +540,18 @@ opacity = 0.4
 day_range = range(1,len(df_user['day']) + 1, 1)
 # 设置图片大小
 plt.figure(figsize=(14,6))
-plt.bar(df_user['day'], df_user['user_num'], bar_width, 
+plt.bar(df_user['day'], df_user['user_num'], bar_width,
         alpha=opacity, color='c', label='user')
-plt.bar(df_item['day']+bar_width, df_item['item_num'], 
+plt.bar(df_item['day']+bar_width, df_item['item_num'],
         bar_width, alpha=opacity, color='g', label='item')
-plt.bar(df_ui['day']+bar_width*2, df_ui['user_item_num'], 
+plt.bar(df_ui['day']+bar_width*2, df_ui['user_item_num'],
         bar_width, alpha=opacity, color='m', label='user_item')
 plt.xlabel('day')
 plt.ylabel('number')
 plt.title('April Purchase Table')
 plt.xticks(df_user['day'] + bar_width * 3 / 2., day_range)
 # plt.ylim(0, 80)
-plt.tight_layout() 
+plt.tight_layout()
 plt.legend(prop={'size':9})
 
 
@@ -668,18 +668,18 @@ opacity = 0.4
 day_range = range(1,len(dc_cate3['day']) + 1, 1)
 # 设置图片大小
 plt.figure(figsize=(14,6))
-plt.bar(dc_cate2['day'], dc_cate2['product_num'], bar_width, 
+plt.bar(dc_cate2['day'], dc_cate2['product_num'], bar_width,
         alpha=opacity, color='c', label='February')
-plt.bar(dc_cate3['day']+bar_width, dc_cate3['product_num'], 
+plt.bar(dc_cate3['day']+bar_width, dc_cate3['product_num'],
         bar_width, alpha=opacity, color='g', label='March')
-plt.bar(dc_cate4['day']+bar_width*2, dc_cate4['product_num'], 
+plt.bar(dc_cate4['day']+bar_width*2, dc_cate4['product_num'],
         bar_width, alpha=opacity, color='m', label='April')
 plt.xlabel('day')
 plt.ylabel('number')
 plt.title('Cate-8 Purchase Table')
 plt.xticks(dc_cate3['day'] + bar_width * 3 / 2., day_range)
 # plt.ylim(0, 80)
-plt.tight_layout() 
+plt.tight_layout()
 plt.legend(prop={'size':9})
 
 
@@ -722,16 +722,16 @@ action_3_path =    ACTION_201604_FILE
 def get_actions_1():
     action = pd.read_csv(action_1_path,header=0,encoding='gbk',nrows=1000000)
     action = action.sample(n = 800000)
-#     action = get_action_data(action_1_path)
+    #     action = get_action_data(action_1_path)
     return action
 def get_actions_2():
     action2 = pd.read_csv(action_2_path,header=0,encoding='gbk',nrows=1000000)
-#     action2 = get_action_data(action_1_path)
+    #     action2 = get_action_data(action_1_path)
     action2 = action2.sample(n = 800000)
     return action2
 def get_actions_3():
     action3 = pd.read_csv(action_3_path,header=0,encoding='gbk',nrows=1000000)
-#     action3 = get_action_data(action_1_path)
+    #     action3 = get_action_data(action_1_path)
     action3 = action3.sample(n = 800000)
     return action3
 # 读取并拼接所有行为记录文件
@@ -740,7 +740,7 @@ def get_all_action():
     action_2 = get_actions_2()
     action_3 = get_actions_3()
     actions = pd.concat([action_1, action_2, action_3]) # type: pd.DataFrame
-#     actions = pd.read_csv(action_path)
+    #     actions = pd.read_csv(action_path)
     return actions
 # 获取某个时间段的行为记录
 def get_actions(start_date, end_date, all_actions):
@@ -770,11 +770,11 @@ def get_basic_user_feat():
     user = pd.read_csv(user_path, encoding='gbk',header=0)
     user['age'].fillna('-1', inplace=True)
     user['sex'].fillna(2, inplace=True)
-    user['sex'] = user['sex'].astype(int)    
+    user['sex'] = user['sex'].astype(int)
     user['age'] = user['age'].astype(int)
-    le = preprocessing.LabelEncoder()    
+    le = preprocessing.LabelEncoder()
     age_df = le.fit_transform(user['age'])
-#     print list(le.classes_)
+    #     print list(le.classes_)
     age_df = pd.get_dummies(age_df, prefix='age')
     sex_df = pd.get_dummies(user['sex'], prefix='sex')
     user_lv_df = pd.get_dummies(user['user_lv_cd'], prefix='user_lv_cd')
@@ -839,11 +839,11 @@ def get_comments_product_feat(end_date):
         if 'comment_num_' + str(i) not in df.columns:
             df['comment_num_' + str(i)] = 0
     df = df[['comment_num_0', 'comment_num_1', 'comment_num_2', 'comment_num_3', 'comment_num_4']]
-    
+
     comments = pd.concat([comments, df], axis=1) # type: pd.DataFrame
-        #del comments['dt']
-        #del comments['comment_num']
-    comments = comments[['sku_id', 'has_bad_comment', 'bad_comment_rate','comment_num_0', 'comment_num_1', 
+    #del comments['dt']
+    #del comments['comment_num']
+    comments = comments[['sku_id', 'has_bad_comment', 'bad_comment_rate','comment_num_0', 'comment_num_1',
                          'comment_num_2', 'comment_num_3', 'comment_num_4']]
     return comments
 
@@ -911,7 +911,7 @@ def get_action_feat(start_date, end_date, all_actions, i):
     actions[before_date+'minus_mean_6'] = actions[before_date+'_6_x'] - (actions[before_date+'_6_x']/i)
     del actions['type']
     # 保留cate特征
-#     del actions['cate']
+    #     del actions['cate']
     return actions
 
 
@@ -977,15 +977,15 @@ def get_accumulate_user_feat(end_date, all_actions, day):
     before_date = 'user_action_%s' % day
     feature = [
         'user_id', before_date + '_1', before_date + '_2', before_date + '_3',
-        before_date + '_4', before_date + '_5', before_date + '_6',
-        before_date + '_1_ratio', before_date + '_2_ratio',
-        before_date + '_3_ratio', before_date + '_5_ratio',
-        before_date + '_6_ratio', before_date + '_1_mean',
-        before_date + '_2_mean', before_date + '_3_mean',
-        before_date + '_4_mean', before_date + '_5_mean',
-        before_date + '_6_mean', before_date + '_1_std',
-        before_date + '_2_std', before_date + '_3_std', before_date + '_4_std',
-        before_date + '_5_std', before_date + '_6_std'
+                   before_date + '_4', before_date + '_5', before_date + '_6',
+                   before_date + '_1_ratio', before_date + '_2_ratio',
+                   before_date + '_3_ratio', before_date + '_5_ratio',
+                   before_date + '_6_ratio', before_date + '_1_mean',
+                   before_date + '_2_mean', before_date + '_3_mean',
+                   before_date + '_4_mean', before_date + '_5_mean',
+                   before_date + '_6_mean', before_date + '_1_std',
+                   before_date + '_2_std', before_date + '_3_std', before_date + '_4_std',
+                   before_date + '_5_std', before_date + '_6_std'
     ]
     actions = get_actions(start_date, end_date, all_actions) #根据时间获取行为数据
     if len(actions['type'].unique()) != 6:
@@ -1020,24 +1020,24 @@ def get_accumulate_user_feat(end_date, all_actions, day):
     actions_date['user_id'] = actions_date.index
     # 分组统计，按用户分组，统计用户各项行为的转化率、均值
     actions = actions.groupby(['user_id'], as_index=False).sum()
-#     days_interal = (datetime.strptime(end_date, '%Y-%m-%d') -
-#                     datetime.strptime(start_date, '%Y-%m-%d')).days
+    #     days_interal = (datetime.strptime(end_date, '%Y-%m-%d') -
+    #                     datetime.strptime(start_date, '%Y-%m-%d')).days
     # 转化率
-#     actions[before_date + '_1_ratio'] = actions[before_date +
-#                                                 '_4'] / actions[before_date +
-#                                                                 '_1']
-#     actions[before_date + '_2_ratio'] = actions[before_date +
-#                                                 '_4'] / actions[before_date +
-#                                                                 '_2']
-#     actions[before_date + '_3_ratio'] = actions[before_date +
-#                                                 '_4'] / actions[before_date +
-#                                                                 '_3']
-#     actions[before_date + '_5_ratio'] = actions[before_date +
-#                                                 '_4'] / actions[before_date +
-#                                                                 '_5']
-#     actions[before_date + '_6_ratio'] = actions[before_date +
-#                                                 '_4'] / actions[before_date +
-#                                                                 '_6']
+    #     actions[before_date + '_1_ratio'] = actions[before_date +
+    #                                                 '_4'] / actions[before_date +
+    #                                                                 '_1']
+    #     actions[before_date + '_2_ratio'] = actions[before_date +
+    #                                                 '_4'] / actions[before_date +
+    #                                                                 '_2']
+    #     actions[before_date + '_3_ratio'] = actions[before_date +
+    #                                                 '_4'] / actions[before_date +
+    #                                                                 '_3']
+    #     actions[before_date + '_5_ratio'] = actions[before_date +
+    #                                                 '_4'] / actions[before_date +
+    #                                                                 '_5']
+    #     actions[before_date + '_6_ratio'] = actions[before_date +
+    #                                                 '_4'] / actions[before_date +
+    #                                                                 '_6']
     # 类型为4的总次数/各自总次数，即各种转化率
     actions[before_date + '_1_ratio'] =  np.log(1 + actions[before_date + '_4']) - np.log(1 + actions[before_date +'_1'])
     actions[before_date + '_2_ratio'] =  np.log(1 + actions[before_date + '_4']) - np.log(1 + actions[before_date +'_2'])
@@ -1110,21 +1110,21 @@ def get_recent_user_feat(end_date, all_actions):
     actions = pd.merge(actions_3, actions_30, how ='left', on='user_id')
     del actions_3
     del actions_30
-    
+
     actions['recent_action1'] =  np.log(1 + actions['user_action_30_1']-actions['user_action_3_1']) - np.log(1 + actions['user_action_30_1'])
     actions['recent_action2'] =  np.log(1 + actions['user_action_30_2']-actions['user_action_3_2']) - np.log(1 + actions['user_action_30_2'])
     actions['recent_action3'] =  np.log(1 + actions['user_action_30_3']-actions['user_action_3_3']) - np.log(1 + actions['user_action_30_3'])
     actions['recent_action4'] =  np.log(1 + actions['user_action_30_4']-actions['user_action_3_4']) - np.log(1 + actions['user_action_30_4'])
     actions['recent_action5'] =  np.log(1 + actions['user_action_30_5']-actions['user_action_3_5']) - np.log(1 + actions['user_action_30_5'])
     actions['recent_action6'] =  np.log(1 + actions['user_action_30_6']-actions['user_action_3_6']) - np.log(1 + actions['user_action_30_6'])
-    
-#     actions['recent_action1'] = (actions['user_action_30_1']-actions['user_action_3_1'])/actions['user_action_30_1']
-#     actions['recent_action2'] = (actions['user_action_30_2']-actions['user_action_3_2'])/actions['user_action_30_2']
-#     actions['recent_action3'] = (actions['user_action_30_3']-actions['user_action_3_3'])/actions['user_action_30_3']
-#     actions['recent_action4'] = (actions['user_action_30_4']-actions['user_action_3_4'])/actions['user_action_30_4']
-#     actions['recent_action5'] = (actions['user_action_30_5']-actions['user_action_3_5'])/actions['user_action_30_5']
-#     actions['recent_action6'] = (actions['user_action_30_6']-actions['user_action_3_6'])/actions['user_action_30_6']
-    
+
+    #     actions['recent_action1'] = (actions['user_action_30_1']-actions['user_action_3_1'])/actions['user_action_30_1']
+    #     actions['recent_action2'] = (actions['user_action_30_2']-actions['user_action_3_2'])/actions['user_action_30_2']
+    #     actions['recent_action3'] = (actions['user_action_30_3']-actions['user_action_3_3'])/actions['user_action_30_3']
+    #     actions['recent_action4'] = (actions['user_action_30_4']-actions['user_action_3_4'])/actions['user_action_30_4']
+    #     actions['recent_action5'] = (actions['user_action_30_5']-actions['user_action_3_5'])/actions['user_action_30_5']
+    #     actions['recent_action6'] = (actions['user_action_30_6']-actions['user_action_3_6'])/actions['user_action_30_6']
+
     return actions
 
 
@@ -1171,81 +1171,81 @@ def get_user_cate_feature(start_date, end_date, all_actions):
     actions = actions.fillna(0)
     actions['cate_action_sum'] = actions.sum(axis=1)
     actions['cate8_percentage'] = (
-        actions['cate_8_type1'] + actions['cate_8_type2'] +
-        actions['cate_8_type3'] + actions['cate_8_type4'] +
-        actions['cate_8_type5'] + actions['cate_8_type6']
-    ) / actions['cate_action_sum']
+                                          actions['cate_8_type1'] + actions['cate_8_type2'] +
+                                          actions['cate_8_type3'] + actions['cate_8_type4'] +
+                                          actions['cate_8_type5'] + actions['cate_8_type6']
+                                  ) / actions['cate_action_sum']
     actions['cate4_percentage'] = (
-        actions['cate_4_type1'] + actions['cate_4_type2'] +
-        actions['cate_4_type3'] + actions['cate_4_type4'] +
-        actions['cate_4_type5'] + actions['cate_4_type6']
-    ) / actions['cate_action_sum']
+                                          actions['cate_4_type1'] + actions['cate_4_type2'] +
+                                          actions['cate_4_type3'] + actions['cate_4_type4'] +
+                                          actions['cate_4_type5'] + actions['cate_4_type6']
+                                  ) / actions['cate_action_sum']
     actions['cate5_percentage'] = (
-        actions['cate_5_type1'] + actions['cate_5_type2'] +
-        actions['cate_5_type3'] + actions['cate_5_type4'] +
-        actions['cate_5_type5'] + actions['cate_5_type6']
-    ) / actions['cate_action_sum']
+                                          actions['cate_5_type1'] + actions['cate_5_type2'] +
+                                          actions['cate_5_type3'] + actions['cate_5_type4'] +
+                                          actions['cate_5_type5'] + actions['cate_5_type6']
+                                  ) / actions['cate_action_sum']
     actions['cate6_percentage'] = (
-        actions['cate_6_type1'] + actions['cate_6_type2'] +
-        actions['cate_6_type3'] + actions['cate_6_type4'] +
-        actions['cate_6_type5'] + actions['cate_6_type6']
-    ) / actions['cate_action_sum']
+                                          actions['cate_6_type1'] + actions['cate_6_type2'] +
+                                          actions['cate_6_type3'] + actions['cate_6_type4'] +
+                                          actions['cate_6_type5'] + actions['cate_6_type6']
+                                  ) / actions['cate_action_sum']
     actions['cate7_percentage'] = (
-        actions['cate_7_type1'] + actions['cate_7_type2'] +
-        actions['cate_7_type3'] + actions['cate_7_type4'] +
-        actions['cate_7_type5'] + actions['cate_7_type6']
-    ) / actions['cate_action_sum']
+                                          actions['cate_7_type1'] + actions['cate_7_type2'] +
+                                          actions['cate_7_type3'] + actions['cate_7_type4'] +
+                                          actions['cate_7_type5'] + actions['cate_7_type6']
+                                  ) / actions['cate_action_sum']
     actions['cate9_percentage'] = (
-        actions['cate_9_type1'] + actions['cate_9_type2'] +
-        actions['cate_9_type3'] + actions['cate_9_type4'] +
-        actions['cate_9_type5'] + actions['cate_9_type6']
-    ) / actions['cate_action_sum']
+                                          actions['cate_9_type1'] + actions['cate_9_type2'] +
+                                          actions['cate_9_type3'] + actions['cate_9_type4'] +
+                                          actions['cate_9_type5'] + actions['cate_9_type6']
+                                  ) / actions['cate_action_sum']
     actions['cate10_percentage'] = (
-        actions['cate_10_type1'] + actions['cate_10_type2'] +
-        actions['cate_10_type3'] + actions['cate_10_type4'] +
-        actions['cate_10_type5'] + actions['cate_10_type6']
-    ) / actions['cate_action_sum']
+                                           actions['cate_10_type1'] + actions['cate_10_type2'] +
+                                           actions['cate_10_type3'] + actions['cate_10_type4'] +
+                                           actions['cate_10_type5'] + actions['cate_10_type6']
+                                   ) / actions['cate_action_sum']
     actions['cate11_percentage'] = (
-        actions['cate_11_type1'] + actions['cate_11_type2'] +
-        actions['cate_11_type3'] + actions['cate_11_type4'] +
-        actions['cate_11_type5'] + actions['cate_11_type6']
-    ) / actions['cate_action_sum']
+                                           actions['cate_11_type1'] + actions['cate_11_type2'] +
+                                           actions['cate_11_type3'] + actions['cate_11_type4'] +
+                                           actions['cate_11_type5'] + actions['cate_11_type6']
+                                   ) / actions['cate_action_sum']
     actions['cate8_type1_percentage'] = np.log(
         1 + actions['cate_8_type1']) - np.log(
-            1 + actions['cate_8_type1'] + actions['cate_4_type1'] +
-            actions['cate_5_type1'] + actions['cate_6_type1'] +
-            actions['cate_7_type1'] + actions['cate_9_type1'] +
-            actions['cate_10_type1'] + actions['cate_11_type1'])
+        1 + actions['cate_8_type1'] + actions['cate_4_type1'] +
+        actions['cate_5_type1'] + actions['cate_6_type1'] +
+        actions['cate_7_type1'] + actions['cate_9_type1'] +
+        actions['cate_10_type1'] + actions['cate_11_type1'])
     actions['cate8_type2_percentage'] = np.log(
         1 + actions['cate_8_type2']) - np.log(
-            1 + actions['cate_8_type2'] + actions['cate_4_type2'] +
-            actions['cate_5_type2'] + actions['cate_6_type2'] +
-            actions['cate_7_type2'] + actions['cate_9_type2'] +
-            actions['cate_10_type2'] + actions['cate_11_type2'])
+        1 + actions['cate_8_type2'] + actions['cate_4_type2'] +
+        actions['cate_5_type2'] + actions['cate_6_type2'] +
+        actions['cate_7_type2'] + actions['cate_9_type2'] +
+        actions['cate_10_type2'] + actions['cate_11_type2'])
     actions['cate8_type3_percentage'] = np.log(
         1 + actions['cate_8_type3']) - np.log(
-            1 + actions['cate_8_type3'] + actions['cate_4_type3'] +
-            actions['cate_5_type3'] + actions['cate_6_type3'] +
-            actions['cate_7_type3'] + actions['cate_9_type3'] +
-            actions['cate_10_type3'] + actions['cate_11_type3'])
+        1 + actions['cate_8_type3'] + actions['cate_4_type3'] +
+        actions['cate_5_type3'] + actions['cate_6_type3'] +
+        actions['cate_7_type3'] + actions['cate_9_type3'] +
+        actions['cate_10_type3'] + actions['cate_11_type3'])
     actions['cate8_type4_percentage'] = np.log(
         1 + actions['cate_8_type4']) - np.log(
-            1 + actions['cate_8_type4'] + actions['cate_4_type4'] +
-            actions['cate_5_type4'] + actions['cate_6_type4'] +
-            actions['cate_7_type4'] + actions['cate_9_type4'] +
-            actions['cate_10_type4'] + actions['cate_11_type4'])
+        1 + actions['cate_8_type4'] + actions['cate_4_type4'] +
+        actions['cate_5_type4'] + actions['cate_6_type4'] +
+        actions['cate_7_type4'] + actions['cate_9_type4'] +
+        actions['cate_10_type4'] + actions['cate_11_type4'])
     actions['cate8_type5_percentage'] = np.log(
         1 + actions['cate_8_type5']) - np.log(
-            1 + actions['cate_8_type5'] + actions['cate_4_type5'] +
-            actions['cate_5_type5'] + actions['cate_6_type5'] +
-            actions['cate_7_type5'] + actions['cate_9_type5'] +
-            actions['cate_10_type5'] + actions['cate_11_type5'])
+        1 + actions['cate_8_type5'] + actions['cate_4_type5'] +
+        actions['cate_5_type5'] + actions['cate_6_type5'] +
+        actions['cate_7_type5'] + actions['cate_9_type5'] +
+        actions['cate_10_type5'] + actions['cate_11_type5'])
     actions['cate8_type6_percentage'] = np.log(
         1 + actions['cate_8_type6']) - np.log(
-            1 + actions['cate_8_type6'] + actions['cate_4_type6'] +
-            actions['cate_5_type6'] + actions['cate_6_type6'] +
-            actions['cate_7_type6'] + actions['cate_9_type6'] +
-            actions['cate_10_type6'] + actions['cate_11_type6'])
+        1 + actions['cate_8_type6'] + actions['cate_4_type6'] +
+        actions['cate_5_type6'] + actions['cate_6_type6'] +
+        actions['cate_7_type6'] + actions['cate_9_type6'] +
+        actions['cate_10_type6'] + actions['cate_11_type6'])
     actions['user_id'] = actions.index
     actions = actions[[
         'user_id', 'cate8_percentage', 'cate4_percentage', 'cate5_percentage',
@@ -1325,16 +1325,16 @@ def get_accumulate_product_feat(start_date, end_date, all_actions):
     actions = actions.groupby(['sku_id'], as_index=False).sum()
     days_interal = (datetime.strptime(end_date, '%Y-%m-%d') - datetime.strptime(start_date, '%Y-%m-%d')).days
     # 针对商品分组，计算购买转化率
-#     actions['product_action_1_ratio'] = actions['product_action_4'] / actions[
-#         'product_action_1']
-#     actions['product_action_2_ratio'] = actions['product_action_4'] / actions[
-#         'product_action_2']
-#     actions['product_action_3_ratio'] = actions['product_action_4'] / actions[
-#         'product_action_3']
-#     actions['product_action_5_ratio'] = actions['product_action_4'] / actions[
-#         'product_action_5']
-#     actions['product_action_6_ratio'] = actions['product_action_4'] / actions[
-#         'product_action_6']
+    #     actions['product_action_1_ratio'] = actions['product_action_4'] / actions[
+    #         'product_action_1']
+    #     actions['product_action_2_ratio'] = actions['product_action_4'] / actions[
+    #         'product_action_2']
+    #     actions['product_action_3_ratio'] = actions['product_action_4'] / actions[
+    #         'product_action_3']
+    #     actions['product_action_5_ratio'] = actions['product_action_4'] / actions[
+    #         'product_action_5']
+    #     actions['product_action_6_ratio'] = actions['product_action_4'] / actions[
+    #         'product_action_6']
     actions['product_action_1_ratio'] =  np.log(1 + actions['product_action_4']) - np.log(1 + actions['product_action_1'])
     actions['product_action_2_ratio'] =  np.log(1 + actions['product_action_4']) - np.log(1 + actions['product_action_2'])
     actions['product_action_3_ratio'] =  np.log(1 + actions['product_action_4']) - np.log(1 + actions['product_action_3'])
@@ -1342,17 +1342,17 @@ def get_accumulate_product_feat(start_date, end_date, all_actions):
     actions['product_action_6_ratio'] =  np.log(1 + actions['product_action_4']) - np.log(1 + actions['product_action_6'])
     # 计算各种行为的均值
     actions['product_action_1_mean'] = actions[
-        'product_action_1'] / days_interal
+                                           'product_action_1'] / days_interal
     actions['product_action_2_mean'] = actions[
-        'product_action_2'] / days_interal
+                                           'product_action_2'] / days_interal
     actions['product_action_3_mean'] = actions[
-        'product_action_3'] / days_interal
+                                           'product_action_3'] / days_interal
     actions['product_action_4_mean'] = actions[
-        'product_action_4'] / days_interal
+                                           'product_action_4'] / days_interal
     actions['product_action_5_mean'] = actions[
-        'product_action_5'] / days_interal
+                                           'product_action_5'] / days_interal
     actions['product_action_6_mean'] = actions[
-        'product_action_6'] / days_interal
+                                           'product_action_6'] / days_interal
     actions = pd.merge(actions, actions_date, how='left', on='sku_id')
     actions = actions[feature]
     return actions
@@ -1377,8 +1377,8 @@ get_accumulate_product_feat('2016-02-01','2016-03-01',all_actions).info()
 
 
 def get_accumulate_cate_feat(start_date, end_date, all_actions):
-    feature = ['cate','cate_action_1', 'cate_action_2', 'cate_action_3', 'cate_action_4', 'cate_action_5', 
-               'cate_action_6', 'cate_action_1_ratio', 'cate_action_2_ratio', 
+    feature = ['cate','cate_action_1', 'cate_action_2', 'cate_action_3', 'cate_action_4', 'cate_action_5',
+               'cate_action_6', 'cate_action_1_ratio', 'cate_action_2_ratio',
                'cate_action_3_ratio', 'cate_action_5_ratio', 'cate_action_6_ratio', 'cate_action_1_mean',
                'cate_action_2_mean', 'cate_action_3_mean', 'cate_action_4_mean', 'cate_action_5_mean',
                'cate_action_6_mean', 'cate_action_1_std', 'cate_action_2_std', 'cate_action_3_std',
@@ -1415,12 +1415,12 @@ def get_accumulate_cate_feat(start_date, end_date, all_actions):
     # 按照类别分组，统计各个商品类别下行为的转化率
     actions = actions.groupby(['cate'], as_index=False).sum()
     days_interal = (datetime.strptime(end_date, '%Y-%m-%d')-datetime.strptime(start_date, '%Y-%m-%d')).days
-    
-#     actions['cate_action_1_ratio'] = actions['cate_action_4'] / actions['cate_action_1']
-#     actions['cate_action_2_ratio'] = actions['cate_action_4'] / actions['cate_action_2']
-#     actions['cate_action_3_ratio'] = actions['cate_action_4'] / actions['cate_action_3']
-#     actions['cate_action_5_ratio'] = actions['cate_action_4'] / actions['cate_action_5']
-#     actions['cate_action_6_ratio'] = actions['cate_action_4'] / actions['cate_action_6']
+
+    #     actions['cate_action_1_ratio'] = actions['cate_action_4'] / actions['cate_action_1']
+    #     actions['cate_action_2_ratio'] = actions['cate_action_4'] / actions['cate_action_2']
+    #     actions['cate_action_3_ratio'] = actions['cate_action_4'] / actions['cate_action_3']
+    #     actions['cate_action_5_ratio'] = actions['cate_action_4'] / actions['cate_action_5']
+    #     actions['cate_action_6_ratio'] = actions['cate_action_4'] / actions['cate_action_6']
     actions['cate_action_1_ratio'] =(np.log(1 + actions['cate_action_4']) - np.log(1 + actions['cate_action_1']))
     actions['cate_action_2_ratio'] =(np.log(1 + actions['cate_action_4']) - np.log(1 + actions['cate_action_2']))
     actions['cate_action_3_ratio'] =(np.log(1 + actions['cate_action_4']) - np.log(1 + actions['cate_action_3']))
@@ -1494,10 +1494,10 @@ def make_actions(user, product, all_actions, train_start_date):
     print ('train_end_date',train_end_date)
     user_acc = get_recent_user_feat(train_end_date, all_actions)
     print ('get_recent_user_feat finsihed')
-    
+
     user_cate = get_user_cate_feature(train_start_date, train_end_date, all_actions)
     print ('get_user_cate_feature finished')
-    
+
     product_acc = get_accumulate_product_feat(start_days, train_end_date, all_actions)
     print ('get_accumulate_product_feat finsihed')
     cate_acc = get_accumulate_cate_feat(start_days, train_end_date, all_actions)
@@ -1508,18 +1508,18 @@ def make_actions(user, product, all_actions, train_start_date):
     test_start_date = train_end_date
     test_end_date = datetime.strptime(test_start_date, '%Y-%m-%d') + timedelta(days=5)#未来5天
     test_end_date = test_end_date.strftime('%Y-%m-%d')
-#     labels = get_labels(test_start_date, test_end_date, all_actions)
+    #     labels = get_labels(test_start_date, test_end_date, all_actions)
     labels = get_labels('2016-03-01','2016-04-01',all_actions)# 由于数据问题，故固定日期
     print('len(labels)>>>>>>>>>>>>>>>>>>'+str(len(labels)))
     print ("get labels finished")
-    
+
     actions = None
     for i in (3, 5, 7, 10, 15, 21, 30):
-        start_days = datetime.strptime(train_end_date, 
+        start_days = datetime.strptime(train_end_date,
                                        '%Y-%m-%d') - timedelta(days=i)
         start_days = start_days.strftime('%Y-%m-%d')
         if actions is None:
-            actions = get_action_feat(start_days, 
+            actions = get_action_feat(start_days,
                                       train_end_date, all_actions, i)
             print('get_action_feat,actions.shape:{}'.format(actions.shape))
         else:
@@ -1544,7 +1544,7 @@ def make_actions(user, product, all_actions, train_start_date):
     print('len(actions)2================'+str(len(actions)))
     # 主要是填充拼接商品基本特征、评论特征、标签之后的空值
     actions = actions.fillna(0)
-#     return actions
+    #     return actions
     # 采样
     action_postive = actions[actions['label'] == 1]
     action_negative = actions[actions['label'] == 0]
@@ -1555,7 +1555,7 @@ def make_actions(user, product, all_actions, train_start_date):
     action_negative = action_negative.sample(n=neg_len)
     action_sample = pd.concat([action_postive, action_negative], ignore_index=True)
     print('len(action_sample)================'+str(len(action_sample)))
-    
+
     return action_sample
 
 
@@ -1577,7 +1577,7 @@ def make_train_set(train_start_date, setNums ,f_path):
             train_actions = make_actions(user, product, all_actions, train_start_date)
         else:
             train_actions = pd.concat([train_actions, make_actions(user, product, all_actions, train_start_date)],
-                                          ignore_index=True)
+                                      ignore_index=True)
         # 接下来每次移动一天
         train_start_date = datetime.strptime(train_start_date, '%Y-%m-%d') + timedelta(days=1)
         train_start_date = train_start_date.strftime('%Y-%m-%d')
@@ -1647,23 +1647,23 @@ def make_val_set(train_start_date, train_end_date, val_s1_path):
     print ("get all actions!")
     user = get_basic_user_feat()
     print ('get_basic_user_feat finsihed')
-    
+
     product = get_basic_product_feat()
     print ('get_basic_product_feat finsihed')
-#     user_acc = get_accumulate_user_feat(train_end_date,all_actions,30)
-#     print 'get_accumulate_user_feat finished'
+    #     user_acc = get_accumulate_user_feat(train_end_date,all_actions,30)
+    #     print 'get_accumulate_user_feat finished'
     user_acc = get_recent_user_feat(train_end_date, all_actions)
     print( 'get_recent_user_feat finsihed')
     user_cate = get_user_cate_feature(train_start_date, train_end_date, all_actions)
     print ('get_user_cate_feature finished')
- 
+
     product_acc = get_accumulate_product_feat(start_days, train_end_date, all_actions)
     print ('get_accumulate_product_feat finsihed')
     cate_acc = get_accumulate_cate_feat(start_days, train_end_date, all_actions)
     print ('get_accumulate_cate_feat finsihed')
     comment_acc = get_comments_product_feat(train_end_date)
     print ('get_comments_product_feat finished')
-    
+
     actions = None
     for i in (3, 5, 7, 10, 15, 21, 30):
         start_days = datetime.strptime(train_end_date, '%Y-%m-%d') - timedelta(days=i)
@@ -1682,16 +1682,16 @@ def make_val_set(train_start_date, train_end_date, val_s1_path):
     actions = pd.merge(actions, cate_acc, how='left', on='cate')
     actions = pd.merge(actions, comment_acc, how='left', on='sku_id')
     actions = actions.fillna(0)
-   
-    
-#     print actions
+
+
+    #     print actions
     # 构造真实用户购买情况作为后续验证
     val_start_date = train_end_date
     val_end_date = datetime.strptime(val_start_date, '%Y-%m-%d') + timedelta(days=5)
     val_end_date = val_end_date.strftime('%Y-%m-%d')
-#     make_val_answer(val_start_date, val_end_date, all_actions, 'label_'+val_s1_path)
+    #     make_val_answer(val_start_date, val_end_date, all_actions, 'label_'+val_s1_path)
     make_val_answer('2016-03-01','2016-03-04',all_actions,'label_'+val_s1_path)
-    
+
     actions.to_csv(val_s1_path, index=False)
 
 
@@ -1723,13 +1723,13 @@ def make_test_set(train_start_date, train_end_date):
     print ('get_basic_user_feat finsihed')
     product = get_basic_product_feat()
     print ('get_basic_product_feat finsihed')
-    
+
     user_acc = get_recent_user_feat(train_end_date, all_actions)
     print ('get_accumulate_user_feat finsihed')
-    
+
     user_cate = get_user_cate_feature(train_start_date, train_end_date, all_actions)
     print ('get_user_cate_feature finished')
-    
+
     product_acc = get_accumulate_product_feat(start_days, train_end_date, all_actions)
     print ('get_accumulate_product_feat finsihed')
     cate_acc = get_accumulate_cate_feat(start_days, train_end_date, all_actions)
@@ -1753,7 +1753,7 @@ def make_test_set(train_start_date, train_end_date):
     actions = pd.merge(actions, cate_acc, how='left', on='cate')
     actions = pd.merge(actions, comment_acc, how='left', on='sku_id')
     actions = actions.fillna(0)
-    
+
     actions.to_csv("test_set.csv", index=False)
 
 
@@ -1819,16 +1819,16 @@ get_data_from_csv('train_set.csv').head()
 
 def show_record():
     train = get_data_from_csv('train_set.csv')
-#     valid = pd.read_csv('val_set.csv')
-#     label_val = pd.read_csv('label_val_set.csv')
+    #     valid = pd.read_csv('val_set.csv')
+    #     label_val = pd.read_csv('label_val_set.csv')
     valid1 = get_data_from_csv('val_1.csv')
-#     valid2 = get_data_from_csv('val_2.csv')
-#     valid3 = `get_data_from_csv('val_3.csv')
-#     test = pd.read_csv('test_set.csv')
+    #     valid2 = get_data_from_csv('val_2.csv')
+    #     valid3 = `get_data_from_csv('val_3.csv')
+    #     test = pd.read_csv('test_set.csv')
     print (train.shape)
-#     print valid.shape
-#     print label_val.shape
-#     print test.shape
+    #     print valid.shape
+    #     print label_val.shape
+    #     print test.shape
     print (valid1.shape)
 #     print (valid2.shape)
 #     print (valid3.shape)
@@ -1856,62 +1856,62 @@ def create_feature_map(features):
         outfile.write('{0}\t{1}\tq\n'.format(i, feat))
         i = i + 1
     outfile.close()
-    
+
 def xgb_model(train_set):
     actions = get_data_from_csv(train_set)             #read train_set
     # 单纯的删掉模型前一遍训练认为无用的特征（根据特征重要性中不存在的特征）
     lst_useless = ['brand']
-    
+
     actions.drop(lst_useless, inplace=True, axis=1)
-    
+
     users = actions[['user_id', 'sku_id']].copy()
     labels = actions['label'].copy()
     del actions['user_id']
     del actions['sku_id']
     del actions['label']
     # 尝试通过设置scale_pos_weight来调整政府比例不均的问题，但是经过采样的正负比为1:10，
-#     训练结果反而不如设置为1
-#     ratio = float(np.sum(labels==0)) / np.sum(labels==1)
-#     print ratio
-    
+    #     训练结果反而不如设置为1
+    #     ratio = float(np.sum(labels==0)) / np.sum(labels==1)
+    #     print ratio
+
     # write to feature map
     features = list(actions.columns[:])
     print ('total features: ', len(features))
     create_feature_map(features)
     # 训练时即传入特征名
-#     features = list(actions.columns.values)
-    
+    #     features = list(actions.columns.values)
+
     user_index=users
     training_data=actions
     label=labels
-    X_train, X_valid, y_train, y_valid = train_test_split(training_data.values, label, test_size=0.2, 
+    X_train, X_valid, y_train, y_valid = train_test_split(training_data.values, label, test_size=0.2,
                                                           random_state=0)
-    
+
     # 尝试通过提前设置传入训练的正负例的权重来改善正负比例不均的问题
-#     weights = np.zeros(len(y_train))
-#     weights[y_train==0] = 1
-#     weights[y_train==1] = 10
-    
-#     dtrain = xgb.DMatrix(X_train, label=y_train, weight=weights)
+    #     weights = np.zeros(len(y_train))
+    #     weights[y_train==0] = 1
+    #     weights[y_train==1] = 10
+
+    #     dtrain = xgb.DMatrix(X_train, label=y_train, weight=weights)
     dtrain = xgb.DMatrix(X_train, label=y_train)
     dvalid = xgb.DMatrix(X_valid, label=y_valid)
-#     dtrain = xgb.DMatrix(X_train, label=y_train, feature_names=features)
-#     dvalid = xgb.DMatrix(X_valid, label=y_valid, feature_names=features)
-#     dtrain = xgb.DMatrix(training_data.values, label.values)
-    param = {'n_estimators': 4000, 'max_depth': 3, 'min_child_weight': 5, 'gamma': 0, 'subsample': 1.0, 
+    #     dtrain = xgb.DMatrix(X_train, label=y_train, feature_names=features)
+    #     dvalid = xgb.DMatrix(X_valid, label=y_valid, feature_names=features)
+    #     dtrain = xgb.DMatrix(training_data.values, label.values)
+    param = {'n_estimators': 4000, 'max_depth': 3, 'min_child_weight': 5, 'gamma': 0, 'subsample': 1.0,
              'colsample_bytree': 0.8, 'scale_pos_weight':10, 'eta': 0.1, 'silent': 1, 'objective': 'binary:logistic',
              'eval_metric':'auc'}
-#     param = {'n_estimators': 4000, 'max_depth': 6, 'seed': 7, 'min_child_weight': 5, 'gamma': 0, 'subsample': 1.0, 
-#              'colsample_bytree': 0.8, 'scale_pos_weight': 1, 'eta': 0.09, 'silent': 1, 'objective': 'binary:logistic',
-#              'eval_metric':'auc'}
-    
+    #     param = {'n_estimators': 4000, 'max_depth': 6, 'seed': 7, 'min_child_weight': 5, 'gamma': 0, 'subsample': 1.0,
+    #              'colsample_bytree': 0.8, 'scale_pos_weight': 1, 'eta': 0.09, 'silent': 1, 'objective': 'binary:logistic',
+    #              'eval_metric':'auc'}
+
     num_round = param['n_estimators']
-#     param['nthread'] = 4
+    #     param['nthread'] = 4
     # param['eval_metric'] = "auc"
     plst = param.items()
     evallist = [(dtrain, 'train'), (dvalid, 'eval')]
-#     evallist = [(dvalid, 'eval'), (dtrain, 'train')]
-#     evallist = [(dtrain, 'train')]
+    #     evallist = [(dvalid, 'eval'), (dtrain, 'train')]
+    #     evallist = [(dtrain, 'train')]
     bst = xgb.train(plst, dtrain, num_round, evallist, early_stopping_rounds=10)
     bst.save_model('bst.model')
     return bst, features
@@ -1969,7 +1969,7 @@ def report(pred, label):
     print ('F11=' + str(F11))
     print ('F12=' + str(F12))
     print( 'score=' + str(score))
-    
+
     return all_user_acc, all_user_recall, F11, all_item_acc, all_item_recall, F12, score
 
 
@@ -1978,65 +1978,65 @@ def report(pred, label):
 
 def validate(valid_set, val_label, model):
     actions = get_data_from_csv(valid_set)                #read test_set        
-#     users = actions[['user_id', 'sku_id']].copy()
+    #     users = actions[['user_id', 'sku_id']].copy()
     # 避免预测到非8类商品，所以最后还是再筛一遍的好        
     users = actions[['user_id', 'sku_id', 'cate']].copy()
-    
+
     actions['user_id'] = actions['user_id'].astype(np.int64)
-#     test_label= actions[actions['label'] == 1]
-#     test_label= actions[(actions['label']==1) & (actions['cate']==8)]
+    #     test_label= actions[actions['label'] == 1]
+    #     test_label= actions[(actions['label']==1) & (actions['cate']==8)]
     test_label = pd.read_csv(val_label)
-    
+
     lst_useless = ['brand']
-    
+
     actions.drop(lst_useless, inplace=True, axis=1)
-    
-#     test_label = test_label[['user_id','sku_id','label']]
+
+    #     test_label = test_label[['user_id','sku_id','label']]
     del actions['user_id']
     del actions['sku_id']
     print('len(actions.columns):==============='+str(len(actions.columns)))
-    
-#     features = list(actions.columns.values)
-    
-#     del actions['label']
+
+    #     features = list(actions.columns.values)
+
+    #     del actions['label']
     sub_user_index = users
-#     sub_trainning_data = xgb.DMatrix(actions.values, feature_names=features)
+    #     sub_trainning_data = xgb.DMatrix(actions.values, feature_names=features)
     sub_trainning_data = xgb.DMatrix(actions.values)
-#     y = model.predict(sub_trainning_data,ntree_limit=model.best_iteration)
+    #     y = model.predict(sub_trainning_data,ntree_limit=model.best_iteration)
     y = model.predict(sub_trainning_data, ntree_limit=model.best_ntree_limit)
     sub_user_index['label'] = y
-    
+
     sub_user_index.to_csv('result_' + valid_set, index=False)
-    
-#     sub_user_index = sub_user_index[sub_user_index['cate']==8]
-#     del sub_user_index['cate']
+
+    #     sub_user_index = sub_user_index[sub_user_index['cate']==8]
+    #     del sub_user_index['cate']
     rank = 1000
     pred = sub_user_index.sort_values(by='label', ascending=False)[:rank]
-#     pred = sub_user_index[sub_user_index['label'] >= 0.05]
-    
+    #     pred = sub_user_index[sub_user_index['label'] >= 0.05]
+
     print ('No. of raw pred users: ', len(pred['user_id'].unique()))
     pred = pred[pred['cate']==8]
     print ('No. of pred users bought cate 8: ', len(pred['user_id'].unique()))
-    
-#     pred = pred[['user_id', 'sku_id']]
+
+    #     pred = pred[['user_id', 'sku_id']]
     pred = pred[['user_id', 'sku_id', 'label']]
     pred = pred.groupby('user_id').first().reset_index()
     pred['user_id'] = pred['user_id'].astype(int)
     pred['sku_id'] = pred['sku_id'].astype(int)
-    
-#     print 'No. of pred users after deduplicates: ', len(pred['user_id'].unique())
-    true_user = len(test_label['user_id'])   
+
+    #     print 'No. of pred users after deduplicates: ', len(pred['user_id'].unique())
+    true_user = len(test_label['user_id'])
     pred_ui = len(pred['user_id'].unique())
     print ('pred item: ', len(pred['sku_id'].unique()))
     print( 'true users: ', true_user)
     print ('pred users: ', pred_ui)
     test_label['user_id'] = test_label['user_id'].astype(int)
     test_label['sku_id'] = test_label['sku_id'].astype(int)
-    all_user_acc, all_user_recall, F11, all_item_acc, all_item_recall, F12, score = report(pred, test_label)   
-    
+    all_user_acc, all_user_recall, F11, all_item_acc, all_item_recall, F12, score = report(pred, test_label)
+
     f_name = 'pred_' + str(rank) + '_' + valid_set
     pred.to_csv(f_name, index=False)
-    
+
     return rank, true_user, pred_ui, all_user_acc, all_user_recall, F11, all_item_acc, all_item_recall, F12, score
 # validate('val_set.csv', bst_xgb)
 
@@ -2053,7 +2053,7 @@ def avg_score():
     print ('-------------------------------------------')
     rank3, true_user3, pred_ui3, user_acc3, user_recall3, F11_3, item_acc3,item_recall3, F12_3, score3 = validate('val_1.csv', 'label_val_1.csv', bst_xgb)
     print ('===========================================')
-    
+
     print ('avg user acc: ', (user_acc1+user_acc2+user_acc3)/3)
     print ('avg user recall: ', (user_recall1+user_recall2+user_recall3)/3)
     print ('avg item acc: ', (item_acc1+item_acc2+item_acc3)/3)
@@ -2073,7 +2073,7 @@ def avg_score():
     dct_score['item_recall'] = [item_recall1, item_recall2, item_recall3]
     dct_score['F12'] = [F12_1, F12_2, F12_3]
     dct_score['score'] = [score1, score2, score3]
-    column_order = ['rank', 'true_user', 'pred_ui', 'user_acc', 'user_recall', 'item_acc', 'item_recall', 'F11', 'F12', 
+    column_order = ['rank', 'true_user', 'pred_ui', 'user_acc', 'user_recall', 'item_acc', 'item_recall', 'F11', 'F12',
                     'score']
     df_score = pd.DataFrame(dct_score)
     file_name = 'score_' + str(datetime.now().date())[5:] +'_'+ str(rank1) + '.csv'
@@ -2100,7 +2100,7 @@ def feature_importance(bst_xgb):
     df['fscore'] = df['fscore'] / df['fscore'].sum()
     file_name = 'feature_importance_' + str(datetime.now().date())[5:] + '.csv'
     df.to_csv(file_name)
-    
+
 # feature_importance(bst_xgb)
 
 
@@ -2117,20 +2117,20 @@ feature_importance(bst_xgb)
 
 def submit(pred_set, model):
     actions = pd.read_csv(pred_set)                #read test_set
-    
-#     print 'total user before: ', len(actions['user_id'].unique())
-#     potential = pd.read_csv('potential_user_04-28.csv')
-#     lst_user = potential['user_id'].unique().tolist()
-#     actions = actions[actions['user_id'].isin(lst_user)]
-#     print 'total user after: ', len(actions['user_id'].unique())
+
+    #     print 'total user before: ', len(actions['user_id'].unique())
+    #     potential = pd.read_csv('potential_user_04-28.csv')
+    #     lst_user = potential['user_id'].unique().tolist()
+    #     actions = actions[actions['user_id'].isin(lst_user)]
+    #     print 'total user after: ', len(actions['user_id'].unique())
     # 提前去掉部分特征
     lst_useless = ['brand']
-    
+
     actions.drop(lst_useless, inplace=True, axis=1)
-    
+
     users = actions[['user_id', 'sku_id', 'cate']].copy()
-#     users = actions[['user_id', 'sku_id']].copy()
-    
+    #     users = actions[['user_id', 'sku_id']].copy()
+
     actions['user_id'] = actions['user_id'].astype(np.int64)
     del actions['user_id']
     del actions['sku_id']
@@ -2140,26 +2140,26 @@ def submit(pred_set, model):
     sub_trainning_data = xgb.DMatrix(actions.values)
     y = model.predict(sub_trainning_data, ntree_limit=model.best_ntree_limit)
     sub_user_index['label'] = y
-    
-#     sub_user_index = sub_user_index[sub_user_index['cate']==8]
-#     del sub_user_index['cate']
+
+    #     sub_user_index = sub_user_index[sub_user_index['cate']==8]
+    #     del sub_user_index['cate']
     rank = 1200
     pred = sub_user_index.sort_values(by='label', ascending=False)[:rank]
-#     pred = sub_user_index[sub_user_index['label'] >= 0.05]
-#     pred = pred[['user_id', 'sku_id', 'label']]
-#     pred = pred[pred['label']>0.45]
+    #     pred = sub_user_index[sub_user_index['label'] >= 0.05]
+    #     pred = pred[['user_id', 'sku_id', 'label']]
+    #     pred = pred[pred['label']>0.45]
     print ('No. of raw pred users: ', len(pred['user_id'].unique()))
     pred = pred[pred['cate']==8]
     print ('No. of pred users bought cate 8: ', len(pred['user_id'].unique()))
     pred = pred[['user_id', 'sku_id']]
-#     print 
+    #     print
     pred = pred.groupby('user_id').first().reset_index()
     pred['user_id'] = pred['user_id'].astype(int)
     pred['sku_id'] = pred['sku_id'].astype(int)
     sub_file = 'submission_' + str(rank) + '_' + str(datetime.now().date())[5:] + '.csv'
-#     sub_file = 'submission_detail_' + str(datetime.now().date())[5:] + '.csv'
-    pred.to_csv(sub_file, index=False, index_label=False)  
-    
+    #     sub_file = 'submission_detail_' + str(datetime.now().date())[5:] + '.csv'
+    pred.to_csv(sub_file, index=False, index_label=False)
+
 # submit('test_set.csv', bst_xgb)
 
 
@@ -2182,7 +2182,7 @@ def sub_improv(action, sub_file):
     action_4 = pd.read_csv(action)
     action_4['time'] = pd.to_datetime(action_4['time']).apply(lambda x: x.date())
     aim_date = [datetime.strptime(s, '%Y-%m-%d').date() for s in ['2016-04-09', '2016-04-10', '2016-04-11' ,
-                                                                  '2016-04-12', '2016-04-13', '2016-04-14', 
+                                                                  '2016-04-12', '2016-04-13', '2016-04-14',
                                                                   '2016-04-15']]
     aim_action = action_4[(action_4['type']==4) & (action_4['cate']==8) & (action_4['time'].isin(aim_date))]
     aim_ui = aim_action['user_id'].map(int).map(str) + '-' + aim_action['sku_id'].map(str)
@@ -2203,7 +2203,7 @@ def sub_improv(action, sub_file):
     if (before - sub.shape[0])!=0:
         file_name = 'submission_' + str(datetime.now().date())[5:] + '_improv.csv'
         sub.to_csv(file_name, index=False, index_label=False)
-    
+
 # sub_improv('data/JData_Action_201604.csv', 'submission_1200_05-25.csv')
 
 
