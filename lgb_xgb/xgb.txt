@@ -128,3 +128,6 @@ dtest.save_binary('...')
 xgb.Booster(model_file='')
 
 使用pickle保存
+如果使用xgb原生API，预测时字段的顺序和训练时必须保存一致，原生API没有predict_proba方法
+如果使用sklearn风格的API，则不必保持一致,不必保持一致的原因很有可能是把数据当成了np.array来处理，
+    每次随机列的顺序时，输出的结果不一致。而顺序不变时输出的结果是一样的
