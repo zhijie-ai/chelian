@@ -31,7 +31,7 @@ X_test, y_test = make_classification(n_samples=100, n_features=6, n_redundant=0,
                                      n_clusters_per_class=1, n_classes=2, flip_y=0.1)
 
 X_train = pd.DataFrame(X_train, columns=list('ABCDEF'))
-X_test = pd.DataFrame(X_test, columns=list('ABCDEF'))
+X_test = pd.DataFrame(X_test, columns=list('ABCDEG'))
 
 dtrain = xgb.DMatrix(X_train, y_train)
 dtest = xgb.DMatrix(X_test, y_test)
