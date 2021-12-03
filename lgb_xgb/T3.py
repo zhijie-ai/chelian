@@ -26,16 +26,20 @@ X_test, y_test = make_classification(n_samples=100, n_features=6, n_redundant=0,
 X_val, y_val = make_classification(n_samples=100, n_features=6, n_redundant=0,
                                      n_clusters_per_class=1, n_classes=2, flip_y=0.1)
 
-X_train = pd.DataFrame(X_train, columns=list('ABCDEF'))
-X_val = pd.DataFrame(X_val, columns=list('ABCDEF'))
+cols = np.random.permutation(list('ABCDEF'))
+print(cols)
+X_train = pd.DataFrame(X_train, columns=cols)
+X_val = pd.DataFrame(X_val, columns=cols)
 # X_test = pd.DataFrame(X_test, columns=list('ABCDFE'))
 
-param = {'max_depth':5, 'eta':0.5, 'verbosity':1, 'objective':'binary:logistic'}
-sklearn_model_raw = xgb.XGBClassifier(**param)
+param = {'max_depth':5, 'eta':0.5, 'verbosity':0, 'objective':'binary:logistic'}
+sklearn_model_raw = xgb.XGBClassifier(**param,use_label_encoder=False)
 sklearn_model_raw.fit(X_train,y_train,early_stopping_rounds=10,
-                      eval_metric="auc",eval_set=[(X_val,y_val)])
+                      eval_metric="auc",eval_set=[(X_val,y_val)], verbose=False)
 
 y_pred = sklearn_model_raw.predict_proba(X_test)
-print(y_pred)
+print(y_pred.shape)
+print(sklearn_model_raw.get_booster().feature_names)
+print(sklearn_model_raw.get_booster().feature_types)
 
 from sklearn.metrics.pairwise import pairwise_distances
