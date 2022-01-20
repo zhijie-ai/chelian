@@ -1,5 +1,5 @@
 import tensorflow as tf
-import cPickle
+import pickle as cPickle
 
 
 class DIS():
