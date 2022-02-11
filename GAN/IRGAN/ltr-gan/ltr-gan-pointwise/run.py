@@ -1,6 +1,6 @@
 import tensorflow as tf
 from gen_model_nn import GEN
-import pickle
+import pickle as cPickle
 import utils as ut
 from eval.map import MAP
 from eval.mrr import MRR
