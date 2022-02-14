@@ -3,17 +3,14 @@
 
 
 import numpy as np
-import os
 import time
 import datetime
 import insurance_qa_data_helpers
-import operator
 from insurance_qa_data_helpers import encode_sent
 import random
 import pickle
 
-import math
-now = int(time.time()) 
+now = int(time.time())
         
 timeArray = time.localtime(now)
 timeStamp = time.strftime("%Y%m%d%H%M%S", timeArray)
@@ -114,9 +111,9 @@ def generate_dns_pair(sess, model):
 
         pools=np.random.choice(alist,size=[FLAGS.pools_size])    
     
-        canditates=insurance_qa_data_helpers.loadCandidateSamples(q,a,pools,vocab)    
+        canditates= insurance_qa_data_helpers.loadCandidateSamples(q, a, pools, vocab)
         predicteds=[]
-        for batch in insurance_qa_data_helpers.batch_iter(canditates,batch_size=FLAGS.batch_size):                            
+        for batch in insurance_qa_data_helpers.batch_iter(canditates, batch_size=FLAGS.batch_size):
             feed_dict = {model.input_x_1: batch[:,0],model.input_x_2: batch[:,1],model.input_x_3: batch[:,2]}         
             predicted=sess.run(model.score13,feed_dict)
             predicteds.extend(predicted)        
@@ -134,7 +131,7 @@ def dev_step(sess,cnn,testList,dev_size=100):
     for i in range(dev_size):
         batch_scores=[]
         for j in range(int(500/FLAGS.batch_size)):
-            x_test_1, x_test_2, x_test_3 = insurance_qa_data_helpers.load_val_batch(testList, vocab, i*500+j*FLAGS.batch_size, FLAGS.batch_size)
+            x_test_1, x_test_2, x_test_3 = insurance_qa_data_helpers.load_val_batch(testList, vocab, i * 500 + j * FLAGS.batch_size, FLAGS.batch_size)
             feed_dict = {
                 cnn.input_x_1: x_test_1,
                 cnn.input_x_2: x_test_2,    #x_test_2 equals x_test_3 for the test case
@@ -205,7 +202,7 @@ def main():
                         # samples=generate_dns(sess,discriminator)#generate_uniform_pair() #generate_dns(sess,discriminator) #generate_uniform() #                        
                         samples=generate_dns_pair(sess,discriminator) #generate_uniform() # generate_uniform_pair() #                     
                         for j in range(1):
-                            for batch in insurance_qa_data_helpers.batch_iter(samples,batch_size=FLAGS.batch_size,num_epochs=1,shuffle=True):    # try:                        
+                            for batch in insurance_qa_data_helpers.batch_iter(samples, batch_size=FLAGS.batch_size, num_epochs=1, shuffle=True):    # try:
                                     
                                 feed_dict = {
                                         discriminator.input_x_1: batch[:,0],

@@ -1,14 +1,11 @@
 #coding=utf-8
 #! /usr/bin/env python3.4
 import numpy as np
-import os
 import time
 import datetime
-import operator
 import random
 import tensorflow as tf
 import pickle
-import copy
 
 import Discriminator
 import Generator
@@ -98,9 +95,9 @@ def generate_gan(sess, model,loss_type="pair",negative_size=3):
 		sampled_index=np.random.choice(neg_alist_index,size=[FLAGS.pools_size],replace= False)
 		pools=np.array(alist)[sampled_index]
 
-		canditates=insurance_qa_data_helpers.loadCandidateSamples(q,a,pools,vocab)	
+		canditates= insurance_qa_data_helpers.loadCandidateSamples(q, a, pools, vocab)
 		predicteds=[]
-		for batch in insurance_qa_data_helpers.batch_iter(canditates,batch_size=FLAGS.batch_size):							
+		for batch in insurance_qa_data_helpers.batch_iter(canditates, batch_size=FLAGS.batch_size):
 			feed_dict = {model.input_x_1: batch[:,0],model.input_x_2: batch[:,1],model.input_x_3: batch[:,2]}			
 			predicted=sess.run(model.gan_score,feed_dict)
 			predicteds.extend(predicted)
@@ -124,7 +121,7 @@ def dev_step(sess,cnn,testList,dev_size=100):
 	for i in range(dev_size):
 		batch_scores=[]
 		for j in range(int(500/FLAGS.batch_size)):
-			x_test_1, x_test_2, x_test_3 = insurance_qa_data_helpers.load_val_batch(testList, vocab, i*500+j*FLAGS.batch_size, FLAGS.batch_size)
+			x_test_1, x_test_2, x_test_3 = insurance_qa_data_helpers.load_val_batch(testList, vocab, i * 500 + j * FLAGS.batch_size, FLAGS.batch_size)
 			feed_dict = {
 				cnn.input_x_1: x_test_1,
 				cnn.input_x_2: x_test_2,	#x_test_2 equals x_test_3 for the test case
@@ -154,7 +151,7 @@ def dev_step(sess,cnn,testList,dev_size=100):
 @log_time_delta	 
 def evaluation(sess,model,log,num_epochs=0):
 	current_step = tf.train.global_step(sess, model.global_step)
-	if isinstance(model,  Discriminator.Discriminator):
+	if isinstance(model, Discriminator.Discriminator):
 		model_type="Dis"
 	else:
 		model_type="Gen"
@@ -216,7 +213,8 @@ def main():
 					if i>0:
 						samples=generate_gan(sess,generator) 
 						# for j in range(FLAGS.d_epochs_num):							
-						for _index,batch in enumerate(insurance_qa_data_helpers.batch_iter(samples,num_epochs=FLAGS.d_epochs_num,batch_size=FLAGS.batch_size,shuffle=True)):	# try:						
+						for _index,batch in enumerate(
+                                insurance_qa_data_helpers.batch_iter(samples, num_epochs=FLAGS.d_epochs_num, batch_size=FLAGS.batch_size, shuffle=True)):	# try:
 						
 							feed_dict = {discriminator.input_x_1: batch[:,0],discriminator.input_x_2: batch[:,1],discriminator.input_x_3: batch[:,2]}							
 							_, step,	current_loss,accuracy = sess.run(
@@ -243,9 +241,9 @@ def main():
 							sampled_index.append(_index)
 							pools=np.array(alist)[sampled_index]
 
-							samples=insurance_qa_data_helpers.loadCandidateSamples(q,a,pools,vocab)
+							samples= insurance_qa_data_helpers.loadCandidateSamples(q, a, pools, vocab)
 							predicteds=[]
-							for batch in insurance_qa_data_helpers.batch_iter(samples,batch_size=FLAGS.batch_size):							
+							for batch in insurance_qa_data_helpers.batch_iter(samples, batch_size=FLAGS.batch_size):
 								feed_dict = {generator.input_x_1: batch[:,0],generator.input_x_2: batch[:,1],generator.input_x_3: batch[:,2]}
 								
 								predicted=sess.run(generator.gan_score,feed_dict)
@@ -256,7 +254,8 @@ def main():
 
 							neg_index = np.random.choice(np.arange(len(pools)) , size=FLAGS.gan_k, p=prob ,replace=False)	# 生成 FLAGS.gan_k个负例
 
-							subsamples=np.array(insurance_qa_data_helpers.loadCandidateSamples(q,a,pools[neg_index],vocab))	
+							subsamples=np.array(
+                                insurance_qa_data_helpers.loadCandidateSamples(q, a, pools[neg_index], vocab))
 							feed_dict = {discriminator.input_x_1: subsamples[:,0],discriminator.input_x_2: subsamples[:,1],discriminator.input_x_3: subsamples[:,2]}
 							reward = sess.run(discriminator.reward,feed_dict)				 # reward= 2 * (tf.sigmoid( score_13 ) - 0.5)
 
