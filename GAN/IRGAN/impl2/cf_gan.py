@@ -31,7 +31,7 @@ all_items = set(range(ITEM_NUM))
 workdir = 'ml-100k/'
 DIS_TRAIN_FILE = workdir + 'dis-train.txt'
 
-user_pos_train = {}
+user_pos_train = {} # 存的是用户评分大于或等于3.99的item
 with open(workdir + 'movielens-100k-train.txt') as fin:
     for line in fin:
         line = line.split()
