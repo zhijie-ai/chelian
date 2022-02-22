@@ -144,3 +144,6 @@ model.get_booster().predict也即原生API，如果不指定ntree_limit=model.be
 model_es.get_booster().trees_to_dataframe().Tree.nunique() # 50
 该数据即为画图时显示的树的数目
 model_es.best_ntree_limit 30 ,如果采用CV的方式，最佳数的数目(best_ntree_limit)和数的数目(model_es.get_booster().trees_to_dataframe().Tree.nunique())不一致
+
+注意xgb的feature name，如果在训练的时候输入的是df，相当于指定了feature name，则predict也要指定
+默认的feature name 为f0......
