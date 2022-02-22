@@ -41,7 +41,7 @@ class DIS():
                 # For generator
                 self.reward = tf.sigmoid(tf.maximum(0.0, 1.0 - (pos_score - neg_score)))
         elif loss == 'log':
-            # ranking log loss
+            # ranking log loss TOP 1 LOSS
             with tf.name_scope('log_loss'):
                 self.loss = -tf.reduce_mean(tf.log(tf.sigmoid(pos_score - neg_score)))\
                             + self.weight_decay * (tf.nn.l2_loss(self.W_1) + tf.nn.l2_loss(self.W_2) + tf.nn.l2_loss(self.b))

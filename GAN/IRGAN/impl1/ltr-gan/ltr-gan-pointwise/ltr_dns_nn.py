@@ -1,4 +1,4 @@
-import cPickle
+import pickle as cPickle
 import random
 import tensorflow as tf
 import numpy as np

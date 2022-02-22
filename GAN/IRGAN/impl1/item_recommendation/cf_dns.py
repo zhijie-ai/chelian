@@ -6,6 +6,7 @@ import multiprocessing
 
 cores = multiprocessing.cpu_count()
 
+# dynamic negative sampling
 #########################################################################################
 # Hyper-parameters
 #########################################################################################
