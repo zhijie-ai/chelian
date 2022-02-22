@@ -13,7 +13,7 @@ import numpy as np
 
 '''
 根据权重采样
-1. nlp中subsample: 根据概率来保留，目前似乎还不知道怎么做,知道了，参考总结中的描述
+1. nlp中subsample: 根据概率来保留，目前似乎还不知道怎么做,知道了，参考总结中的描述(笔记.txt)
 2. 如果sum(w)=1,则可以根据np.random.choice来采样，就算概率很小也可以，也可以按照word2vec源码中的负采样的思路来采样
 3. 如果sum(w)!=1,既可以归一化操作让概率和为一，也可以采用R^(1/w)的思路来采样。
 '''
@@ -73,8 +73,48 @@ def nagative_sample():
     print(np.random.choice(range(100000),p=w,size=(1000),replace=False))
 
 
+# word2vec中的负采样
+def nagetive_sample(n ,cnt):
+    a = i = 0
+    table = []
+    prob = 0
+    z = sum(num ** 0.75 for num in cnt)
+
+    prob = cnt[i] ** 0.75/z
+    for a in range(n):
+        table.append(i)
+        if a > prob * n:
+            i += 1
+            prob += cnt[i] ** 0.75 / z
+    return table
+
+
 
 # print(subsample())
 
 # print(simulation())
-nagative_sample()
+# nagative_sample()
+
+if __name__ == '__main__':
+    from collections import Counter
+
+    # count, aka frequency
+    cnt = [1, 2, 3, 100, 15]
+    # 0.75 power
+    prob = [x ** 0.75 for x in cnt]
+    prob = [x / sum(prob) for x in prob]
+    print(prob, sum(prob))
+    p = [x / sum(cnt) for x in cnt]
+    p = [x ** 0.75 for x in p]
+    p_ = [x / sum(p) for x in p]
+    print(p_, sum(p_))
+
+    # sampling
+    tab = nagetive_sample(50000, cnt)
+    # print(tab)
+    res = Counter(tab)
+    print(res)
+    print([x / sum(res.values()) for x in res.values()])
+    ind = np.random.randint(0,50000,10)
+    print(ind)
+    print(np.array(tab)[ind])

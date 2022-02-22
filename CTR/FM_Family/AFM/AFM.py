@@ -87,7 +87,7 @@ class AFM(BaseEstimator,TransformerMixin):
                 for j in range(i+1,self.field_size):
                     element_wise_product_list.append(tf.multiply(self.embeddings[:,i,:],
                                                                  self.embeddings[:,j,:]))#None*K
-            self.element_wise_product=tf.stack(element_wise_product_list)#(F*F-1/2)*None*K
+            self.element_wise_product=tf.stack(element_wise_product_list)#((F*(F-1))/2)*None*K
             self.element_wise_product = tf.transpose(self.element_wise_product,
                                                      perm=[1,0.2],name='element_wise_product')#None*(F*F-1/2)*K)
 

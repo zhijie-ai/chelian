@@ -128,3 +128,19 @@ dtest.save_binary('...')
 xgb.Booster(model_file='')
 
 使用pickle保存
+如果使用xgb原生API，预测时字段的顺序和训练时必须保存一致，原生API没有predict_proba方法
+如果使用sklearn风格的API，则不必保持一致,不必保持一致的原因很有可能是把数据当成了np.array来处理，
+    每次随机列的顺序时，输出的结果不一致。而顺序不变时输出的结果是一样的
+如果模型配置了early_stopping_rounds这个参数，就有有best_score, best_iteration, best_ntree_limit3个参数。
+在预测的时候，如果是sklearn风格的predict，ntree_limit默认就是best_ntree_limit,而如果是xgb原生风格的predict方法，ntree_limit要自己设置
+# xgboost.sklearn.py 929
+if early_stopping_rounds is not None:
+    self.best_score = self._Booster.best_score
+    self.best_iteration = self._Booster.best_iteration
+    self.best_ntree_limit = self._Booster.best_ntree_limit
+
+model.get_booster().predict也即原生API，如果不指定ntree_limit=model.best_ntree_limit，则好像是所有的，但是数量又对不上
+使用bst.trees_to_dataframe()获取树的数目
+model_es.get_booster().trees_to_dataframe().Tree.nunique() # 50
+该数据即为画图时显示的树的数目
+model_es.best_ntree_limit 30 ,如果采用CV的方式，最佳数的数目(best_ntree_limit)和数的数目(model_es.get_booster().trees_to_dataframe().Tree.nunique())不一致
