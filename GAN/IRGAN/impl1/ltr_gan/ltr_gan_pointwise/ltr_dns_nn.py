@@ -18,7 +18,7 @@ D_LEARNING_RATE = 0.0001
 
 DNS_K = 15
 
-workdir = 'MQ2008-semi'
+workdir = 'MQ2008_semi'
 DIS_TRAIN_FILE = workdir + '/run-train-dns.txt'
 DNS_MODEL_BEST_FILE = workdir + '/dns_best_nn.model'
 

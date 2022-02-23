@@ -96,11 +96,11 @@ def main():
             if ndcg_5 > ndcg_best_val:
                 ndcg_best_val = ndcg_5
                 discriminator.save_model(sess, MLE_MODEL_BEST_FILE)
-                print("Best: ", " p@5 ", p_5, "ndcg@5 ", ndcg_5)
+                print("Best: ", " p@5 ", p_5, "ndcg@5 ", ndcg_5, 'ndcg_best_val', ndcg_best_val)
 
 
     sess.close()
-    param_best = cPickle.load(open(MLE_MODEL_BEST_FILE))
+    param_best = cPickle.load(open(MLE_MODEL_BEST_FILE, 'rb'))
     assert param_best is not None
     discriminator_best = DIS(FEATURE_SIZE, HIDDEN_SIZE, WEIGHT_DECAY, D_LEARNING_RATE, param=param_best)
 

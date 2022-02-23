@@ -37,7 +37,7 @@ class DIS():
 
         # ranking log loss
         with tf.name_scope('log_loss'):
-            self.loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(self.pred_score, self.pred_data_label))\
+            self.loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.pred_score, labels=self.pred_data_label))\
                         + self.weight_decay * (tf.nn.l2_loss(self.W_1) + tf.nn.l2_loss(self.W_2)
                                                + tf.nn.l2_loss(self.b_1) + tf.nn.l2_loss(self.b_2))
 
@@ -50,4 +50,4 @@ class DIS():
 
     def save_model(self, sess, filename):
         param = sess.run(self.d_params)
-        pickle.dump(param, open(filename, 'w'))
+        pickle.dump(param, open(filename, 'wb'))
