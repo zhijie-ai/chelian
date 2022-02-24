@@ -21,7 +21,7 @@ DIS_MODEL_FILE = workdir + "model_dns.pkl"
 #########################################################################################
 # Load data
 #########################################################################################
-user_pos_train = {}
+user_pos_train = {} # 评分 >=4分的作为训练集数据
 with open(workdir + 'movielens-100k-train.txt')as fin:
     for line in fin:
         line = line.split()

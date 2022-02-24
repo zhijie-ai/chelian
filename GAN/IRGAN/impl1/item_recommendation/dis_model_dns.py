@@ -64,4 +64,4 @@ class DIS():
 
     def save_model(self, sess, filename):
         param = sess.run(self.d_params)
-        cPickle.dump(param, open(filename, 'w'))
+        cPickle.dump(param, open(filename, 'wb'))

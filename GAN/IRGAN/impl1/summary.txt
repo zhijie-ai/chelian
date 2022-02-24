@@ -20,3 +20,7 @@ pointwise和pairwise损失
 2022年2月24日15:33:17
 本来在pairwise条件，DIS计算的是o(d_i,d_j)与o^\prime(d_k,d_j)的分数，理论上优化也是按照那个公式进行优化的。在DIS的loss中，
     pos_score-neg_score. 就算我们传入的是o与o^\prime,但最终也会化简为d_i与d_k,d_i为正，d_k为负
+
+2022年2月24日17:46:27
+感觉GAN的判别器现在有2种训练loss了，除了之前的二分类loss，采用的pointwise损失，如果采用pairwise损失呢？
+    在推荐领域，bpr损失。
