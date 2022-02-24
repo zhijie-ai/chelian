@@ -3,3 +3,20 @@ ltr-gan-d_nn_g_nn.py:G和D的训练
 ltr-dns_nn.py:判别器的验证 dynamic nagetive sampling
     判别器的验证，用测试集验证，当前query下所有的url-训练集的url，用判别器输出该url下
     的score，根据score排序，计算各种指标,这就相当于是一个二分类模型。负采样的样本为负例
+
+2022年2月24日09:36:41
+其实在ltr-gan包下的2类模型算法，应该把query也输入进去的。在point-wise中，DIS的reward计算的是query和url的匹配程度。
+    在pair-wise类型中，DIS的reward计算的是query下，正样本的分数减去负样本的分数作为sigmoid函数的输入作为reward
+由于是半监督学习Large_norm.txt包含了真实的query-document pair，也包含没有judged 的pair，可以看出是query下所有的url
+ltr和recommendation其实有点像，把query看成user，计算query-document匹配度，计算user-sku匹配度,只是ltr计算的
+    并不是query下所有的document的score，而recommendation计算的是user与所有的sku的score
+
+pointwise和pairwise有点像，前者是精确的二分类模型，后者优化的是相对准确率。在本代码中，用的都是负采样技术
+    pointwise在构造数据集的时候需要指明label，而pairwise就不需要label了。在DIS中就能看出来
+在DIS和GEN模型中都要pred_score,计算的是该query下所有的score，如果没有GAN，直接用DIS来选择，比如ltr_mle_nn.py
+    (此时的DIS，其实相当于是二分类或者BPR模型。)，如果有GAN的参与，则通过GEN模型的pred_score来选择。
+
+pointwise和pairwise损失
+2022年2月24日15:33:17
+本来在pairwise条件，DIS计算的是o(d_i,d_j)与o^\prime(d_k,d_j)的分数，理论上优化也是按照那个公式进行优化的。在DIS的loss中，
+    pos_score-neg_score. 就算我们传入的是o与o^\prime,但最终也会化简为d_i与d_k,d_i为正，d_k为负

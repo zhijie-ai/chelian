@@ -1,4 +1,4 @@
-import pickle
+import pickle as cPickle
 import random
 import tensorflow as tf
 import numpy as np
@@ -90,7 +90,7 @@ def main():
 
 
     sess.close()
-    param_best = cPickle.load(open(RNS_MODEL_BEST_FILE))
+    param_best = cPickle.load(open(RNS_MODEL_BEST_FILE,'rb'))
     assert param_best is not None
     discriminator_best = DIS(FEATURE_SIZE, HIDDEN_SIZE, WEIGHT_DECAY, D_LEARNING_RATE, loss='log', param=param_best)
 

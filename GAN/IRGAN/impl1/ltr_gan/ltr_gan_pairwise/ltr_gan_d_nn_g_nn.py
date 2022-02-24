@@ -1,7 +1,7 @@
 import tensorflow as tf
 from dis_model_pairwise_nn import DIS
 from gen_model_nn import GEN
-import _pickle as cPickle
+import pickle as cPickle
 import utils as ut
 import numpy as np
 import random
@@ -45,7 +45,7 @@ def generate_for_d(sess, model, filename):
     for query in query_pos_train:
         pos_list = query_pos_train[query]
         all_list = list(query_url_feature[query].keys())
-        # candidate_list = list(set(all_list) - set(pos_list))
+        # candidate_list = list(set(all_list) - set(pos_list)) # 原代码就是这样
         candidate_list = all_list
         pos_set = set(pos_list)
 
@@ -55,6 +55,7 @@ def generate_for_d(sess, model, filename):
         candidate_list_feature = [query_url_feature[query][url] for url in candidate_list]
         candidate_list_feature = np.asarray(candidate_list_feature)
 
+        # 当前query下所有的url的score
         candidate_list_score = sess.run(model.pred_score, feed_dict={model.pred_data: candidate_list_feature})
         # softmax for candidate
         exp_rating = np.exp(candidate_list_score)
@@ -85,8 +86,9 @@ def generate_for_d(sess, model, filename):
 def main():
     print("load initial model ...")
 
-    param_nn = cPickle.load(open(DIS_MODEL_FILE_NN))
-    assert param_nn is not None
+    # param_nn = cPickle.load(open(DIS_MODEL_FILE_NN, 'rb'))
+    # assert param_nn is not None
+    param_nn = None
 
     discriminator = DIS(FEATURE_SIZE, HIDDEN_SIZE, D_WEIGHT_DECAY, D_LEARNING_RATE, loss='log', param=param_nn)
     generator = GEN(FEATURE_SIZE, HIDDEN_SIZE, G_WEIGHT_DECAY, G_LEARNING_RATE, param=param_nn)

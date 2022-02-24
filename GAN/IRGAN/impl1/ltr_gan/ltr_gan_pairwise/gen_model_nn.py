@@ -46,4 +46,4 @@ class GEN:
 
     def save_model(self, sess, filename):
         param = sess.run(self.g_params)
-        cPickle.dump(param, open(filename, 'w'))
+        cPickle.dump(param, open(filename, 'wb'))

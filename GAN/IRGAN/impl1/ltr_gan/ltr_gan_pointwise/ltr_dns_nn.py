@@ -40,6 +40,7 @@ def generate_dns(sess, model, filename):
 
         candidate_list_feature = [query_url_feature[query][url] for url in candidate_list]
         candidate_list_feature = np.asarray(candidate_list_feature)
+        # 把query看成user，计算该query下所有candidate的document的score
         candidate_list_score = sess.run(model.pred_score, feed_dict={model.pred_data: candidate_list_feature})
 
         neg_list = []
