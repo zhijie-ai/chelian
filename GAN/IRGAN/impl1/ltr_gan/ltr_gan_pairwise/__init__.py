@@ -9,3 +9,5 @@
 #               皇图霸业谈笑中，                 #
 #               不胜人生一场醉。                 #
 # ----------------------------------------------
+
+# https://github.com/takahish/IRGAN/blob/master/IRGAN_Learning_to_Rank_Pairwise.ipynb

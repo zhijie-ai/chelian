@@ -129,7 +129,7 @@ def main():
                 all_list_score = sess.run(generator.pred_score, {generator.pred_data: all_list_feature})
 
                 # softmax for all
-                exp_rating = np.exp(all_list_score - np.max(all_list_score))
+                exp_rating = np.exp(all_list_score - np.max(all_list_score)) # 减不减效果都一样
                 prob = exp_rating / np.sum(exp_rating)
 
                 prob_IS = prob * (1.0 - LAMBDA)

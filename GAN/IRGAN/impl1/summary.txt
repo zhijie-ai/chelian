@@ -24,3 +24,64 @@ pointwise和pairwise损失
 2022年2月24日17:46:27
 感觉GAN的判别器现在有2种训练loss了，除了之前的二分类loss，采用的pointwise损失，如果采用pairwise损失呢？
     在推荐领域，bpr损失。
+
+2022年3月1日10:17:00
+在GAN中，优化DIS时，从真实数据中选择一张图片标签为1，从GEN中选择一张图片标签为0，即二分类。刚开始觉得不能采用bpr的方式来
+    优化DIS，如果采用BPR来优化DIS,DIS优化的是pos_score大于neg_score，且越大越好，而GEN优化的还是让GEN生成的图片越来
+    越真实，根本就没有对抗在里面。后来想想不全对。如果采用BPR的思路来优化GAN，感觉就是RSGAN。
+    DIS优化的是pos_score-neg_score越大越好，而GEN优化的是neg_score-pos_score,且越大越好
+GAN和pairwise结合，应该有2种理解，第一种，就是普通的pairwise，感觉就是RSGAN。第二种，即论文中的pairwise，
+有2对pair，一对是真实数据中的pair，另一对是GEN生成的pair。如果采用pairwise的思路，和RSGAN一样，最终优化的都是di-dk.
+但是论文中的思路不太一样。虽然不一样，但本质上是一样的。DIS优化的是pos_score-neg_score越大越好，根据公式，GEN优化的是
+公式7中的o_\prime部分。此时的o_\prime相当于是neg。根据RSGAN的思路优化的应该是neg-pos越大越好，化简后即dk-di越大越好。
+但由于IRGAN中GEN是离散的，必须采用reinforce的强化学习来优化。而GEN生成的dk是在dj的基础上来的，此时把dj当成是概率最大的，
+all_score-max_score，即基于dj来采样(pointwise中的ltr_gan_d_nn_g_nn.py中的132行). 虽然dj是最大的，但GEN的目标是dk
+比dj还要大，越来越大。逐渐优化。
+
+2022年3月1日11:39:49
+GAN的优化也有2种，一种是SGAN的对抗思路。GEN的思路除了传统的将生成图片判断为真的概率越来越大之外，还有另一种思路。
+    参考![](https://zhuanlan.zhihu.com/p/377665187) 2.1中的公式。
+    另一种就是采用RSGAN中的思路，有点像BRR的思路。但是由于RSGAN中针对的是连续的图片类型，离散的采用IRGAN中的思路
+IRGAN: 如果是pointwise，就是正常的GAN，双时间尺度优化问题。DIS用二分类来优化，GEN用最大化生成样本的概率。但由于IRGAN
+    是离散的，因此借用reinfore来优化。
+    如果是pairwise，DIS的优化是max(pos_score-neg_score)，其实就是BPR loss，也是RSGAN中的DIS的loss。
+
+2022年3月1日13:51:10
+IRGAN:如果是pointwise，就是正常的GAN的优化，如果是pairwise的优化。就是上面说到的2中pairwise，第一种，GEN生成单个时，
+    就是RSGAN，GEN生成pair时，就是IRGAN的pairwise的情况。DIS和RSGAN中一样，优化的是max(pos_score-neg_score),
+    GEN的优化本来应该和RSGAN一样，但是IRGAN针对的是离散的情况。
+
+
+2022年3月1日15:56:04
+***GAN的优化***
+第一种，可以用原始的方式来优化。二分类交叉熵来优化DIS loss，GEN的loss 除了传统的将生成图片判断为真的概率越来越大之外，还有另一种思路。
+    参考![](https://zhuanlan.zhihu.com/p/377665187) 2.1中的公式。
+第二种，采用RSGAN中的思路，有点像BRR的思路。但是由于RSGAN中针对的是连续的图片类型，离散的采用类似IRGAN中的思路，
+    用reinforce算法来优化。
+IRGAN中，pointwise DIS使用的是二分类，GEN使用的是reinforce，pairwise中DIS使用的是bpr，GEN使用的还是reinforce
+    只是此时的pairwise中，GEN生成的pair对，而不是单个document。虽然是pair对，单GEN本质上还是生成的单个document.
+---注意---：既然是GAN嘛，就有对抗在里面。如果DIS用的是BPR，则GEN如果也用的BPR(score的差)，那么就是RSGAN。如果GEN
+    用的是reinforce，则是IRGAN
+总结:其实主要看真实数据的格式，如果真实数据是p(d|q),那么GEN生成的也仅仅是单个document,如果真实数据是p((di,dj)|q),
+    那么GEN生成的数据就是pair对。这样就可以统一了，第一种是pointwise的形式，第二种是pairwise的形式。
+    如果真实数据是第一种，即单个document的情况，
+        那么DIS既可以通过原始的GAN来优化(即二分类)，离散型任务，GEN即IRGAN中的思路reinforce优化。
+            连续型任务就是原始GAN的思路，
+        DIS也可以用bpr的方式来优化，即DIS用RSGAN思路优化，离散型任务GEN也是reinforce思路优化，只不过，
+            此时的reward不再是单个而是把neg_score-pos_score当成reward，连续性就是RSGAN中优化GEN的思路
+    如果是第二种，真实数据是pair的形式。那么只能通过bpr的方式来优化。DIS好说，z-z_\prime,之后就是di-dk。离散
+        型还是用reinforce优化。连续型还是可以用RSGAN的方式优化。虽然论文提到了，但似乎代码中没有这种情况，还是
+        GEN产生单个document的情形,最终也会转成GEN在dj的基础上产生单个document的情形。
+        如果是用G生成d_k,则是用公式9来生成最终的d_k,但是已经验证过了，减不减效果是一样的，并没有改变概率的大小
+        但在训练的时候还是要基于d_j来采样的，使用大于d_j的概率来采样。
+    代码中pairwise其实还是第一种真实数据的第二类情况。用neg_score-pos_score来当reward。
+        如果自己写代码也写的出来。还是参照RSGAN中GEN的优化，还是采用reinforce，只是reward更复杂而已。传入的是
+        dk-di的差。且dk的采样概率比如比dj大。这种和单个document的情况一样了。只是在采样dk的时候比较复杂而已。
+    既可以用二分类来优化GAN，也可以用bpr(RSGAN)来优化GAN。
+
+
+
+2022年2月28日14:00:11
+在pairwise情形下，DIS优化的是pairwise loss，o与o_\prime，而D(o)的sigmoid概率，因此，把f(x)-f(x_\prime)看成z，
+    即看成之前的x，而pairwise的loss中，一般都是pos-neg，因此，就剩下了d_i-d_k。至于GEN，根据论文中的公式9，
+    我们的目标就是选出d_k,所以尽量让公式9即p(o_\prime|q)=P_\theta(d_k|q,r)，这是我们的目标，这样我们就好采样了。
