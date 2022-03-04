@@ -132,7 +132,7 @@ def main():
                 exp_rating = np.exp(all_list_score - np.max(all_list_score)) # 减不减效果都一样
                 prob = exp_rating / np.sum(exp_rating)
 
-                prob_IS = prob * (1.0 - LAMBDA)
+                prob_IS = prob * (1.0 - LAMBDA)#PG算法需要重要性采样,off policy
 
                 for i in range(len(all_list)):
                     if all_list[i] in pos_set:
