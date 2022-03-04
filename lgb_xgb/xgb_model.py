@@ -207,7 +207,7 @@ def train_model(X_train, y_train, X_val, y_val):
 
 if __name__ == '__main__':
     import numpy as np
-    from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score
+    from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score, f1_score
     import datetime
     import pickle
 

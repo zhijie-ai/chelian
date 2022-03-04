@@ -236,3 +236,13 @@ lgb:在定义param是，度量参数用的metric，如果用lgb.cv来跑，则�
 如果用lgb.train的话，想用early_stopping_rounds功能，则只能自定义feval来进行。其实不需要，
     使用train的early_stopping_rounds功能报错的原因是因为param为{},如果不为空也不报错
 如果使用lgb.LGBMClassifier的fit来训练模型，则只需配置eval_metric,eval_set,early_stopping_rounds
+
+lgb.n_estimators
+lgb.booster_.best_iteration
+lgb.booster_.trees_to_dataframe().tree_index.nunique()
+
+lgb_model.predict(test_feat, pred_leaf=True, pred_contrib=False)
+lgb_model.predict_proba(test_feat, pred_leaf=True, pred_contrib=False)
+lgb_model.booster_.predict(test_feat) test_feat是df,不管是sklearn风格API还是BST，传的都是numpy类型或者df
+
+lgb.booster_.feature_name()
