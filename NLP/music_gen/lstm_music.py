@@ -19,7 +19,7 @@ from music21 import converter, instrument, note, chord, stream
 
 # 读取训练数据的Notes
 def get_notes():
-    filepath = 'D:/log/music_midi/'
+    filepath = './mid/'
     files = os.listdir(filepath)
     Notes = []
     for file in files:
@@ -37,7 +37,8 @@ def get_notes():
                     Notes.append(str(element.pitch))
                 elif isinstance(element, chord.Chord):
                     Notes.append('.'.join(str(n) for n in element.normalOrder))
-        except:
+        except Exception as e:
+            print(e)
             pass
             # with open('Note', 'a+')as f:
             #     f.write(str(Notes))
@@ -178,4 +179,6 @@ def create_music():
 
 if __name__ == '__main__':
     # train()#训练的时候执行
-    create_music()
+    # create_music()
+    notes= get_notes()
+    print(notes)
