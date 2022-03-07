@@ -161,3 +161,7 @@ xgb.get_booster().num_boosted_rounds() 最终总的树的数目
 xgb.get_booster().trees_to_dataframe().Tree.nunique() 最终总的树的数目
 
 xgb.get_booster().feature_names
+
+2022年3月7日16:20:36
+查看sklearn中的评价指标
+sorted(sklearn.metrics.SCORERS.keys())
