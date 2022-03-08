@@ -39,10 +39,16 @@ categorical_transformer = Pipeline(steps=[
 preprocessor = ColumnTransformer(
     transformers=[
         ('num', numeric_transformer, numeric_features),
-        # ('cat', categorical_transformer, categorical_features)
+        ('cat', categorical_transformer, categorical_features)
     ])
 
 np.set_printoptions(suppress=True,   precision=10,  threshold=2000,  linewidth=5000)
 ds = preprocessor.fit_transform(df)
 print(ds)
 print(preprocessor._columns)
+print(preprocessor.named_transformers_)
+print(preprocessor.named_transformers_['cat']['onehot'].get_feature_names_out(categorical_features))
+print(preprocessor.named_transformers_['num'][-1].get_feature_names_out(numeric_features))
+print(preprocessor.named_transformers_['num'][-1])
+print(preprocessor.named_transformers_['num']['scaler'].get_feature_names_out(numeric_features))
+print(preprocessor.named_transformers_['cat']['onehot'])
