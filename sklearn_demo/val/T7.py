@@ -45,3 +45,4 @@ preprocessor = ColumnTransformer(
 np.set_printoptions(suppress=True,   precision=10,  threshold=2000,  linewidth=5000)
 ds = preprocessor.fit_transform(df)
 print(ds)
+print(preprocessor._columns)

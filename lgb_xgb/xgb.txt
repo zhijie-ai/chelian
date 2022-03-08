@@ -160,6 +160,7 @@ xgb.get_booster().best_ntree_limit early_stopping_rounds 最佳的迭代数目
 xgb.get_booster().num_boosted_rounds() 最终总的树的数目
 xgb.get_booster().trees_to_dataframe().Tree.nunique() 最终总的树的数目
 
+xgb_model.get_booster().predict(dtest, pred_contribs =True) # 只有这个风格的API有pred_leaf参数
 xgb.get_booster().feature_names
 
 2022年3月7日16:20:36

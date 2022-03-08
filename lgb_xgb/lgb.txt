@@ -244,5 +244,6 @@ lgb.booster_.trees_to_dataframe().tree_index.nunique()
 lgb_model.predict(test_feat, pred_leaf=True, pred_contrib=False)
 lgb_model.predict_proba(test_feat, pred_leaf=True, pred_contrib=False)
 lgb_model.booster_.predict(test_feat) test_feat是df,不管是sklearn风格API还是BST，传的都是numpy类型或者df
+lgb模型只能sklearn风格有pred_contrib参数，xgb只有booster风格有pred_contribs参数,注意二者参数名的不同，后者多了一个s
 
 lgb.booster_.feature_name()

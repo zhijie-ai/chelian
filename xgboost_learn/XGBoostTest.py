@@ -7,8 +7,8 @@ CreateTime:
  =================知行合一=============
 '''
 
-import xgboost_learn as xgb
-from xgboost_learn.sklearn import XGBClassifier
+import xgboost as xgb
+from xgboost.sklearn import XGBClassifier
 from sklearn.datasets import load_iris
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
