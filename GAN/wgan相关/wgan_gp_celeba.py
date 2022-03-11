@@ -14,7 +14,6 @@
 import numpy as np
 from scipy import misc
 import glob
-import imageio
 from keras.models import Model
 from keras.layers import *
 from keras import backend as K

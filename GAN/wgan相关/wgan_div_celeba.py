@@ -22,6 +22,7 @@ from keras import backend as K
 from keras.initializers import RandomNormal
 from keras.optimizers import Adam
 import os
+import numpy as np
 from keras.utils import plot_model
 
 if not os.path.exists('samples'):
