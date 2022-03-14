@@ -9,7 +9,7 @@
 #               皇图霸业谈笑中，                 #
 #               不胜人生一场醉。                 #
 #----------------------------------------------
-# 这是看了<<令人拍案叫绝的Wasserstein GAN>>的后续关于gp文章的代码
+# 这是看了<<令人拍案叫绝的Wasserstein GAN>>的后续关于gp文章的代码,GP的实现
 # https://zhuanlan.zhihu.com/p/25071913
 # https://www.zhihu.com/question/52602529/answer/158727900
 # 代码:https://github.com/igul222/improved_wgan_training
@@ -227,7 +227,7 @@ with tf.Session() as session:
 
     gen = inf_train_gen()
 
-    for iteration in xrange(ITERS):
+    for iteration in range(ITERS):
         start_time = time.time()
 
         if iteration > 0:
@@ -237,7 +237,7 @@ with tf.Session() as session:
             disc_iters = 1
         else:
             disc_iters = CRITIC_ITERS
-        for i in xrange(disc_iters):
+        for i in range(disc_iters):
             _data = gen.next()
             _disc_cost, _ = session.run(
                 [disc_cost, disc_train_op],

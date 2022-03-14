@@ -17,6 +17,7 @@ from keras import backend as K
 from keras.initializers import RandomNormal
 from keras.optimizers import Adam
 import os
+import numpy as np
 
 imgs = glob.glob('../../images/img_align_celeba/*.jpg')
 np.random.shuffle(imgs)

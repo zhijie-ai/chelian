@@ -9,6 +9,7 @@
 #               皇图霸业谈笑中，                 #
 #               不胜人生一场醉。                 #
 #----------------------------------------------
+# wgan的实现应该还差点，wgan差梯度惩罚。不知道是什么gan
 from scipy import misc
 import glob
 import numpy as np
