@@ -8,7 +8,7 @@ GAN发展到现在有很多变种了，不过总结起来也就几类比较经�
 集中比较经典的损失函数
 1. sgan的损失函数
 2. wgan
-3. ebgan(hinge loss),如果是《能量视角下的GAN模型(二)》，其实就是gan-gp模型
+3. ebgan(hinge loss),如果是《能量视角下的GAN模型(二)》，其实就是gan-gp模型,优化G的时候加了一个熵而已
 4. rsgan
 5. wgan-div
 6. wgan-qp
