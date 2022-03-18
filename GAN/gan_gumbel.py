@@ -11,6 +11,8 @@
 # ----------------------------------------------
 import numpy as np
 import tensorflow as tf
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 np.random.seed(42)
@@ -21,7 +23,7 @@ BATCH_SIZE = 10
 EPOCHS = 200  # the stream is infinite so one epoch will be defined as BATCHS_IN_EPOCH * BATCH_SIZE
 GENERATOR_TRAINING_FACTOR = 10  # for every training of the disctiminator we'll train the generator 10 times
 LEARNING_RATE = 0.0007
-TEMPERATURE = 0.001  # we use a constant, but for harder problems we should anneal it
+TEMPERATURE = 0.01  # we use a constant, but for harder problems we should anneal it
 
 number_to_prob = {
     0: 0.0,
@@ -83,6 +85,7 @@ g_train_opt = tf.train.AdamOptimizer(LEARNING_RATE).minimize(g_loss, var_list=g_
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
+    print(sess.run(generated_outputs))
     learned_probs = []
     for _ in range(EPOCHS):
         for _ in range(BATCHS_IN_EPOCH):
@@ -91,6 +94,7 @@ with tf.Session() as sess:
             sess.run(g_train_opt)
         learned_probs.append(sess.run(generated_probs))
 
+print(np.array(learned_probs))
 plt.figure(figsize=(10, 2))
 prob_errors = [np.array(learned_prob) - np.array(list(number_to_prob.values()))
                for learned_prob in learned_probs]
