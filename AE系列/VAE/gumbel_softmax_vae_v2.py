@@ -64,6 +64,8 @@ mean_recons = tf.reduce_mean(recons)
 mean_KL = tf.reduce_mean(KL)
 loss = -tf.reduce_mean(recons-KL)
 
+train_op=tf.train.AdamOptimizer(learning_rate=3e-4).minimize(loss)
+
 data = []
 with tf.train.MonitoredSession() as sess:
     for i in range(1,50000):
