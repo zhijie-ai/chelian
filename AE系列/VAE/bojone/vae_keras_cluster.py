@@ -75,7 +75,7 @@ for i in range(2):
 x_recon = Conv2DTranspose(filters=1,kernel_size=3,activation='sigmoid',padding='same')(h)
 
 decoder = Model(z,x_recon,name='decoder') #解码器
-plot_model(decoder,to_file='png/decoder.png',show_shapes=True)
+plot_model(decoder, to_file='../png/decoder.png', show_shapes=True)
 generator = decoder
 
 z = Input(shape=(latent_dim,))
@@ -83,7 +83,7 @@ y = Dense(intermediate_dim,activation='relu')(z)
 y = Dense(num_classes,activation='softmax')(y)
 
 classfier = Model(z,y) #隐变量分类器
-plot_model(classfier,show_shapes=True,to_file='png/classifier.png')
+plot_model(classfier, show_shapes=True, to_file='../png/classifier.png')
 
 # 重参数技巧
 def sampling(args):
@@ -127,7 +127,7 @@ print('z_prior_mean.shape',z_prior_mean.shape)
 
 # 建立模型
 vae = Model(x,[x_recon,z_prior_mean,y])
-plot_model(vae,show_shapes=True,to_file='png/vae_cluster.png')
+plot_model(vae, show_shapes=True, to_file='../png/vae_cluster.png')
 
 # 下面的一大通都是为了定义loss
 z_mean = K.expand_dims(z_mean,1)
