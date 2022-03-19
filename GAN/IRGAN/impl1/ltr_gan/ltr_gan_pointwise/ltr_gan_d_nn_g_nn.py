@@ -52,6 +52,7 @@ def generate_for_d(sess, model, filename):
         # 抽样出负例用的分布是根据当前query下所有的url来算的。
         candidate_list_score = sess.run(model.pred_score, feed_dict={model.pred_data: candidate_list_feature})
         # softmax for candidate
+        # 减去最大值和不减效果是一样的，但是减去最大值防止了logits很大造成nan的情况出现
         exp_rating = np.exp(candidate_list_score - np.max(candidate_list_score))
         prob = exp_rating / np.sum(exp_rating)
 
