@@ -29,8 +29,18 @@ def generalized_softmax(logits, temperature=1):
 np.random.seed(1111)
 n = 10
 logits = (np.random.random(n) - 0.5) * 2  # (-1, 1)
+print(logits)
 x = range(n)
 plt.subplot(1, 3, 1)
 t = .1
 plt.bar(x, generalized_softmax(logits, t))
+
+plt.subplot(1, 3, 2)
+t = 5
+plt.bar(x, generalized_softmax(logits, t))
+
+plt.subplot(1, 3, 3)
+t = 100
+plt.bar(x, generalized_softmax(logits, t))
+print(generalized_softmax(logits, t))
 plt.show()
