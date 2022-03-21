@@ -10,6 +10,8 @@
 #               不胜人生一场醉。                 #
 # ----------------------------------------------
 import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 def gumbel_sample(logits, num):
