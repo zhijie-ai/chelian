@@ -17,3 +17,14 @@ GAN发展到现在有很多变种了，不过总结起来也就几类比较经�
 -log(D(G(x)))或者log(1-D(G(x)))
 https://zhuanlan.zhihu.com/p/377665187
 这篇文章提出了一个新的思路L = -log(D(x))+log(1-D(x)) x为从G中采样的图片
+
+判别器的loss
+1. 当成二分类的loss，就是正常的交叉熵方式,可以参考IRGAN中的pointwise的思路
+2. tf.reduce_mean(-tf.log(self.D1)-tf.log(1-self.D2)),D1为真实图片，D2为生成的图片 gan_tf.py
+3. OriginalGAN.py的思路
+    D_loss_real = tf.reduce_mean(
+        tf.nn.sigmoid_cross_entropy_with_logits(logits=D_logit_real,
+                                                labels=tf.ones_like(D_logit_real)))
+    D_loss_fake = tf.reduce_mean(
+        tf.nn.sigmoid_cross_entropy_with_logits(logits=D_logit_fake,
+                                                labels=tf.zeros_like(D_logit_fake)))
