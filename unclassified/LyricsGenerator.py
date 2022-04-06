@@ -17,8 +17,6 @@ import tensorflow as tf
 import numpy as np
 import sys
 
-tf.estimator
-
 class HParam():
     def __init__(self):
         self.batch_size = 32
