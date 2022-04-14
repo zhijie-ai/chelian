@@ -247,3 +247,7 @@ lgb_model.booster_.predict(test_feat) test_feat是df,不管是sklearn风格API�
 lgb模型只能sklearn风格有pred_contrib参数，xgb只有booster风格有pred_contribs参数,注意二者参数名的不同，后者多了一个s
 
 lgb.booster_.feature_name()
+
+总结:
+1. sklearn风格的API，可以传入df or numpy，不过最终都会转为numpy，且有predict和predict_proba
+2. booster风格API，可以传入df or numpy，不过最终都会转为numpy，只有predict,不能用Dataset类型

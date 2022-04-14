@@ -161,8 +161,12 @@ xgb.get_booster().num_boosted_rounds() 最终总的树的数目
 xgb.get_booster().trees_to_dataframe().Tree.nunique() 最终总的树的数目
 
 xgb_model.get_booster().predict(dtest, pred_contribs =True) # 只有这个风格的API有pred_leaf参数
+xgb_model.predict_proba(X_test_range) # sklearn风格API，传入numpy or df，最终都转为numpy类型
 xgb.get_booster().feature_names
 
 2022年3月7日16:20:36
 查看sklearn中的评价指标
 sorted(sklearn.metrics.SCORERS.keys())
+总结:
+1. sklearn风格的API，可以传入df or numpy，不过最终都会转为numpy，且有predict和predict_proba
+2. booster风格API，必须是DMatrix，只有predict
