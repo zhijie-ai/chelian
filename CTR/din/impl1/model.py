@@ -13,7 +13,7 @@ import tensorflow as tf
 
 from impl1.Dice import dice
 
-
+# https://zhuanlan.zhihu.com/p/114244579
 class Model():
     def __init__(self,user_count,item_count,cate_count,cate_list):
 
@@ -26,9 +26,9 @@ class Model():
             self.lr: l
         '''
 
-        # self.u = tf.placeholder(tf.int32,[None,],name='user')
-        self.i = tf.placeholder(tf.int32,[None,],name='item')#pos or neg id ,target
-        self.j = tf.placeholder(tf.int32,[None,],name='item_j')
+        self.u = tf.placeholder(tf.int32,[None,],name='user')
+        self.i = tf.placeholder(tf.int32,[None,],name='item')#pos
+        self.j = tf.placeholder(tf.int32,[None,],name='item_j') #负样本的item
         self.y = tf.placeholder(tf.float32,[None,],name='label')
         self.hist_i = tf.placeholder(tf.int32,[None,None],name='history_i')
         self.s1=tf.placeholder(tf.int32,[None,],name='sequence_lenght')
@@ -62,7 +62,7 @@ class Model():
         ],axis=1)
         j_b = tf.gather(item_b,self.j)
 
-        self.hc=tf.gather(cate_list,self.hist_i)#相当于user behavior features
+        self.hc=tf.gather(cate_list,self.hist_i)#用户行为序列(User Behavior)中的cate序列
         h_emb=tf.concat([
             tf.nn.embedding_lookup(item_emb_w,self.hist_i),
             tf.nn.embedding_lookup(cate_emb_w,self.hc)
@@ -103,6 +103,7 @@ class Model():
         u_emb_all = tf.expand_dims(u_emb, 1)
         u_emb_all = tf.tile(u_emb_all, [1, item_count, 1])
 
+        #将所有的除u_emb_all外的embedding，concat到一起
         all_emb = tf.concat([
             item_emb_w,
             tf.nn.embedding_lookup(cate_emb_w, cate_list)
