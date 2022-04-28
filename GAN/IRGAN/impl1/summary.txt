@@ -1,8 +1,17 @@
+2022年4月28日17:28:22
+u,pos,neg，neg是采样得到的，既可以当成pointwise，也可以当成pairwise来求解
+ltr_mle_nn.py 当成pointwise求解
+ltr_rns_nn.py 当成pairwise求解, 从剩下的等概率选
+ltr-dns_nn.py 当成pairwise求解，argmax选
+并且只有dis模型
+
+
 ltr-gan-pointwise:
 ltr-gan-d_nn_g_nn.py:G和D的训练
-ltr-dns_nn.py:判别器的验证 dynamic nagetive sampling
+ltr-dns_nn.py:判别器的验证 dynamic nagetive sampling，用的是pairwise DIS，
     判别器的验证，用测试集验证，当前query下所有的url-训练集的url，用判别器输出该url下
-    的score，根据score排序，计算各种指标,这就相当于是一个二分类模型。负采样的样本为负例
+    的score，根据score排序，计算各种指标。DIS 下的score相当于是计算的q-d的score，
+    有多少个q-d，就有多少行，就有多少个score
 
 2022年2月24日09:36:41
 其实在ltr-gan包下的2类模型算法，应该把query也输入进去的。在point-wise中，DIS的reward计算的是query和url的匹配程度。
