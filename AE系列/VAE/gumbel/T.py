@@ -14,6 +14,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot   as plt
 # matplotlib.use('Agg')
+# plt.switch_backend('agg')
 
 def softmax(logits):
     max_value = np.max(logits)
