@@ -20,8 +20,8 @@ print(data[0:20])
 
 
 def bubble_sort(data):
-    flag=0
     for i in range(0,len(data))[::-1]:
+        flag=0
         for j in range(0,i):
             if data[j]>data[j+1]:
                 temp=data[j]
