@@ -24,12 +24,12 @@ def quick(a, l, r):
     j = r
     x=a[i]
     while i<j:
-        if i<j and a[j] > min:
+        while i<j and a[j] > x:
             j-=1
         if i<j:
             a[i] = a[j]
             i+=1
-        if i<j and a[i]< min:
+        while i<j and a[i]< x:
             i+=1
 
         if i< j:
@@ -54,9 +54,9 @@ def insert(a):
             if a[j]< a[i]:
                 break
 
-        if i!=j-1:
+        if j!=i-1:
             tmp = a[i]
-            for k in range(j+i, i)[::-1]:
+            for k in range(j+1, i)[::-1]:
                 a[k+1] = a[k]
             a[k+1] = tmp
 
@@ -80,4 +80,3 @@ def select(a):
 
         if i!=min:
             a[i],a[min] = a[min],a[i]
-
