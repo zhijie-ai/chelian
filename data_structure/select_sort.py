@@ -22,4 +22,14 @@ def select_sort(arr):
         if min != i:#新的最小元素诞生了
             arr[i],arr[min] = arr[min],arr[j]# 交换2个元素的位置
 
+def select_sort2(arr):
+    for i in range(len(arr)):
+        min = i
+        for j in range(i+1,len(arr)):
+            if arr[j]< arr[min]:
+                min = j
+
+        if min!=j:
+            arr[i], arr[min] = arr[min], arr[i]
+
 
