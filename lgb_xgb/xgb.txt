@@ -170,3 +170,15 @@ sorted(sklearn.metrics.SCORERS.keys())
 总结:
 1. sklearn风格的API，可以传入df or numpy，不过最终都会转为numpy，且有predict和predict_proba
 2. booster风格API，必须是DMatrix，只有predict
+
+2022年5月16日10:12:16
+画图:https://zhuanlan.zhihu.com/p/32943164
+1. xgb.to_graphviz(clf)# import xgboost as xgb
+2. xgb.plot_tree(xgb_model)# xgb_model为sklearn风格
+
+特征重要性:
+xgb_model.feature_importances_:会得到每个参与训练的特征的重要性
+feature_importances_的重要性排名默认使用gain
+xgb.plot_importance默认使用weight
+在平时的使用中，多用total_gain来对特征重要性进行排序。
+xgb_model.get_booster().get_score(importance_type=importance_type) 更改重要性类型,只返回重要性不为0的特征
