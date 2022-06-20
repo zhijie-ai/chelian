@@ -26,6 +26,7 @@ from keras.models import Model
 from keras import backend as K
 from keras.callbacks import Callback
 from keras.optimizers import Adam
+import copy
 
 min_count = 32
 maxlen = 400
