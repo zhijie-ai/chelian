@@ -24,14 +24,20 @@ from sklearn.datasets import make_classification
 from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score, f1_score
 np.random.seed(10)
 
-# X为样本特征，y为样本类别输出， 共10000个样本，每个样本20个特征，输出有2个类别，没有冗余特征，每个类别一个簇
-X, y = make_classification(n_samples=100000, n_features=4, n_redundant=0,
-                             n_clusters_per_class=1, n_classes=2, flip_y=0.1)
-X_test, y_test = make_classification(n_samples=1000, n_features=4, n_redundant=0,
-                           n_clusters_per_class=1, n_classes=2, flip_y=0.1)
 
-X = pd.DataFrame(X, columns=list('ABCD'))
-X_test = pd.DataFrame(X_test, columns=list('ABCD'))
+X = pd.DataFrame()
+X['A'] = np.random.randn(100000)
+X['B'] = np.random.randn(100000)
+X['C'] = np.random.randn(100000)
+X['D'] = np.random.randn(100000)
+y = np.random.binomial(1,0.5, 100000)
+X_test = pd.DataFrame()
+X_test['A'] = np.random.randn(1000)
+X_test['B'] = np.random.randn(1000)
+X_test['C'] = np.random.randn(1000)
+X_test['D'] = np.random.randn(1000)
+y_test = np.random.binomial(1,0.5, 1000)
+
 X_train, X_val, y_train, y_val = train_test_split(X, y, random_state=1)
 
 clf = xgb.XGBClassifier(use_label_encoder=False)
