@@ -4,7 +4,7 @@
 # file      : xgb_predict.py
 # time      : 2021/11/26 17:09
 # file_desc :
-# Copyright  2021 易久批信息技术有限公司. All rights reserved.
+# Copyright  2021 All rights reserved.
 import xgboost as xgb
 
 from general_config import ModelConfig
