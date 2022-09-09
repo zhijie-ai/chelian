@@ -22,7 +22,7 @@ def insert_sort(arr):
         # 如果找到了一个插入位置
         if j != i-1:
             temp = arr[i]
-            for k in list(range(j+1,i))[::-1]:
+            for k in list(range(j,i))[::-1]: # 注意这个地方是j，不是j+1,原始代码中k>j是退出循环的
                 arr[k+1] = arr[k]
             arr[k+1] = temp
 
