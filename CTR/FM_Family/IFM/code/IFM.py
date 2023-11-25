@@ -91,8 +91,8 @@ class IFM(BaseEstimator,TransformerMixin):
             self.nonzero_embeddings = tf.nn.embedding_lookup(self.weights['feature_embeddings'],self.train_features,name='nonzero_embeddings')
 
             # Factor Estimating Net. 拼接h个向量
-            dnn_nonzero_embeddings = tf.reshape(self.nonzero_embeddings,shape=[-1,self.valid_dimension*self.embedding_size])
-            self.dnn = tf.add(tf.matmul(dnn_nonzero_embeddings,self.weights2['fenlayer_0']),self.weights2['fenbias_0'])# None * layer[i] * 1
+            dnn_nonzero_embeddings = tf.reshape(self.nonzero_embeddings,shape=[-1,self.valid_dimension*self.embedding_size])   # (B,(K*H))
+            self.dnn = tf.add(tf.matmul(dnn_nonzero_embeddings,self.weights2['fenlayer_0']),self.weights2['fenbias_0'])# None * layer[i] * 1,B*512
             if self.batch_norm:
                 self.dnn = self.batch_norm_layer(self.dnn,train_phase=self.train_phase,scope_bn='bn_0')#None * layer[i] * 1
             self.dnn=tf.nn.relu(self.dnn)
@@ -103,7 +103,7 @@ class IFM(BaseEstimator,TransformerMixin):
                     self.dnn = self.batch_norm_layer(self.dnn,train_phase=self.train_phase,scope_bn='bn_%d'%i)#None * layer[i] * 1
                 self.dnn = tf.nn.relu(self.dnn)
                 self.dnn = tf.nn.dropout(self.dnn,self.dropout_keep[i])# dropout at each Deep layer
-            self.dnn_out = tf.matmul(self.dnn,self.weights2['prediction_dnn'])## None * 10,None*valid_dimension
+            self.dnn_out = tf.matmul(self.dnn,self.weights2['prediction_dnn'])## None * 10,None*valid_dimension,B*k`
             self.outm=tf.constant(float(self.valid_dimension))*tf.nn.softmax(self.dnn_out)#就是论文中的m_x,i
             # self.dnn_out = tf.matmul(self.dnn_out, self.weights['prediction'])
 
@@ -211,7 +211,7 @@ class IFM(BaseEstimator,TransformerMixin):
             all_weights['bias'] = tf.Variable(tf.constant(0.0), name='bias')  # 1 * 1
 
 
-        num_fenlayer = len(self.fenlayers)
+        num_fenlayer = len(self.fenlayers)  # [512,258,128]
         if num_fenlayer>0:
             glorot = np.sqrt(2.0/(self.embedding_size+self.fenlayers[0]))
 

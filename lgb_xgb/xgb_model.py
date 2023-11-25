@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # author    : zushoujie
-# file      : T.py
+# file      : debug.py
 # time      : 2022/1/29 15:53
 # file_desc :
 # Copyright  2022 云积分科技. All rights reserved.

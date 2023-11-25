@@ -1,0 +1,22 @@
+rsgan_keras.py
+total_epochs=10000 l2=0.0 bs=64 lr=0.001 不放缩
+rsgan_10000_0.001_0.0_64.png loss不像之前那样波动，后面降不动了，且生成的图片还是很差劲
+
+total_epochs=10000 l2=0.01 bs=64 lr=0.001 不放缩
+rsgan_10000_0.001_0.01_64.png 和上面一样，先下降的很快，后面降不动了,生成的图片很垃圾
+
+total_epochs=10000 l2=0.0 bs=64 lr=0.0001 放缩
+rsgan_10000_0.0001_0.0_64.png, 比上面的降的好了，但是G还是先将再升？生成的图片一片漆黑
+
+total_epochs=10000 l2=0.0 bs=64 lr=0.00001 放缩
+rsgan_10000_1e-05_0.0_64.png
+
+total_epochs=10000 l2=0.0 bs=64 lr=0.0001 原始输入:
+rsgan_10000_0.0001_0.0_64_.png 稀烂
+
+
+tsgan_keras.py
+total_epochs=10000 l2=0.0 bs=64 lr=0.0001 不是原始图片
+tsgan_10000_0.0001_0.0_64.png,和rsgan_10000_0.0001_0.0_64.png差不多,生成的图片一片漆黑
+上面的都是一个optimizer
+

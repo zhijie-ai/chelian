@@ -138,7 +138,7 @@ try:
             utils.mkdir(save_dir + '/')
             utils.imwrite(utils.immerge(f_sample_opt, 10, 10), '%s/Epoch_(%d)_(%dof%d).jpg' % (save_dir, epoch, it_epoch, batch_epoch))
 
-except Exception, e:
+except Exception as e:
     traceback.print_exc()
 finally:
     print(" [*] Close main session!")

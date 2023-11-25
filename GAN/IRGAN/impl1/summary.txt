@@ -1,7 +1,7 @@
-2022年4月28日17:28:22
+2022年4月28日17:28:22, 2023年11月24日15:29:43
 u,pos,neg，neg是采样得到的，既可以当成pointwise，也可以当成pairwise来求解
-ltr_mle_nn.py 当成pointwise求解
-ltr_rns_nn.py 当成pairwise求解, 从剩下的等概率选
+ltr_mle_nn.py 当成pointwise求解，就是负采样的解法，从剔除正样本的剩余样本中随机样本作为负样本。
+ltr_rns_nn.py 当成pairwise求解, 从剩下的等概率选,从剔除正样本的剩余样本中随机样本作为负样本。
 ltr-dns_nn.py 当成pairwise求解，argmax选
 并且只有dis模型
 

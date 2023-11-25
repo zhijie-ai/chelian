@@ -7,3 +7,5 @@ L1正则化 	alpha，reg_alpha 	lambda_l1，reg_alpha 	            [1e-5, 1e-2, 
 L2正则化 	lambda，reg_lambda 	lambda_l2，reg_lambda 	            [1e-5, 1e-2, 0.1, 1, 2,2.5,3]
 
 lgb.cv返回的是dict，而xgb.cv返回的df
+
+xgb.apply(trian):https://blog.csdn.net/anshuai_aw1/article/details/82983997

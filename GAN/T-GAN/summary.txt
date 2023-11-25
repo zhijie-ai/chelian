@@ -1,0 +1,74 @@
+total_epochs=10000 l2=0.01时loss曲线下降的很好。不过loss曲线前面下降的很快，后面基本持平 20-1.45
+
+total_epochs=10000 l2=0.06 bs=64 loss曲线下降的比上面的要好。
+可是为啥loss下降的这么好，但gen生成的图片质量这么差
+
+total_epochs=10000, 但是用的是single loss，且没有l2 loss很差。其实有spectral_normalization
+
+total_epochs=10000 l2=0.01 bs=64 single loss 其实有spectral_normalization
+loss下降的倒是不错，但生成的图片很差劲。gan-loss-single-loss-1w-0.06.png
+
+tgan_keras.py
+total_epochs=10000 l2=0.01 bs=64  下降的稀烂
+total_epochs=10000 l2=0.01 bs=64  增加bn 下降的稀烂
+
+total_epochs=10000 l2=0.01 bs=64 使用bn，但不使用spectral_normalization,没有l2
+奇怪，g和d的loss一直不变，g为0，d为41.446533
+
+total_epochs=10000 l2=0.01 bs=64 lr=0.001使用bn，但不使用spectral_normalization,没有l2
+使用sgd后，效果了一些，但是还是不太理想tgan-gan-loss-10000-0.01.png
+
+total_epochs=10000 l2=0.01 bs=64 lr=0.0001使用bn，但不使用spectral_normalization,没有l2
+tgan-gan-loss-10000-0.01-0.0001_no_l2.png
+
+total_epochs=30000 l2=0.01 bs=64 lr=0.0001使用bn，但不使用spectral_normalization,没有l2
+tgan-gan-loss-30000-0.01-0.0001.png， 比上面的更平滑
+
+total_epochs=30000 l2=0.01 bs=64 lr=0.001 使用l2正则
+tgan-gan-loss-10000-0.01-0.001.png，烂
+
+total_epochs=10000 l2=0.06 bs=64 lr=0.001
+tgan-gan-loss-10000-0.06-0.001.png,烂
+
+total_epochs=10000 l2=0.01 bs=128 lr=0.001
+tgan-gan-loss-10000-0.01-0.001-128.png,烂
+
+total_epochs=10000 l2=0.00 bs=128 lr=0.001
+tgan-gan-loss-10000-0.0-0.001-128.png 稀烂。
+
+total_epochs=10000 l2=0.00 bs=64 lr=0.001
+tgan-gan-loss-10000-0.0-0.001-64.png 烂
+tgan-gan-loss-10000-0.0-0.001-64_.png 烂
+
+total_epochs=10000 l2=0.00 bs=64 lr=0.001, 输入的是原始图片
+tgan-gan-loss-10000-0.0-0.001-64_1.png, g和d的loss又不变了
+
+total_epochs=10000 l2=0.00 bs=64 lr=0.001, 输入的是之前的方式
+tgan-gan-loss-10000-0.0-0.001-64_2.png
+
+total_epochs=10000 l2=0.00 bs=64 lr=0.001 不放缩
+tgan-gan-loss-10000-0.0-0.001-64_3.png
+
+total_epochs=10000 l2=0.00 bs=64 lr=0.001 不放缩, 改变tape的位置
+一样
+
+total_epochs=10000 l2=0.00 bs=64 lr=0.001 不放缩, 2ge tape
+tgan-gan-loss-10000-0.0-0.001-64_4.png
+
+
+rsgan_keras.py
+total_epochs=10000 l2=0.00 bs=64 lr=0.001 放缩
+rsgan_10000_0.001_0.0_64_10000.png 好像没降下去
+
+total_epochs=10000 l2=0.00 bs=64 lr=0.001 放缩,dis的激活函数变成了leakyrelu
+rsgan_10000_0.001_0.0_64.png
+
+total_epochs=30000 l2=0.00 bs=64 lr=0.001 放缩,dis的激活函数变成了leakyrelu
+rsgan_30000_0.001_0.0_64.png,稀烂
+
+total_epochs=10000 l2=0.00 bs=64 lr=0.001 不放缩
+rsgan_10000_0.001_0.0_64_.png 稀烂
+
+total_epochs=10000 l2=0.01 bs=64 lr=0.001 不放缩
+rsgan_10000_0.001_0.01_64.png 稀烂
+估计是在梯度下降的时候有问题

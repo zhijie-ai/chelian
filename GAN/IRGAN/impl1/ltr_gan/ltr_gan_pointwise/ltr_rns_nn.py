@@ -21,7 +21,7 @@ DIS_TRAIN_FILE = workdir + '/run-train-rns.txt'
 RNS_MODEL_BEST_FILE = workdir + '/rns_best_nn.model'
 
 query_url_feature, _, _ = ut.load_all_query_url_feature(workdir + '/Large_norm.txt', FEATURE_SIZE)
-query_pos_train = ut.get_query_pos(workdir + '/train.txt')
+query_pos_train = ut.get_query_pos(workdir + '/train.txt')  # query_pos[query].append(url)
 query_pos_test = ut.get_query_pos(workdir + '/test.txt')
 
 

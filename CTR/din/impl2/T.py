@@ -12,10 +12,11 @@
 import tensorflow as tf
 import numpy as np
 
-data = np.arange(12).reshape((3,4))
+data = np.arange(24).reshape((2,3,4))
+data = data.astype('float')
 print(data)
 data = tf.convert_to_tensor(data)
-mean,variance=tf.nn.moments(data,[0,1])
+mean,variance=tf.nn.moments(data,[1,2])
 print(data)
 with tf.Session() as sess:
     print(sess.run(mean))

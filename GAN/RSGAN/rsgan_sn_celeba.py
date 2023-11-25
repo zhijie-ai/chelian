@@ -23,29 +23,33 @@
 
 from scipy import misc
 import glob
-from keras.models import Model
-from keras.layers import *
-from keras import backend as K
-from keras.optimizers import Adam
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import *
+from tensorflow.keras import backend as K
+from tensorflow.keras.optimizers import Adam
 import os
+import numpy as np
+from skimage.transform import resize
+import matplotlib.pyplot as plt
+import imageio
 
 if not os.path.exists('samples'):
     os.mkdir('samples')
 
-imgs = imgs = glob.glob('../../images/img_align_celeba/*.jpg')
+imgs = glob.glob('/apdcephfs_cq2/share_919031/ranchodzu/GAN/images/img_align_celeba/*.jpg')
 np.random.shuffle(imgs)
 
-print(misc.imread(imgs[0]).shape)
 
-height, width = misc.imread(imgs[0]).shape[:2]
+height, width = plt.imread(imgs[0]).shape[:2]
 center_height = int((height - width) / 2)
+print((height,width,center_height))
 img_dim = 64
 z_dim = 100
 
 def imread(f):
-    x = misc.imread(f)
+    x = plt.imread(f)
     x = x[center_height:center_height + width, :]
-    x = misc.imresize(x, (img_dim, img_dim))
+    x = resize(x, (img_dim, img_dim))
     return x.astype(np.float32) / 255 * 2 - 1
 
 
@@ -74,6 +78,16 @@ def spectral_norm(w, r=5):
 
 def spectral_normalization(w):
     return w / spectral_norm(w)
+
+def plot_figure(data, data_t, name):
+    plt.figure()
+    plt.plot(range(len(data)), data, label='D loss', color='red')
+    plt.plot(range(len(data_t)), data_t, label='G loss', color='blue')
+    plt.legend()
+    plt.grid(True)
+    # plt.show()
+    plt.savefig(name)
+    plt.close()
 
 # 判别器
 x_in = Input(shape=(img_dim, img_dim, 3))
@@ -166,23 +180,27 @@ def sample(path):
                    j * img_dim:(j + 1) * img_dim] = digit
     figure = (figure + 1) / 2 * 255
     figure = np.round(figure, 0).astype(int)
-    misc.imsave(path,figure)
+    imageio.imwrite(path, figure)
 
 iters_per_sample = 100
-total_iter = 1000000
+total_iter = 10000
 batch_size = 64
 img_generator = data_generator(batch_size)
 
+D_loss=[]
+G_loss=[]
 for i in range(total_iter):
     for j in range(1):
         z_sample  = np.random.randn(batch_size,z_dim)
         d_loss = d_train_model.train_on_batch([next(img_generator),z_sample],None)
+        D_loss.append(d_loss)
     for j in range(2):
         z_sample = np.random.randn(batch_size,z_dim)
-        g_train_model.fit_generator
         g_loss = g_train_model.train_on_batch([next(img_generator),z_sample],None)
+        G_loss.append(g_loss)
     if i%10 ==0:
         print('iter:{},d_loss:{},g_loss:{}'.format(i,d_loss,g_loss))
     if i%iters_per_sample ==0:
         sample('samples/test_%s.png'%i)
         g_train_model.save_weights('./g_train_model.weights')
+plot_figure(D_loss, G_loss, 'png/{}.png'.format('d_g_loss'))
