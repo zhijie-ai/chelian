@@ -23,3 +23,6 @@ GAN/gan-qp/128/gan_qp_l2_load.py
 /NLP/seq2seq/image_label_gen/data/
 /toutiao_project/reco_sys/server/models/ckpt/
 /销量预测/example1/data/
+/GAN/T-GAN/png/
+/GAN/T-GAN/loss/
+/GAN/T-GAN/loss_new/

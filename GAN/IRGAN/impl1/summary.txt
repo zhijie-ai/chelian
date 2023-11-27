@@ -1,13 +1,16 @@
 2022年4月28日17:28:22, 2023年11月24日15:29:43
 u,pos,neg，neg是采样得到的，既可以当成pointwise，也可以当成pairwise来求解
-ltr_mle_nn.py 当成pointwise求解，就是负采样的解法，从剔除正样本的剩余样本中随机样本作为负样本。
-ltr_rns_nn.py 当成pairwise求解, 从剩下的等概率选,从剔除正样本的剩余样本中随机样本作为负样本。
-ltr-dns_nn.py 当成pairwise求解，argmax选
+ltr_mle_nn.py 当成pointwise求解，就是负采样的解法，均匀概率从剔除正样本的剩余样本中随机样本作为负样本。没有gan的思想，只是一个二分类模型
+ltr_rns_nn.py 当成pairwise求解, 从剩下的等概率选,从剔除正样本的剩余样本中随机样本作为负样本。没有gan的思想，类似词向量的训练方式。pairwise，bpr
+ltr-dns_nn.py 当成pairwise求解，argmax选，每次迭代前，先用当前的模型，输出从剔除正样本的剩余样本中随机样本的所有score,
+    然后再随机选择15条，从这15条中选择score最大的一条作为负样本
 并且只有dis模型
 
 
 ltr-gan-pointwise:
-ltr-gan-d_nn_g_nn.py:G和D的训练
+ltr-gan-d_nn_g_nn.py:G和D的训练,generate_for_d为d准备数据。使用当前训练集的query下所有的url，送到generator中算出score，根据score算出概率，
+    根据概率选出和pos_list一样数目的neg_list.
+    生成器的数据：根据训练集中的query，使用gen算出该query下所有的url的score，根据重要性采样出一些样本，然后训练generator。
 ltr-dns_nn.py:判别器的验证 dynamic nagetive sampling，用的是pairwise DIS，
     判别器的验证，用测试集验证，当前query下所有的url-训练集的url，用判别器输出该url下
     的score，根据score排序，计算各种指标。DIS 下的score相当于是计算的q-d的score，
