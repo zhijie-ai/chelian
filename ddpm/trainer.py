@@ -53,7 +53,8 @@ class Trainer:
                 global_step += 1
 
         # 保存最后的模型
-        self.summary_writer.add_graph(self.model.eps_model, (torch.randn(10, 1, 32, 32).to(self.device),
+
+        self.summary_writer.add_graph(self.model.eps_model, (torch.randn(10, self.image_channels, self.image_size, self.image_size).to(self.device),
                                                              torch.randint(0, 100, (10,)).to(self.device)))
         self.save_model()
         self.summary_writer.flush()
@@ -92,9 +93,10 @@ class Trainer:
             x = torch.randn([self.n_samples, self.image_channels,
                              self.image_size, self.image_size], device=self.device)
 
-            # 只考虑p(x0|x1)的情况
-            t = x.new_full((self.n_samples,), 1).to(torch.int64)
-            x = self.model.p_sample(x, t)
+            for t_ in range(self.n_steps):
+                t = self.n_steps - t_ -1
+                t = x.new_full((self.n_samples,), t).to(torch.int64)
+                x = self.model.p_sample(x, t)
             # grid = torchvision.utils.make_grid(x, nrow=4)
             # self.save_pic(grid, 'samples/sample_grid_{}.png'.format(global_step))
             self.summary_writer.add_images('images_val', x, global_step, dataformats='NCHW')

@@ -12,7 +12,7 @@
 import numpy as np
 
 '''
-根据权重采样
+根据权重
 1. nlp中subsample: 根据概率来保留，目前似乎还不知道怎么做,知道了，参考总结中的描述(笔记.txt，1009行)
 2. 如果sum(w)=1,则可以根据np.random.choice来采样，就算概率很小也可以，也可以按照word2vec源码中的负采样的思路来采样
 3. 如果sum(w)!=1,既可以归一化操作让概率和为一，也可以采用R^(1/w)的思路来采样。
@@ -74,7 +74,7 @@ def nagative_sample():
 
 
 # word2vec中的负采样
-def nagetive_sample(n ,cnt):
+def nagetive_sample(n, cnt):
     a = i = 0
     table = []
     prob = 0
@@ -87,6 +87,26 @@ def nagetive_sample(n ,cnt):
             i += 1
             prob += cnt[i] ** 0.75 / z
     return table
+
+
+def negative_sample_(n, cnt):
+    z = sum(num ** 0.75 for num in cnt)
+    cumulative_prob = 0
+    probabilities = [num ** 0.75 / z for num in cnt]
+    cumulative_probabilities = [cumulative_prob + prob for prob in probabilities]
+    table = []
+
+    for a in range(n):
+        # 找到第一个累积概率大于或等于随机数的索引
+
+        i = next(i for i, cp in enumerate(cumulative_probabilities) if cp > random.random())
+
+        table.append(i)
+
+    return table
+
+
+import random
 
 
 

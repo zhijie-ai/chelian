@@ -3,7 +3,7 @@ import torchvision
 import torch
 from torch.utils.data import DataLoader
 from unet import UNet
-from dataset import DdpmDataset
+from dataset import DDPMDataset
 from model import DenoiseDiffusion
 from tqdm import trange, tqdm
 import os
@@ -15,23 +15,25 @@ from options import get_options
 
 
 def main(args, logger):
-    transformer = trans.Compose([trans.Pad(2),
+    # transformer = trans.Compose([trans.Pad(2),
                                  # trans.Resize(size=(_args.image_size, _args.image_size)),
-                                 trans.ToTensor()])
-    minist = torchvision.datasets.MNIST('./data', download=True, train=True,
-                                        transform=transformer)
-    logger.info('{} {}'.format(minist.data[0].shape, minist.data[0].dtype))
+                                 # trans.ToTensor()
+                                 # ])
+    # minist = torchvision.datasets.MNIST('./data', download=True, train=True,
+    #                                     transform=transformer)
+    # logger.info('{} {} {}'.format(minist.data[0].shape, minist.data[0].dtype, type(minist.data[0])))
     logger.info('torch.cuda.is_available(): {}'.format(torch.cuda.is_available()))
-    minist = DdpmDataset(minist.data, minist.targets, args.device)
+    dataset = DDPMDataset(args.device)
+    logger.info('{} {} {}'.format(dataset[0].shape, dataset[0].dtype, type(dataset[0])))
     # print(minist.X.device)
     # T = trans.Compose([trans.ToTensor()])
-    dataloader = DataLoader(minist, batch_size=args.batch_size, shuffle=True, drop_last=True)
+    dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True, drop_last= False)
 
     unet = UNet(args.image_channels).to(args.device)
     ddpm = DenoiseDiffusion(unet, args.n_steps, device=args.device)
     trainer = Trainer(ddpm, dataloader, logger, args)
     trainer.train()
-    logger.info('train process done!!!!!!!!!!!!!!!!!')
+    logger.info('train process done!!!!!!!!!!!!!!!!!:{}'.format(datetime.now()))
 
 def get_logger():
     log = logging.getLogger(__name__)
