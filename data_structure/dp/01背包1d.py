@@ -57,6 +57,7 @@ def knapsack_with_items(weights, values, capacity):
             selected_items.append(i - 1)  # 物品索引从0开始，所以减1
             w -= weights[i - 1]
     selected_items.reverse()  # 因为是从后往前回溯的，所以需要反转列表
+    print(dp)
 
     return max_value, selected_items
 
@@ -100,9 +101,12 @@ if __name__ == '__main__':
     weights = [2, 3, 4, 5]
     values = [3, 4, 5, 6]
     capacity = 5
+    w = [1, 3, 4]
+    v = [15, 20, 30]
+    n = 4
 
     # 计算最大价值及所选物品
-    max_val, items = knapsack_with_items(weights, values, capacity)
+    max_val, items = knapsack_with_items(w, v, n)
     print(f"最大价值: {max_val}")
     print(f"所选物品索引: {items}")
     print(dp03())

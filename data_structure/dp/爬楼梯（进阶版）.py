@@ -52,7 +52,7 @@ def dp02_():
     print(dp)
 
 
-def dp03():  # 两种方式的初始化均可
+def dp03():
     dp = [[0] * (n+1) for _ in range(m+1)]
     dp[0][0] = 1
 

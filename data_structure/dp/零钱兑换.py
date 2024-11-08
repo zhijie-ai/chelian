@@ -20,6 +20,7 @@ def dp1d():
 
 
 def dp2d():
+    from utils import find_selected_item_v2
     dp = [[float('inf')] * (amount + 1) for _ in range(len(coins))]
 
     for j in range(amount + 1):
