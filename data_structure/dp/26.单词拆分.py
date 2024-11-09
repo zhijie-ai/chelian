@@ -29,14 +29,15 @@ def dp2d():
         for i in range(1, len(wordDict)+1):  # 物品
             word = wordDict[i-1]
             if j >= len(word):
-                dp[i][j] = (dp[i-1][j - len(word)] and word == s[j - len(word):j])
+                dp[i][j] = dp[i-1][j] or (dp[-1][j - len(word)] and word == s[j - len(word):j])
             else:
                 dp[i][j] = dp[i - 1][j]
 
-    print(dp[1:])
+    dp = [[int(i) for i in j] for j in dp]
+    print('前n个：', dp[1:])
 
 def dp2d_():
-    # dp[i][j]表示前i个单词能组合成长度为j的单词
+    # dp[i][j]表示索引为[0,i]的单词任取能组合成长度为j的单词
     dp = [[0] * (len(s) + 1) for _ in range(len(wordDict))]
     for i in range(len(wordDict)):
         dp[i][0] = 1
@@ -45,11 +46,12 @@ def dp2d_():
         for i in range(len(wordDict)):  # 物品
             word = wordDict[i]
             if j >= len(word):
-                dp[i][j] = (dp[-1][j - len(word)] and word == s[j - len(word):j])
+                dp[i][j] = dp[i - 1][j] or (dp[-1][j - len(word)] and word == s[j - len(word):j])
             else:
                 dp[i][j] = dp[i - 1][j]
 
-    print(dp)
+    dp = [[int(i) for i in j] for j in dp]
+    print('[0,i]：', dp)
 
 
 if __name__ == '__main__':

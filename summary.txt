@@ -1,0 +1,16 @@
+2022年9月15日16:19:39
+关于Bahdanau和Luong两种Attention的理解
+根据https://zhuanlan.zhihu.com/p/129316415文章中提供的图片，其实二者的实现很像，L attention在计算权重时
+    用到了h_t,而B attention在计算权重时用到了h_{t-1}。h_t的计算都是由RNN计算来的。只不过在L的计算中，h_t和c_t拼接
+    增加一层全连接得到新的h^tilde,然后由h^tilde得到y_t, 右边是正常的rnn的数据逻辑
+    不明白的地方是，同样是rnn的输入，比如输入y_t,为啥L的图中输出的却是h_{t+1},B图中是正常的h_t
+2022年9月16日09:13:35
+不用在意decoder阶段t时刻的输入是y_t还是y_{t-1}, L用的是当前时刻的隐状态，B用的是前一时刻的隐状态来计算C
+
+2022年9月17日19:15:12
+解决类别不均衡的思路
+1. 采样
+2. 在log外调节loss的权重
+3. 调整阈值
+4. 在log里面调节权重
+5. p->p^n https://kexue.fm/archives/7161
