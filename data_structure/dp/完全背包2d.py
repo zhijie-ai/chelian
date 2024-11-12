@@ -6,6 +6,7 @@
 # @e-mail : zushoujie@ghgame.cn
 
 """
+当都使用前i个的定义时，组合问题和排列问题的初始化定义不一样
 完全背包有2个问题，一个是max问题，凑成背包最大价值是多少，一个是组合数的问题
 dp01是组合问题，dp02是排列问题，遍历顺序不同
 2,3,4都是解决的排列问题，不一样的地方在于，d[i][j]的定义，3中的定义更接近于原始的二维数组的定义，即[0,i]索引中任选凑成j排列个数
@@ -48,6 +49,47 @@ def dp01():
             else:
                 dp[i][j] = dp[i][j - coins[i]] + dp[i - 1][j]
     print(dp)  # [1, 1, 2, 2, 3, 4]]
+
+# 零钱兑换
+def dp01_():
+    coins = [1, 2, 5]
+    amount = 5
+
+    dp = [[0] * (amount + 1) for _ in range(len(coins)+1)]
+    for i in range(len(coins)+1):
+        dp[i][0] = 1
+
+    for i in range(1, len(coins)+1):
+        for j in range(1, amount+1):
+            if j < coins[i-1]:
+                dp[i][j] = dp[i-1][j]
+            else:
+                dp[i][j] = dp[i][j - coins[i-1]] + dp[i - 1][j]
+    print(dp[1:])
+
+
+# 前n个的定义，且只初始化一个位置
+def dp01__():
+    coins = [1, 2, 5]
+    amount = 5
+
+    dp = [[0] * (amount + 1) for _ in range(len(coins)+1)]
+    dp[0][0] = 1
+    ways = [[] for _ in range(amount + 1)]
+    ways[0].append([])
+
+    for i in range(1, len(coins)+1):
+        coin = coins[i-1]
+        for j in range(amount+1):
+            if j >= coins[i - 1]:
+                dp[i][j] = dp[i - 1][j] + dp[i][j-coin]
+                for way in ways[j - coin]:
+                    ways[j].append(way + [coin])
+            else:
+                dp[i][j] = dp[i-1][j]
+                ways[j] = ways[j][:]
+    print(dp[1:])
+    print(ways[amount])
 
 
 # 组合总和IV，看着是组合，实际上算的是排序数,blog中的python二维数组的解决方式
@@ -107,18 +149,26 @@ def dp04():
     nums = [1, 2, 3]
     target = 4
     dp = [[0] * (target + 1) for _ in range(len(nums)+1)]
-    dp[0][0] = 1
+    dp[0][0] = 1  # 配合i从1开始遍历，就是为了设置dp[:][0]=1
+    ways = [[] for _ in range(target+1)]
+    ways[0].append([])
     for j in range(target + 1):
         for i in range(1, len(nums) + 1):
             if j < nums[i-1]:
                 dp[i][j] = dp[i-1][j]
+                ways[j] = ways[j][:]
             else:
                 dp[i][j] = dp[i-1][j] + dp[len(nums)][j-nums[i-1]]
+                for way in ways[j-nums[i-1]]:
+                    ways[j].append(way + [nums[i-1]])
     print(dp[1:])
+    print(ways)
 
 
 if __name__ == '__main__':
     dp01()
+    dp01_()
+    dp01__()
     dp02()
     dp03()
     dp04()

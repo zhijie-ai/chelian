@@ -11,12 +11,19 @@ m, n = 3, 6
 def dp01():
     dp = [0] * (n + 1)
     dp[0] = 1
+    ways = [[] for _ in range(n+1)]
+    ways[0].append([])
 
     for j in range(1, n+1):
         for i in range(1, m+1):
             if j >= i:
                 dp[j] += dp[j-i]
+                for w in ways[j-i]:
+                    ways[j].append(w+[i])
+            else:
+                ways[j] = ways[j][:]
     print(dp)
+    print(ways[n])
 
 
 # 注意初始化和遍历范围的关系。

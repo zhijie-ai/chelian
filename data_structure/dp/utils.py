@@ -20,6 +20,7 @@ def find_selected_item_v1(dp, w):
 
 
 # 这种方法效率更高
+# 最大价值情形的回溯
 def find_selected_item_v2(dp, w):
 
     # 逆向查找确定所选物品
