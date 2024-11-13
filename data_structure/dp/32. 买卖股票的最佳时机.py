@@ -6,7 +6,7 @@
 # @e-mail : zushoujie@ghgame.cn
 
 prices = [7,1,5,3,6,4]
-
+# 只能买卖一次
 def dp01():
     if len(prices) == 0:
         return 0
@@ -23,5 +23,29 @@ def dp01():
     print(dp)
 
 
+def dp02():
+    if len(prices) == 0:
+        return 0
+
+    """
+    0-不操作
+    1-买入
+    2-卖出
+    """
+    dp = [[0]*3 for _ in range(len(prices))]
+
+    dp[0][0] = 0
+    dp[0][1] = -prices[0]
+    dp[0][2] = 0
+
+    for i in range(1, len(prices)):
+        dp[i][0] = dp[i-1][0]
+        dp[i][1] = max(dp[i-1][0], -prices[i])
+        dp[i][2] = max(dp[i-1][0], prices[i]+dp[i-1][1])
+
+    print(dp)
+
+
 if __name__ == '__main__':
     dp01()
+    dp02()

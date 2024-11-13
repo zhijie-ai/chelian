@@ -6,6 +6,7 @@
 # @e-mail : zushoujie@ghgame.cn
 prices = [7,1,5,3,6,4]
 
+# 能买卖多次
 def dp01():
     if len(prices) == 0:
         return 0
