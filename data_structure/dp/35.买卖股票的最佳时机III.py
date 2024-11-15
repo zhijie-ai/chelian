@@ -7,7 +7,7 @@
 prices = [7,1,5,3,6,4]
 prices = [3,3,5,0,0,3,1,4]
 
-# 最多2次
+# 最多2比交易
 def dp01():
     if len(prices) == 0:
         return 0
@@ -63,6 +63,7 @@ def dp01_():  # 只有4个状态
     print(dp)
 
 
+# 一维数组
 def dp02():
     if len(prices) == 0:
         return 0

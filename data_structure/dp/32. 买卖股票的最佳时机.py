@@ -23,7 +23,7 @@ def dp01():
     print(dp)
 
 
-def dp02():
+def dp02():  # 不正确
     if len(prices) == 0:
         return 0
 
@@ -40,7 +40,7 @@ def dp02():
 
     for i in range(1, len(prices)):
         dp[i][0] = dp[i-1][0]
-        dp[i][1] = max(dp[i-1][0], -prices[i])
+        dp[i][1] = max(dp[i-1][0], dp[i-1][2], -prices[i])
         dp[i][2] = max(dp[i-1][0], prices[i]+dp[i-1][1])
 
     print(dp)
