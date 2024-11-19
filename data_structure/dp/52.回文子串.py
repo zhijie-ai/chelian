@@ -19,6 +19,8 @@ def dp01(s):
     :param s:
     :return:
     """
+
+    # 表示区间范围[i,j] （注意是左闭右闭）的子串是否是回文子串，如果是dp[i][j]为true，否则为false。
     dp = [[False] * len(s) for _ in range(len(s))]
 
     result = 0
