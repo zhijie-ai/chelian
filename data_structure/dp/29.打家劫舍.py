@@ -22,6 +22,22 @@ def dp1d(nums):
 
     print(dp)
 
+def dp1d_(nums):
+    if nums == 0:
+        return 0
+    if len(nums) == 1:
+        return nums[0]
+
+    dp = [0] * (len(nums)+1)  # 考虑前i个房间能获取的最大金额
+    dp[0] = 0
+    dp[1] = nums[0]
+
+    for i in range(2, len(nums)+1):
+        # 对于每个房屋，选择抢劫当前房屋和抢劫前一个房屋的最大金额
+        dp[i] = max(dp[i-2]+nums[i-1], dp[i-1])
+
+    print(dp)
+
 def dp2d(nums):
     if not nums:
         return 0
@@ -58,5 +74,6 @@ def dp_optimization(nums):
 
 if __name__ == '__main__':
     dp1d(rob)
+    dp1d_(rob)
     dp2d(rob)
     dp_optimization(rob)

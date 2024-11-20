@@ -52,6 +52,25 @@ def dp02():
     print(dp)
 
 
+def dp02_():
+    n, bagweight = 3, 4
+
+    weight = [1, 3, 4]
+    value = [15, 20, 30]
+
+    dp = [[0] * (bagweight + 1) for _ in range(n+1)]
+    dp[0][0] = 0
+
+    for j in range(1, bagweight + 1):
+        for i in range(1, n+1):
+            if j < weight[i-1]:
+                dp[i][j] = dp[i - 1][j]
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weight[i-1]] + value[i-1])
+
+    print(dp[1:])
+
+
 # 组合数的01背包问题
 def dp03():
     nums = [1, 1, 1, 1, 1]
@@ -110,5 +129,6 @@ def dp04():
 if __name__ == '__main__':
     dp01()
     dp02()
+    dp02_()
     dp03()
     dp04()
