@@ -61,14 +61,14 @@ def dp02_():
     dp = [[0] * (bagweight + 1) for _ in range(n+1)]
     dp[0][0] = 0
 
-    for j in range(1, bagweight + 1):
+    for j in range(bagweight + 1):
         for i in range(1, n+1):
             if j < weight[i-1]:
                 dp[i][j] = dp[i - 1][j]
             else:
                 dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weight[i-1]] + value[i-1])
 
-    print(dp[1:])
+    print(dp[1:], '--', )
 
 
 # 组合数的01背包问题
@@ -86,7 +86,7 @@ def dp03():
     dp = [[0] * (target_sum + 1) for _ in range(len(nums) + 1)]
 
     # 初始化状态
-    dp[0][0] = 1
+    dp[0][0] = 1  # 空排列和为0的情况
 
     # 动态规划过程
     for i in range(1, len(nums) + 1):

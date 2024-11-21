@@ -39,6 +39,21 @@ def dp2d():
     print(dp)
 
 
+def dp2d_():
+    # 前i个硬币凑成金额为j的货币组合数为dp[i][j]
+    dp = [[float('inf')] * (amount + 1) for _ in range(len(coins)+1)]
+    dp[0][0] = 0  # 凑成金额0需要0个硬币
+    for i in range(1, len(coins)+1):
+        for j in range(amount+1):
+            if j >= coins[i-1]:
+                dp[i][j] = min(dp[i-1][j], dp[i][j - coins[i-1]] + 1)
+            else:
+                dp[i][j] = dp[i-1][j]
+
+    print(dp[1:])
+
+
 if __name__ == '__main__':
     dp1d()
     dp2d()
+    dp2d_()

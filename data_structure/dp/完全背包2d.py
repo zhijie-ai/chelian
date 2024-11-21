@@ -143,7 +143,7 @@ def dp03():
                         dp[i][j] += dp[i][j-nums[k]]
     print(dp)
 
-# dp04参考的是LeetCode上的代码，和02的结果是一样的
+# dp04参考的是LeetCode上的代码，和02的结果是一样的,组合总和
 # https://leetcode.cn/problems/combination-sum-iv/solutions/2663854/zu-he-zong-he-ivshu-xue-tui-dao-xian-gou-ap8y/
 def dp04():
     nums = [1, 2, 3]
