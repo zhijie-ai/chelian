@@ -2,7 +2,7 @@
 # coding  : utf-8
 # @Time   : 2024/11/7 10:54
 # @User   : RANCHODZU
-# @File   : 爬楼梯（进阶版）.py
+# @File   : 22.爬楼梯（进阶版）.py
 # @e-mail : zushoujie@ghgame.cn
 
 m, n = 3, 6
@@ -61,7 +61,7 @@ def dp02_():
 
 def dp03():
     dp = [[0] * (n+1) for _ in range(m+1)]
-    dp[0][0] = 1
+    dp[0][0] = 1  # 边界条件：到达第0阶的方法只有一种，就是不动
 
     # for i in range(m):
     #     dp[i][0] = 1
