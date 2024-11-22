@@ -2,7 +2,7 @@
 # coding  : utf-8
 # @Time   : 2024/11/7 17:58
 # @User   : RANCHODZU
-# @File   : 完全平方数.py
+# @File   : 24.完全平方数.py
 # @e-mail : zushoujie@ghgame.cn
 import math
 n = 12
