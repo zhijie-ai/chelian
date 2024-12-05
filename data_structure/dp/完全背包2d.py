@@ -89,7 +89,7 @@ def dp01__():
                 dp[i][j] = dp[i-1][j]
                 ways[j] = ways[j][:]
     print(dp[1:])
-    print(ways[amount])
+    # print(ways[amount])
 
 
 # 组合总和IV，看着是组合，实际上算的是排序数,blog中的python二维数组的解决方式
@@ -97,7 +97,7 @@ def dp01__():
 def dp02():
     nums = [1, 2, 3]
     target = 4
-    dp = [[0] * (target + 1) for _ in nums]
+    dp = [[0] * (target + 1) for _ in nums]  # 索引为[0,i]的数分别作为排列的最后一个元素，且排列之和为j的所有排列的总数
 
     for i in range(len(nums)):
         dp[i][0] = 1
@@ -124,7 +124,7 @@ def dp02():
 def dp03():
     nums = [1, 2, 3]
     target = 4
-    dp = [[0] * (target + 1) for _ in nums]
+    dp = [[0] * (target + 1) for _ in nums]  # [0,i]索引中任选凑成和为j的排列个数
 
     for i in range(len(nums)):
         dp[i][0] = 1
@@ -162,7 +162,7 @@ def dp04():
                 for way in ways[j-nums[i-1]]:
                     ways[j].append(way + [nums[i-1]])
     print(dp[1:])
-    print(ways)
+    # print(ways)
 
 
 if __name__ == '__main__':

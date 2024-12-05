@@ -18,6 +18,20 @@ def dp01():
 
     print(dp)
     print(dp[len(text1)][len(text2)])
+    lcs = ''
+    i, j = len(text1), len(text2)
+    while i > 0:
+        while j > 0:
+            if dp[i][j] == dp[i - 1][j]:
+                i -= 1
+            elif dp[i][j] == dp[i][j-1]:
+                j -= 1
+            else:
+                lcs += text1[i-1]
+                i -= 1
+                j -= 1
+
+    print(lcs[::-1])
 
 
 if __name__ == '__main__':

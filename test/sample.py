@@ -98,6 +98,7 @@ def negative_sample_(n, cnt):
 
     for a in range(n):
         # 找到第一个累积概率大于或等于随机数的索引
+        r = [i for i, cp in enumerate(cumulative_probabilities)]
 
         i = next(i for i, cp in enumerate(cumulative_probabilities) if cp > random.random())
 
@@ -133,8 +134,11 @@ if __name__ == '__main__':
     tab = nagetive_sample(50000, cnt)
     # print(tab)
     res = Counter(tab)
+    print('============')
     print(res)
     print([x / sum(res.values()) for x in res.values()])
     ind = np.random.randint(0,50000,10)
     print(ind)
     print(np.array(tab)[ind])
+    tab = negative_sample_(10, cnt)
+    print(cnt)
