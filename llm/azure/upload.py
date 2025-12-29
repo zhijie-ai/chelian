@@ -6,7 +6,7 @@
 # @e-mail : zushoujie@ghgame.cn
 from openai import AzureOpenAI
 
-url = f'https://llm-resource-ran.openai.azure.com/'
+url = f''
 key = f''
 
 client = AzureOpenAI(

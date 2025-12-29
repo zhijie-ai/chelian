@@ -8,7 +8,7 @@ from openai import AzureOpenAI
 import json
 import time
 
-url = f'https://azure-ran-resource-test001.openai.azure.com/'
+url = f''
 key = f''
 
 # Load the training set

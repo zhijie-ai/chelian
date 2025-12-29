@@ -8,7 +8,7 @@
 import time
 from openai import AzureOpenAI
 
-url = f'https://azure-ran-resource-test001.openai.azure.com/'
+url = f''
 key = f''
 
 client = AzureOpenAI(
