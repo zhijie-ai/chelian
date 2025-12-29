@@ -6,7 +6,7 @@
 # @e-mail : zushoujie@ghgame.cn
 
 import os
-os.environ['DASHSCOPE_API_KEY'] = 'sk-63a7f867881542df8c37b032cdb9963a'
+os.environ['DASHSCOPE_API_KEY'] = ''
 from langchain_community.chat_models.tongyi import ChatTongyi
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from langchain_core.tools import tool

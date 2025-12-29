@@ -25,8 +25,8 @@ def image2base64(img, quality=20):
     return img_str
 
 # 使用的是应用ak/sk
-API_KEY = "eSwUBnFwQarJq9NQEmubHdTB"
-SECRET_KEY = "dTaZ9XqPfGsoFwQNWPSoICTRxFdHBGfm"
+API_KEY = ""
+SECRET_KEY = ""
 
 path = 'F:/ocr_data/imgs/av1902895992/av1902895992_48.png'
 # 具体走的access_token鉴权方式还是安全认证AK/SK的鉴权方式，其实看传的是QIANFAN_AK还是QIANFAN_ACCESS_KEY。

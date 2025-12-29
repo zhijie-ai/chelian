@@ -7,7 +7,7 @@
 import os
 from langchain_community.chat_models import ChatZhipuAI
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
-os.environ["ZHIPUAI_API_KEY"] = '1a9c8e8902a0f59cd0959823a17ff44c.850suzsUIuXGL6Zr'  # 填入你自己的key
+os.environ["ZHIPUAI_API_KEY"] = ''  # 填入你自己的key
 
 
 def demo1():
