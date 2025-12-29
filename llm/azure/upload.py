@@ -7,7 +7,7 @@
 from openai import AzureOpenAI
 
 url = f'https://llm-resource-ran.openai.azure.com/'
-key = f'5fU5U2qtESCX7q2u0y3i1XAnVXW4kig5QjbkHzNWeyM6AbVfANiKJQQJ99ALACYeBjFXJ3w3AAABACOGOLDU'
+key = f''
 
 client = AzureOpenAI(
   azure_endpoint=url,

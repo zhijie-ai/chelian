@@ -19,7 +19,7 @@ messages = [
     ]
 
 url = f'https://azure-ran-resource-test001.openai.azure.com/'
-key = f'9nFYPivGPXUwD9qZO88TPIjMTVh0evDYcoX0h033fEh0mXDos8LdJQQJ99BAACHYHv6XJ3w3AAABACOG2sJo'
+key = f''
 url = f'https://azure-ran-resource-test001.openai.azure.com/openai/deployments/gpt-4o-2024-08-06-ft-ca7c656f6e5f41d392fb1c5577a4e19f/chat/completions?api-version=2024-08-01-preview'
 client = AzureOpenAI(
     azure_endpoint=url,

@@ -9,9 +9,7 @@ import time
 from openai import AzureOpenAI
 
 url = f'https://azure-ran-resource-test001.openai.azure.com/'
-key = f'9nFYPivGPXUwD9qZO88TPIjMTVh0evDYcoX0h033fEh0mXDos8LdJQQJ99BAACHYHv6XJ3w3AAABACOG2sJo'
-# key = 'f933dfbc32da47adb414645352f00c2e'
-# url = 'https://lightspeed-east-us2.openai.azure.com/'
+key = f''
 
 client = AzureOpenAI(
     azure_endpoint=url,

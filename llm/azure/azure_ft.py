@@ -9,7 +9,7 @@ import json
 import time
 
 url = f'https://azure-ran-resource-test001.openai.azure.com/'
-key = f'9nFYPivGPXUwD9qZO88TPIjMTVh0evDYcoX0h033fEh0mXDos8LdJQQJ99BAACHYHv6XJ3w3AAABACOG2sJo'
+key = f''
 
 # Load the training set
 with open('demo.jsonl', 'r', encoding='utf-8') as f:
