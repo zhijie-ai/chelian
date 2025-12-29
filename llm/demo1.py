@@ -8,7 +8,6 @@ from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 from langchain.prompts import PromptTemplate, ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain_community.llms import Tongyi
 import os
-# os.environ['DASHSCOPE_API_KEY'] = 'sk-63a7f867881542df8c37b032cdb9963a'
 
 # 定义响应的结构(JSON)，两个字段 answer和source。
 response_schemas = [
