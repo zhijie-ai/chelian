@@ -5,7 +5,7 @@
 # @File   : upload.py
 # @e-mail : zushoujie@ghgame.cn
 from openai import OpenAI
-client = OpenAI(api_key=f'xdata#2023', base_url=f'https://momi.qq.com/v1/files')
+client = OpenAI(api_key=f'', base_url=f'https://momi.qq.com/v1/files')
 # client = OpenAI()
 res = client.files.create(
   file=open("demo.jsonl", "rb"),
