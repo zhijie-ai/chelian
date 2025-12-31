@@ -31,8 +31,8 @@ j为3时：
 
 # 零钱兑换II，原本是用java写的，改成了python， 求组合数，和下面的组合总数题目不一样
 def dp01():
-    coins = [1, 2, 5]
-    amount = 5
+    coins = [2, 1, 5]
+    amount = 3
 
     dp = [[0] * (amount + 1) for _ in range(len(coins))]
 
@@ -49,6 +49,26 @@ def dp01():
             else:
                 dp[i][j] = dp[i][j - coins[i]] + dp[i - 1][j]
     print(dp)  # [1, 1, 2, 2, 3, 4]]
+
+def dp01_2(): # 先背包后物品,由于是组合问题，没有max，因此顺序无关，正常情况下是先物品后背包。
+    coins = [2, 1, 5]
+    amount = 3
+
+    dp = [[0] * (amount + 1) for _ in range(len(coins))]
+
+    for i in range(len(coins)):
+        dp[i][0] = 1
+
+    for j in range(coins[0], amount+1):
+        dp[0][j] += dp[0][j-coins[0]]
+
+    for j in range(1, amount+1):
+        for i in range(1, len(coins)):
+            if j < coins[i]:
+                dp[i][j] = dp[i-1][j]
+            else:
+                dp[i][j] = dp[i][j - coins[i]] + dp[i - 1][j]
+    print(dp)
 
 # 零钱兑换
 def dp01_():
@@ -167,8 +187,9 @@ def dp04():
 
 if __name__ == '__main__':
     dp01()
-    dp01_()
-    dp01__()
-    dp02()
-    dp03()
-    dp04()
+    dp01_2()
+    # dp01_()
+    # dp01__()
+    # dp02()
+    # dp03()
+    # dp04()

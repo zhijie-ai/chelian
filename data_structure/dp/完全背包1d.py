@@ -7,8 +7,8 @@
 # 完全背包先物品再背包和先背包再物品是没区别的
 def dp01():
     weight = [1, 3, 4]
-    value = [15, 20, 30]
-    bagWeight = 4
+    value = [15, 20, 70]
+    bagWeight = 5
     dp = [0] * (bagWeight + 1)
     for i in range(len(weight)):  # 遍历物品
         for j in range(weight[i], bagWeight + 1):  # 遍历背包容量
@@ -18,8 +18,8 @@ def dp01():
 
 def dp02():
     weight = [1, 3, 4]
-    value = [15, 20, 30]
-    bagWeight = 4
+    value = [15, 20, 70]
+    bagWeight = 5
 
     dp = [0] * (bagWeight + 1)
 
@@ -48,7 +48,55 @@ def dp03():
     return dp[-1]  # 返回背包容量为target时的组合总数
 
 
+def compare():
+    # 修改数据：让物品不是按重量排序，且价值比例更复杂
+    weight = [3, 1, 4]  # 注意：1不在最前面了
+    value = [20, 15, 30]
+    bagWeight = 4
+
+    # 方法1：先物品后背包
+    dp1 = [0] * (bagWeight + 1)
+    for i in range(len(weight)):
+        for j in range(weight[i], bagWeight + 1):
+            dp1[j] = max(dp1[j], dp1[j - weight[i]] + value[i])
+    print("先物品后背包:", dp1)  # [0, 15, 30, 45, 60]
+
+    # 方法2：先背包后物品
+    dp2 = [0] * (bagWeight + 1)
+    for j in range(bagWeight + 1):
+        for i in range(len(weight)):
+            if j >= weight[i]:
+                dp2[j] = max(dp2[j], dp2[j - weight[i]] + value[i])
+    print("先背包后物品:", dp2)  # [0, 15, 30, 45, 60]
+
+    # 看起来还是相同？再换一个
+
+def extreme_example():
+    weight = [2, 3, 6]  # 更稀疏的重量
+    value = [5, 9, 20]  # 价值比例：2.5, 3.0, 3.33
+    bagWeight = 7
+
+    # 方法1：先物品后背包
+    dp1 = [0] * (bagWeight + 1)
+    for i in range(len(weight)):
+        for j in range(weight[i], bagWeight + 1):
+            dp1[j] = max(dp1[j], dp1[j - weight[i]] + value[i])
+    print("先物品后背包:", dp1)
+    print("容量7的值:", dp1[7])  # 最优解：3+2+2=14
+
+    # 方法2：先背包后物品
+    dp2 = [0] * (bagWeight + 1)
+    for j in range(bagWeight + 1):
+        for i in range(len(weight)):
+            if j >= weight[i]:
+                dp2[j] = max(dp2[j], dp2[j - weight[i]] + value[i])
+    print("先背包后物品:", dp2)
+    print("容量7的值:", dp2[7])
+
+
 if __name__ == '__main__':
     dp01()
     dp02()
     dp03()
+    compare()
+    extreme_example()
