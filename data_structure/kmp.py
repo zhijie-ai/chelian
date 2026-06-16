@@ -39,6 +39,7 @@ def kmp_search(text, pattern):
     m = len(pattern)
 
     lps = calc_lps(pattern)
+    print(lps)
     i = j = 0
     indices = []
     while i < n:

@@ -10,3 +10,4 @@
 #               不胜人生一场醉。                 #
 #-----------------------------------------------
 # https://github.com/zhijie-ai/tensorflow_practice/tree/master/recommendation/Basic-AFM-Demo
+# 实现类似transformer中的注意力，除了原生transformer中的矩阵相乘，还可以用din中的全连接神经网络的方式来计算得到

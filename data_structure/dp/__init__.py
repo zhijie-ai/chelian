@@ -35,3 +35,68 @@ j = 6 ⭐最关键步骤
 从dp[5]加1元硬币：最后一步是1元
 从dp[1]加5元硬币：最后一步是5元
 """
+
+"""
+背包问题是一个资源消耗问题，而股票问题是一个状态庄毅+资金流动问题。
+背包通常优化物品选择，股票优化买卖时机
+股票问题的本质是在时间序列上操作一个有限状态机
+dp[天数][交易次数][持有状态]
+k最多为1时，之所以不用3维来表示，是因为持有：dp[i][0][1] = -∞ → 不可能出现（没有交易机会，不能买入，自然无法持有）
+dp[0][1][0] = 0 → 第 0 天，有交易机会，不持有股票，利润 0
+dp[0][1][1] = -prices[0] → 第 0 天，有交易机会，买入股票，利润为负的股价
+dp[0][0][0] = 0 → 第 0 天，无交易机会，不持有，利润 0
+dp[0][0][1] = -∞ → 不可能状态
+总结：k=1或∞时，只需要2维来表述就可以了，其他的必须用3维来表示
+其实可以用 state = k_idx*2 + s 来压缩二三维，但一般很少这么勇，无效状态冗余且易干扰，转移关系不直观，复杂且易出错
+一般用二维 DP 显式表示(去掉i维)或者状态机视角
+
+资源调度问题，能源管理问题，库存管理问题
+# 通用框架
+def generic_dp():
+    state = (i, capacity)  # 考虑前i个物品，剩余容量
+    decision = 0 or 1      # 不选或选
+    next_state = (i+1, capacity - weight*decision)
+    reward = value * decision
+
+# 特殊化为背包问题
+def knapsack_dp():
+    # 去掉时间维度（物品顺序无关）
+    state = capacity
+    decision = 0 or 1
+    next_state = capacity - weight*decision
+    reward = value * decision
+    
+如果将k定义为已完成的交易次数，则卖出会消耗次数
+如果将k定义为剩余交易次数或者已用掉交易次数，则买入会消耗次数
+已用掉：买入就算"用掉"一次交易机会
+已完成：卖出才算"完成"一次完整交易
+如果用状态机的方式，注意更新顺序
+def maxProfit_k2_best(prices):
+    if not prices:
+        return 0
+    
+    # 四个明确的状态
+    # after_first_buy: 第一次买入后的最大利润
+    # after_first_sell: 第一次卖出后的最大利润
+    # after_second_buy: 第二次买入后的最大利润
+    # after_second_sell: 第二次卖出后的最大利润
+    
+    after_first_buy = -prices[0]
+    after_first_sell = 0
+    after_second_buy = -prices[0]
+    after_second_sell = 0
+    
+    for price in prices[1:]:
+        # 更新顺序重要：先更新卖出，再更新买入
+        after_second_sell = max(after_second_sell, after_second_buy + price)
+        after_second_buy = max(after_second_buy, after_first_sell - price)
+        after_first_sell = max(after_first_sell, after_first_buy + price)
+        after_first_buy = max(after_first_buy, -price)
+    
+    return after_second_sell
+    
+三维DP
+二维DP
+状态机变量法
+通用状态机（通用DP）：hold = [-float('inf')] * (k + 1) cash = [0] * (k + 1)
+"""

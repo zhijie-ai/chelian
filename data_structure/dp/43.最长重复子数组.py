@@ -26,7 +26,23 @@ def dp2d():
     print(result)
     return result
 
+def dp1d():
+    dp = [0] * (max(len(A), len(B))+1)
+    for i in range(1, len(A)+1):
+        prev = 0 # # 用于保存上一个位置的值
+        for j in range(1, len(B)+1):
+            current = dp[j]
+            if A[i-1] == B[j-1]:
+                dp[j] = prev+1
+            else:
+                dp[j] = 0
+
+            prev = current
+
+    print(dp)
+
 
 if __name__ == '__main__':
     dp2d()
+    dp1d()
 

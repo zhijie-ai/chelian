@@ -20,16 +20,18 @@ def dp01():
     print(dp[len(text1)][len(text2)])
     lcs = ''
     i, j = len(text1), len(text2)
-    while i > 0:
-        while j > 0:
-            if dp[i][j] == dp[i - 1][j]:
-                i -= 1
-            elif dp[i][j] == dp[i][j-1]:
-                j -= 1
-            else:
-                lcs += text1[i-1]
-                i -= 1
-                j -= 1
+    while i > 0 and j > 0:
+        if dp[i][j] == dp[i - 1][j]:
+            # # 来自上方，text1[i-1]不在LCS中
+            i -= 1
+        elif dp[i][j] == dp[i][j-1]:
+            # # 来自左方，text2[j-1]不在LCS中
+            j -= 1
+        else:
+            # 来自左上方+1，这个字符在LCS中
+            lcs += text1[i-1]
+            i -= 1
+            j -= 1
 
     print(lcs[::-1])
 
